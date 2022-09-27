@@ -5,37 +5,31 @@ const UserSchema = new Schema(
   {
     username: {
       type: String,
+      required: true
     },
     email: {
       type: String,
-      unique: true,
+      required: true,
+      unique: true
     },
     password: {
       type: String,
-      select: false,
+      required: true,
+      select: false
     },
     country: {
       type: String,
-      default: "",
-    },
-    image: {
-      url: {
-        type: String,
-        default: "",
-      },
-      public_id: {
-        type: String,
-        default: "",
-      },
+      required: true
     },
     boughtitems: {
-        type: ARRAY(Types.STRING)
+        type: Array(Types.String)
       },
-      reseñas: {
-        type: ARRAY(Types.STRING)
+      reviews: {
+        type: Array(Types.String)
       },
       isAdmin:{
         type: Boolean,
+        required: true
       }
   },
   {
