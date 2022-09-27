@@ -1,4 +1,5 @@
 /** @format */
+import { GrAdd } from 'react-icons/gr';
 
 export const Product = () => {
   return (
@@ -32,27 +33,13 @@ export const Product = () => {
           </p>
         </a>
         <a
-          className='button is-outlined p-0 ml-auto is-flex'
+          className='button ml-auto is-flex'
           href='#'
           style={{
             width: '48px',
             height: '48px',
           }}>
-          <svg
-            width='12'
-            height='12'
-            viewBox='0 0 12 12'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'>
-            <rect x='5' width='2' height='12' fill='currentColor'></rect>
-            <rect
-              x='12'
-              y='5'
-              width='2'
-              height='12'
-              transform='rotate(90 12 5)'
-              fill='currentColor'></rect>
-          </svg>
+          <GrAdd />
         </a>
       </div>
     </div>

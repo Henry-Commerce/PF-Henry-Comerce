@@ -6,4 +6,5 @@ export * from './ProductsDetails/ProductsDetails';
 export * from './Product/Product';
 export * from './Loading/Loading';
 export * from './Pagination/Pagination';
+export * from './ShopItem/ShopItem';
 export * from './Notify/Notify';
