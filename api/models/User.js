@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 const mongooseDelete = require("mongoose-delete");
 
 const UserSchema = new Schema(
@@ -29,10 +29,10 @@ const UserSchema = new Schema(
       },
     },
     boughtitems: {
-        DataTypes: ARRAY(DataTypes.STRING)
+        type: ARRAY(Types.STRING)
       },
       reseñas: {
-        DataTypes: ARRAY(DataTypes.STRING)
+        type: ARRAY(Types.STRING)
       },
       isAdmin:{
         type: Boolean,
