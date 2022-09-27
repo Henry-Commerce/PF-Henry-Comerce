@@ -12,13 +12,8 @@ export const Nav = () => {
     <header>
       <nav className='navbar is-transparent'>
         <div className='navbar-brand'>
-          <a className='navbar-item' href='https://bulma.io'>
-            <img
-              src={logo}
-              alt='Bulma: a modern CSS framework based on Flexbox'
-              width='112'
-              height='28'
-            />
+          <a className='navbar-item' href='$'>
+            <img src={logo} alt='Logo' width='112' height='28' />
           </a>
           <div
             className='navbar-burger'
@@ -35,41 +30,27 @@ export const Nav = () => {
               Home
             </Link>
             <div className='navbar-item has-dropdown is-hoverable'>
-              <a
-                className='navbar-link'
-                href='https://bulma.io/documentation/overview/start/'>
+              <a className='navbar-link' href='#'>
                 Products
               </a>
               <div className='navbar-dropdown is-boxed'>
-                <a
-                  className='navbar-item'
-                  href='https://bulma.io/documentation/overview/start/'>
+                <a className='navbar-item' href='#'>
                   Shirts
                 </a>
-                <a
-                  className='navbar-item'
-                  href='https://bulma.io/documentation/overview/modifiers/'>
+                <a className='navbar-item' href='#'>
                   Pants
                 </a>
-                <a
-                  className='navbar-item'
-                  href='https://bulma.io/documentation/columns/basics/'>
+                <a className='navbar-item' href='#'>
                   Caps
                 </a>
-                <a
-                  className='navbar-item'
-                  href='https://bulma.io/documentation/layout/container/'>
+                <a className='navbar-item' href='#'>
                   Jackets
                 </a>
                 <hr className='navbar-divider' />
-                <a
-                  className='navbar-item'
-                  href='https://bulma.io/documentation/elements/box/'>
+                <a className='navbar-item' href='#'>
                   Masculine
                 </a>
-                <a
-                  className='navbar-item is-active'
-                  href='https://bulma.io/documentation/components/breadcrumb/'>
+                <a className='navbar-item is-active' href='#'>
                   Female
                 </a>
               </div>

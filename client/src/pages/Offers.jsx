@@ -6,6 +6,7 @@ export const Offers = () => {
   return (
     <>
       <Notify />
+      <div>Offers</div>
     </>
   );
 };

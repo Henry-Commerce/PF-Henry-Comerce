@@ -4,7 +4,7 @@ import React from 'react';
 
 export const Shop = () => {
   return (
-    <section className='section  is-clipped'>
+    <section className='section has-background-white is-clipped'>
       <div className='container'>
         <div className='p-8 p-20-desktop'>
           <h2 className='title mb-8 mb-20-tablet'>Your cart</h2>
