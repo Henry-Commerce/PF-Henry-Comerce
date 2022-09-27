@@ -87,22 +87,6 @@ export const Nav = () => {
                 </span>
               </p>
             </div>
-
-            {/* <p className='control has-icons-right'>
-              <div className='navbar-item input-wrapper'>
-                <input
-                  className='input'
-                  type='text'
-                  placeholder='Search product'
-                />
-
-                <Link to='/products'>
-                  <span className='is-small is-left'>
-                    <FaSearch className='input-icon ' />
-                  </span>
-                </Link>
-              </div>
-            </p> */}
           </div>
 
           <div className='navbar-end'>

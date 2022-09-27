@@ -23,144 +23,67 @@ export const Login = () => {
     <>
       <Notify />
 
-      <div id='login'>
-        <div className='login-card'>
-          <div className='card-title'>
-            <h1>Sign In</h1>
-          </div>
+      <section className='hero is-success is-fullheight'>
+        <div className='hero-body'>
+          <div className='container has-text-centered'>
+            <div className='column is-4 is-offset-4'>
+              <h3 className='title has-text-black'>Login</h3>
+              <hr className='login-hr' />
+              <p className='subtitle has-text-black'>
+                Please login to proceed.
+              </p>
+              <div className='box'>
+                <figure className='avatar'>
+                  <img src='https://via.placeholder.com/150' />
+                </figure>
+                <form>
+                  <div className='field'>
+                    <div className='control'>
+                      <input
+                        className='input is-large'
+                        type='email'
+                        name='email'
+                        placeholder='Email'
+                        required
+                        autoFocus
+                      />
+                    </div>
+                  </div>
 
-          <div className='content'>
-            <form method='POST' action='#'>
-              <div className='field'>
-                <p className='control has-icons-left has-icons-right'>
-                  <input
-                    className='input is-danger'
-                    type='email'
-                    name='email'
-                    title='email'
-                    placeholder='Email'
-                    required
-                    autoFocus
-                  />
-
-                  <span className='icon is-small is-left'>
-                    <MdEmail />
-                  </span>
-                  <span className='icon is-small is-right'>
-                    <i className='fas fa-check'></i>
-                  </span>
-                </p>
+                  <div className='field'>
+                    <div className='control'>
+                      <input
+                        className='input is-large'
+                        type='password'
+                        name='password'
+                        placeholder='Password'
+                        required
+                        autoFocus
+                      />
+                    </div>
+                  </div>
+                  <div className='pb-5 pt-2'>
+                    <label className='checkbox'>
+                      <input type='checkbox' />
+                      Remember me
+                    </label>
+                  </div>
+                  <button
+                    className='button is-block is-primary is-large is-fullwidth'
+                    onClick={notify}>
+                    Login <i className='fa fa-sign-in' aria-hidden='true'></i>
+                  </button>
+                </form>
               </div>
-              <div className='field'>
-                <p className='control has-icons-left'>
-                  <input
-                    className='input is-success'
-                    type='password'
-                    name='password'
-                    title='password'
-                    placeholder='Password'
-                    required
-                  />
-                  <span className='icon is-small is-left'>
-                    <GiPadlock />
-                  </span>
-                </p>
-              </div>
-              <div className='level options'>
-                <div className='checkbox level-left'>
-                  <input
-                    type='checkbox'
-                    id='checkbox'
-                    className='regular-checkbox'
-                  />
-                  <label htmlFor='checkbox'></label>
-                  <span>Remember me</span>
-                </div>
-
-                <a className='btn btn-link level-right' href='#'>
-                  Forgot Password?
-                </a>
-              </div>
-              <button
-                type='submit'
-                className='btn btn-primary btn-log '
-                onClick={notify}>
-                Login
-              </button>
-            </form>
+              <p className='has-text-grey s'>
+                <a href='#sign'>Sign Up</a> &nbsp;·&nbsp;
+                <a href='#forgot'>Forgot Password</a> &nbsp;·&nbsp;
+                <a href='#need'>Need Help?</a>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };
-{
-  /* <div id='login'>
-        <div className='login-card'>
-          <div className='card-title'>
-            <h1>Sign In</h1>
-          </div>
-
-          <div className='content'>
-            <form method='POST' action='#'>
-              <div className='field'>
-                <p className='control has-icons-left has-icons-right'>
-                  <input
-                    className='input is-danger'
-                    type='email'
-                    name='email'
-                    title='email'
-                    placeholder='Email'
-                    required
-                    autoFocus
-                  />
-
-                  <span className='icon is-small is-left'>
-                    <MdEmail />
-                  </span>
-                  <span className='icon is-small is-right'>
-                    <i className='fas fa-check'></i>
-                  </span>
-                </p>
-              </div>
-              <div className='field'>
-                <p className='control has-icons-left'>
-                  <input
-                    className='input is-success'
-                    type='password'
-                    name='password'
-                    title='password'
-                    placeholder='Password'
-                    required
-                  />
-                  <span className='icon is-small is-left'>
-                    <GiPadlock />
-                  </span>
-                </p>
-              </div>
-              <div className='level options'>
-                <div className='checkbox level-left'>
-                  <input
-                    type='checkbox'
-                    id='checkbox'
-                    className='regular-checkbox'
-                  />
-                  <label htmlFor='checkbox'></label>
-                  <span>Remember me</span>
-                </div>
-
-                <a className='btn btn-link level-right' href='#'>
-                  Forgot Password?
-                </a>
-              </div>
-              <button
-                type='submit'
-                className='btn btn-primary btn-log '
-                onClick={notify}>
-                Login
-              </button>
-            </form>
-          </div>
-        </div>
-      </div> */
-}
