@@ -1,0 +1,39 @@
+/** @format */
+
+nav {
+  box-shadow: 0 5px 6px -2px rgba(128, 128, 128, 0.641);
+}
+.button {
+  color: black;
+  -webkit-transition: all 1s;
+}
+.button:hover {
+  -webkit-transition: all 1s;
+}
+
+.log-s:hover {
+  background-color: rgb(211, 211, 211) !important;
+}
+
+.is-primary {
+  color: black !important;
+  background-color: #ffff40 !important;
+}
+.is-primary:hover {
+  background-color: white !important;
+  border: 0.5px solid gray !important;
+}
+
+.jsi {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size 0.3s;
+}
+
+.jsi:hover,
+.jsi:focus {
+  background-size: 100% 3px;
+}
