@@ -53,6 +53,9 @@ export const Shop = () => {
                 </div>
               </div>
               <ShopItem />
+              <ShopItem />
+              <ShopItem />
+              <ShopItem />
 
               <div className='columns is-vcentered'>
                 <div className='column is-4'>

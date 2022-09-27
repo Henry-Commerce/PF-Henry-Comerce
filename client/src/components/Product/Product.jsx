@@ -24,7 +24,7 @@ export const Product = () => {
               $34.89
             </span>
             <span
-              className='has-text-grey-dark is-size-7 has-text-weight-normal'
+              className='has-text-grey-dark is-size-7 has-text-weight-normal pl-1'
               style={{
                 textDecoration: 'line-through',
               }}>
