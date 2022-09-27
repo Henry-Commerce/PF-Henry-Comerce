@@ -12,7 +12,7 @@ export const Nav = () => {
     <header>
       <nav className='navbar is-transparent'>
         <div className='navbar-brand'>
-          <a className='navbar-item' href='$'>
+          <a className='navbar-item' href='#'>
             <img src={logo} alt='Logo' width='112' height='28' />
           </a>
           <div
