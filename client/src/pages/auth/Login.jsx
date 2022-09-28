@@ -1,13 +1,17 @@
 /** @format */
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { Notify } from '../../components';
 import { toast } from 'react-toastify';
 
-import { MdEmail } from 'react-icons/md';
-import { GiPadlock } from 'react-icons/gi';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import './Login.scss';
 
 export const Login = () => {
+  const [checked, setChecked] = useState(true);
+
   const notify = () =>
     toast.success('🦄 Logeado Correctamente', {
       position: 'bottom-center',
@@ -18,6 +22,44 @@ export const Login = () => {
       draggable: false,
       progress: undefined,
     });
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email('Email must be a valid email')
+        .required('Email is a required field'),
+      password: Yup.string().min(6).required('Password is a required field'),
+    }),
+    onSubmit: (formData) => {
+      // console.log(formData);
+      if (checked === true) {
+        localStorage.setItem(
+          'auth',
+          JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            checked: checked,
+          })
+        );
+      }
+      handleReset();
+      notify();
+    },
+  });
+
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleReset,
+    handleSubmit,
+    errors,
+    touched,
+  } = formik;
 
   return (
     <>
@@ -36,7 +78,7 @@ export const Login = () => {
                 <figure className='avatar'>
                   <img src='https://via.placeholder.com/150' />
                 </figure>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className='field'>
                     <div className='control'>
                       <input
@@ -44,9 +86,15 @@ export const Login = () => {
                         type='email'
                         name='email'
                         placeholder='Email'
-                        required
-                        autoFocus
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.email}
                       />
+                      {errors.email && touched.email && (
+                        <div className='has-text-danger pt-2'>
+                          {errors.email}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -57,26 +105,36 @@ export const Login = () => {
                         type='password'
                         name='password'
                         placeholder='Password'
-                        required
-                        autoFocus
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
                       />
+                      {errors.password && touched.password && (
+                        <div className='has-text-danger pt-2'>
+                          {errors.password}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className='pb-5 pt-2'>
                     <label className='checkbox'>
-                      <input type='checkbox' />
+                      <input
+                        type='checkbox'
+                        defaultChecked={checked}
+                        onChange={() => setChecked(!checked)}
+                      />
                       Remember me
                     </label>
                   </div>
                   <button
-                    className='button is-block is-primary is-large is-fullwidth'
-                    onClick={notify}>
+                    type='submit'
+                    className='button is-block is-primary is-large is-fullwidth'>
                     Login <i className='fa fa-sign-in' aria-hidden='true'></i>
                   </button>
                 </form>
               </div>
               <p className='has-text-grey s'>
-                <a href='#sign'>Sign Up</a> &nbsp;·&nbsp;
+                <Link to='/register'>Sign Up</Link> &nbsp;·&nbsp;
                 <a href='#forgot'>Forgot Password</a> &nbsp;·&nbsp;
                 <a href='#need'>Need Help?</a>
               </p>
