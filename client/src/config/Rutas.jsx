@@ -11,6 +11,7 @@ import {
   News,
   Offers,
   Shop,
+  AddClothing,
 } from '../pages';
 
 export const Rutas = () => {
@@ -28,6 +29,8 @@ export const Rutas = () => {
 
       <Route path='/products' element={<Products />} />
       <Route path='/products/:id' element={<ProductsDetails />} />
+
+      <Route path='/admin/add' element={<AddClothing />} />
     </Routes>
   );
 };

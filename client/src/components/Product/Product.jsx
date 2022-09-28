@@ -1,7 +1,9 @@
 /** @format */
 import { GrAdd } from 'react-icons/gr';
 
-export const Product = () => {
+export const Product = ({ name, image, price }) => {
+  function add() {}
+
   return (
     <div className='column is-3-desktop is-6-tablet'>
       <div className='has-background-white pt-4 px-10 pb-10 is-relative'>
@@ -15,13 +17,13 @@ export const Product = () => {
               height: '224px',
               objectFit: 'cover',
             }}
-            src='https://moviesshopco.vtexassets.com/arquivos/ids/169080-800-800?v=637608365520970000&width=800&height=800&aspect=true'
+            src={image}
             alt=''
           />
-          <h5 className='title is-size-5 mb-2'>Nike basketball</h5>
+          <h5 className='title is-size-5 mb-2'>{name}</h5>
           <p>
             <span className='has-text-info is-size-5 has-text-weight-bold'>
-              $34.89
+              ${price}
             </span>
             <span
               className='has-text-grey-dark is-size-7 has-text-weight-normal pl-1'
@@ -34,7 +36,7 @@ export const Product = () => {
         </a>
         <a
           className='button ml-auto is-flex'
-          href='#'
+          onClick={add}
           style={{
             width: '48px',
             height: '48px',

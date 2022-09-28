@@ -2,17 +2,25 @@
 
 //Estado global inicial
 const initialState = {
-  clothing: [],
   allClothing: [],
   detail: [],
   filtered: [],
+  added: [],
+  notFound: '',
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
     case 'GET_CLOTHING':
+      return {
+        ...state,
+        allClothing: action.payload,
+        notFound: '',
+      };
 
     case 'GET_CLOTHING_DETAIL':
+
+    case 'ADD_CLOTHING':
 
     case 'FILTER_CLOTHING':
 

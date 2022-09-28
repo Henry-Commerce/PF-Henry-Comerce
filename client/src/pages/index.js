@@ -8,3 +8,4 @@ export * from './Products';
 export * from './News';
 export * from './Offers';
 export * from './Shop';
+export * from './admin/AddClothing';
