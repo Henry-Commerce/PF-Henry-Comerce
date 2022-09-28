@@ -18,8 +18,6 @@ export const Inicio = () => {
 
   useEffect(() => {
     dispatch(getClothing());
-    console.log('Clothing', clothing);
-    console.log('Added', Added);
   }, [dispatch]);
 
   return (
