@@ -25,31 +25,31 @@ export const Inicio = () => {
     <>
       {clothing.length > 0 && !notFound && (
         <section className="section has-background-light is-clipped">
-          <div className="container">
-            <div>
-              <h2 className="title mb-16 mb-24-tablet">
-                Discover our products
-              </h2>
+          <h2 className="title mb-16 mb-24-tablet">Discover our products</h2>
+          <div className="columns">
+            <div className="column is-2 center is-justify-content-center">
               <Filter />
+            </div>
+            <div className="column is-10">
               <Order />
+              <div className="mb-20 columns is-multiline">
+                {clothing.map((product) => {
+                  return (
+                    <Product
+                      key={product._id}
+                      name={product.name}
+                      image={product.image}
+                      price={product.price}
+                    />
+                  );
+                })}
+              </div>
             </div>
-            <div className="mb-20 columns is-multiline">
-              {clothing.map((product) => {
-                return (
-                  <Product
-                    key={product._id}
-                    name={product.name}
-                    image={product.image}
-                    price={product.price}
-                  />
-                );
-              })}
-            </div>
-            <div className="has-text-centered">
-              <a className="button is-primary" href="#">
-                Show More
-              </a>
-            </div>
+          </div>
+          <div className="has-text-centered">
+            <a className="button is-primary mt-6" href="#">
+              Show More
+            </a>
           </div>
         </section>
       )}
