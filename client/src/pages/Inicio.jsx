@@ -33,10 +33,10 @@ export const Inicio = () => {
             <div className="column is-10">
               <Order />
               <div className="mb-20 columns is-multiline">
-                {clothing.map((product) => {
+                {clothing.map((product, index) => {
                   return (
                     <Product
-                      key={product._id}
+                      key={index}
                       name={product.name}
                       image={product.image}
                       price={product.price}

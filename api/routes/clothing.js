@@ -5,9 +5,27 @@ const ClothingModel = require('../models/Clothing');
 router.get('/', async (req, res) => {
   try {
     const response = await ClothingModel.find({});
-    res.status(200).send(response);
+    if (req.query.categories) {
+      const categories = req.query.categories.split(',');
+      const responseArray = [];
+      categories.forEach(element => {
+        responseArray.push(response.filter(elementFilter => elementFilter.category === element));
+      });
+      return res.status(200).send(responseArray.flat());
+    }
+    else return res.status(200).send(response);
   } catch (error) {
     console.log('GET /clothing', error);
+  }
+});
+
+router.get('/:name', async(req, res) => {
+  const { name } = req.params;
+  try {
+    const response = await ClothingModel.find({name: name});
+    res.send(response);
+  } catch(error) {
+    console.log('Cannot GET /clothing/:name', error);
   }
 });
 

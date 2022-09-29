@@ -12,13 +12,28 @@ export const Filter = () => {
   const [isActive2, setisActive2] = useState(false);
   const [isActive3, setisActive3] = useState(false);
 
-  const [checked, setChecked] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const allClothing = useSelector((state) => state.allClothing);
 
   useEffect(() => {
-    dispatch(getClothing());
-  }, [dispatch, isActive]);
+    dispatch(getClothing(categories));
+  }, [dispatch, categories]);
+
+  const handleChange = (event) => {
+    if (event.target.checked) {
+      return setCategories([...categories, event.target.value]);
+    } else {
+      const change = categories.filter(
+        (element) => element != event.target.value
+      );
+      return setCategories(change);
+    }
+  };
+
+  const set = new Set(allClothing.map((element) => element.category));
+
+  const setArray = [...set];
 
   return (
     <div className="box filter">
@@ -45,12 +60,19 @@ export const Filter = () => {
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
           <div className="dropdown-content">
             <label className="checkbox">
-              <input
-                type="checkbox"
-                value={checked}
-                onValueChange={setChecked}
-              />
-              <span className="ml-1">{/* {allClothing && allClothing.map()} */}</span>
+              {setArray.map((element, index) => (
+                <div key={index}>
+                  <input
+                    id={index}
+                    type="checkbox"
+                    value={element}
+                    onClick={(event) => handleChange(event)}
+                  />
+                  <label className="ml-1" htmlFor={index}>
+                    {element}
+                  </label>
+                </div>
+              ))}
             </label>
           </div>
         </div>
