@@ -1,12 +1,12 @@
 /** @format */
 
-@import 'variables';
+@import "variables";
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Questrial', sans-serif;
+  font-family: "Questrial", sans-serif;
 }
 
 html {
@@ -24,13 +24,13 @@ button {
   cursor: pointer;
 }
 
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -46,4 +46,9 @@ body::-webkit-scrollbar-thumb {
 
 .button:hover {
   -webkit-transition: all 1s;
+}
+
+.center {
+  display: flex;
+  height: 26rem;
 }
