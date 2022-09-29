@@ -12,6 +12,7 @@
     "@redux-devtools/extension": "^3.2.3",
     "axios": "^0.27.2",
     "bulma": "^0.9.4",
+    "firebase": "^9.10.0",
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -23,6 +24,7 @@
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "sass": "^1.55.0",
+    "uuid": "^9.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
