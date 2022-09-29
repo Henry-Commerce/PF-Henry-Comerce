@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getClothing } from "../../redux/actions/actions";
+import { AiOutlineDown } from "react-icons/ai";
 import "./Filter.scss";
 
 export const Filter = () => {
+  const dispatch = useDispatch();
   const [isActive, setisActive] = useState(false);
   const [isActive1, setisActive1] = useState(false);
   const [isActive2, setisActive2] = useState(false);
@@ -9,8 +14,14 @@ export const Filter = () => {
 
   const [checked, setChecked] = useState(false);
 
+  const allClothing = useSelector((state) => state.allClothing);
+
+  useEffect(() => {
+    dispatch(getClothing());
+  }, [dispatch, isActive]);
+
   return (
-    <div className="box">
+    <div className="box filter">
       <h5 className="subtitle is-5 mb-4">Filters</h5>
 
       <div
@@ -25,9 +36,9 @@ export const Filter = () => {
             aria-haspopup="true"
             aria-controls="dropdown-menu"
           >
-            <span>Categoryes</span>
+            <span>Categories</span>
             <span className="icon is-small">
-              <i class="fas fa-angle-down" aria-hidden="true"></i>
+              <AiOutlineDown />
             </span>
           </button>
         </div>
@@ -39,19 +50,7 @@ export const Filter = () => {
                 value={checked}
                 onValueChange={setChecked}
               />
-              <span className="ml-1">T-Shirts</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Hoodies</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Pants</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Jackets</span>
+              <span className="ml-1">{/* {allClothing && allClothing.map()} */}</span>
             </label>
           </div>
         </div>
@@ -70,7 +69,7 @@ export const Filter = () => {
           >
             <span>Size</span>
             <span className="icon is-small">
-              <i class="fas fa-angle-down" aria-hidden="true"></i>
+              <AiOutlineDown />
             </span>
           </button>
         </div>
@@ -78,27 +77,7 @@ export const Filter = () => {
           <div className="dropdown-content">
             <label className="checkbox">
               <input type="checkbox" />
-              <span className="ml-1">XS</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">S</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">M</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">L</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">XL</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">XXL</span>
+              <span className="ml-1"></span>
             </label>
           </div>
         </div>
@@ -117,7 +96,7 @@ export const Filter = () => {
           >
             <span>Colors</span>
             <span className="icon is-small">
-              <i class="fas fa-angle-down" aria-hidden="true"></i>
+              <AiOutlineDown />
             </span>
           </button>
         </div>
@@ -125,27 +104,7 @@ export const Filter = () => {
           <div className="dropdown-content">
             <label className="checkbox">
               <input type="checkbox" />
-              <span className="ml-1">White</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Black</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Red</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Blue</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Green</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1">Yellow</span>
+              <span className="ml-1"></span>
             </label>
           </div>
         </div>
@@ -164,7 +123,7 @@ export const Filter = () => {
           >
             <span>Price</span>
             <span className="icon is-small">
-              <i class="fas fa-angle-down" aria-hidden="true"></i>
+              <AiOutlineDown />
             </span>
           </button>
         </div>
