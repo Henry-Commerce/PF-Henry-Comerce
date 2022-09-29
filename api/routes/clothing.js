@@ -61,14 +61,4 @@ router.post('/add', async (req, res) => {
   }
 });
 
-router.get('/:name', async(req, res) => {
-  const { name } = req.params;
-  try {
-    const response = await ClothingModel.find({name: name});
-    res.send(response);
-  } catch(error) {
-    console.log('Cannot GET /clothing/:name', error);
-  }
-});
-
 module.exports = router;
