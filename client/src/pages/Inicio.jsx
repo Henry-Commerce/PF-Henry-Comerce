@@ -1,13 +1,14 @@
 /** @format */
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import { getClothing } from '../redux/actions';
+import { getClothing } from "../redux/actions";
 
-import { Loading, Product } from '../components';
-import { Order } from '../components/Order/Order';
+import { Loading, Product } from "../components";
+import { Order } from "../components/Order/Order";
+import { Filter } from "../components/Filter/Filter";
 
 export const Inicio = () => {
   const dispatch = useDispatch();
@@ -23,15 +24,16 @@ export const Inicio = () => {
   return (
     <>
       {clothing.length > 0 && !notFound && (
-        <section className='section has-background-light is-clipped'>
-          <div className='container'>
+        <section className="section has-background-light is-clipped">
+          <div className="container">
             <div>
-              <h2 className='title mb-16 mb-24-tablet'>
+              <h2 className="title mb-16 mb-24-tablet">
                 Discover our products
               </h2>
+              <Filter />
               <Order />
             </div>
-            <div className='mb-20 columns is-multiline'>
+            <div className="mb-20 columns is-multiline">
               {clothing.map((product) => {
                 return (
                   <Product
@@ -43,8 +45,8 @@ export const Inicio = () => {
                 );
               })}
             </div>
-            <div className='has-text-centered'>
-              <a className='button is-primary' href='#'>
+            <div className="has-text-centered">
+              <a className="button is-primary" href="#">
                 Show More
               </a>
             </div>
@@ -52,7 +54,7 @@ export const Inicio = () => {
         </section>
       )}
       {notFound && (
-        <div className=''>
+        <div className="">
           <h1>No recipes found</h1>
         </div>
       )}
