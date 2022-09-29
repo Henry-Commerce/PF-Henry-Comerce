@@ -70,7 +70,6 @@ export const Filter = () => {
                 type="checkbox"
                 value="Buzos"
                 onClick={(event) => handleCategories(event)}
-                checked={check}
               />
               <label className="ml-1">Buzos</label>
             </label>
