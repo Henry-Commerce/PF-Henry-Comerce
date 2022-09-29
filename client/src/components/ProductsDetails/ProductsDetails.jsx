@@ -14,10 +14,13 @@ export const ProductsDetails = () => {
     rating: 4.91,
     price: 15,
     image: "https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dweb0954ea/5_detail_750/00463559-03.jpg?sw=1000&sh=1500",
-    comments: {
-      user: ["santi", "martin"],
-      comment: ["no me gusta"]
-    },
+    user: [{name: "santiago",comment:`afsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasg
+    gafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafs{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}asggaf
+    sasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasgga{e.comment}{e.comment}{e.comment}{e.comment}{e.comm{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}ent}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}fsasggafsasggafsasggafsasggafsasgg
+    afsasggafsasggafsasggafsasggafsasggafsgg`},{name: "Martin",comment:`afsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasg
+    gafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafs{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}asggaf
+    sasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasgga{e.comment}{e.comment}{e.comment}{e.comment}{e.comm{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}ent}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}fsasggafsasggafsasggafsasggafsasgg
+    afsasggafsasggafsasggafsasggafsasggafsgg`}],
     stocki:{
       XS: 1,
       S: 5,
@@ -46,7 +49,7 @@ export const ProductsDetails = () => {
 
   let printStock = [arr.stocki]
 
-  let printComments = [arr.comments.user]
+  let printComments = [arr.comments]
   
 
   const selectSize = (e) => {
@@ -364,25 +367,18 @@ export const ProductsDetails = () => {
               QUESTIONS
             </h3>
           </div>
-          <div className="is-flex-direction-row pt-4 has-text-left">
-            <div className="container">
+          <div className="is-flex-direction-column pt-4 has-text-left">
+            <div className="container is-flex-direction-column">
               
-              <div className="columns pt-6 ">
-                
-                <div class="column is-full  ">
-                <h1 className="pt-0 title is-size-4 has-text-centered ">name question of acc</h1>
-                  <h1 className="title is-size-5 ">name of acc</h1>
-                  <p className="is-size-6">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Commodi neque dolores, laboriosam cupiditate incidunt
-                    maiores doloremque illum facere odit fuga voluptatem in
-                    praesentium, aperiam beatae! At dicta dolor ipsam magni.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nulla accusamus accusantium veritatis, impedit, nisi quod
-                    voluptate eius provident consequuntur asperiores adipisci
-                    perferendis minima, id illo dolorem? Provident voluptatem
-                    distinctio nam.
+              <div className="columns my-0 is-flex-direction-column">
+                {arr.user.map((e) => (
+                <div key={e.name} class="column my-0">
+                <h1 className="pt-0 title is-size-4 has-text-left">{e.name}</h1>
+                  <p>
+                  {e.comment}
                   </p>
+              </div>
+                 ))}
                 </div>
               </div>
               <div className="has-text-centered pt-3 pb-6">
@@ -392,12 +388,18 @@ export const ProductsDetails = () => {
           </div>
         </div>
       </div>
-      
-    </div>
   );
 };
 
-
+/* {arr.user.map((e) => (
+  <div key={e.name}>
+    <h1 className="title is-size-5 ">{e.name}</h1>
+  <p className="is-size-6">
+  {e.comment}
+  </p>
+  </div>
+  ))}
+ */
 
 /* {Object.values(arr.comments).map((e) => (
                 <div>
