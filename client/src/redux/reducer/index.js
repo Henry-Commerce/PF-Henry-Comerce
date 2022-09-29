@@ -19,6 +19,10 @@ function rootReducer(state = initialState, action) {
       };
 
     case 'GET_CLOTHING_DETAIL':
+      return {
+        ...state,
+        detail: action.payload,
+      }
 
     case 'ADD_CLOTHING':
 
