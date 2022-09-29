@@ -13,6 +13,7 @@ const ClothingSchema = new Schema(
     },
     price: {
       type: Number,
+      min: 0,
       required: true
     },
     stock: new Schema({
@@ -28,19 +29,26 @@ const ClothingSchema = new Schema(
     },
     discount: {
       type: Number,
-      Min: 0,
-      Max: 99
+      default: 0,
+      min: 0,
+      max: 99
     },
     show: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     rating: {
       type: Number,
       default: 0
     },
     comments: {
-      user: [{type: String}],
-      comment: [{type: String}]
+      user: [{
+        type: String,
+        default: ''
+      }],
+      comment: [{
+        type: String,
+        default: ''}]
     }
   },
   {

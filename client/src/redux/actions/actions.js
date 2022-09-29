@@ -69,3 +69,18 @@ export function addClothing(name, image, price) {
     });
   };
 }
+
+export function getClothingDetail(name) {
+  return async function (dispatch) {
+    try {
+      const cloth = await axios.get(`${LOCAL_HOST}/api/clothing/` + name)
+      console.log(cloth.data);
+      return dispatch({
+        type: "GET_CLOTHING_DETAIL",
+        payload: cloth.data,
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+} 
