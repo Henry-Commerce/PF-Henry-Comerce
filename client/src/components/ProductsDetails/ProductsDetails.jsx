@@ -6,17 +6,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export const ProductsDetails = () => {
+
   const arr = {
     name: "Remera henry basica",
     category: "Casual",
     colors: ["Red", "Black", "White", "Yellow"],
-    rating: "5.0",
-    price: 15.90,
+    rating: 4.91,
+    price: 15,
     image: "https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dweb0954ea/5_detail_750/00463559-03.jpg?sw=1000&sh=1500",
-    reseñas: [
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-    ],
     comments: {
       user: ["santi", "martin"],
       comment: ["no me gusta"]
@@ -57,13 +54,11 @@ export const ProductsDetails = () => {
     setStock(printStock[0][e.target.value])
     setCount(1)
     setPrice(arr.price)
-    console.log(Object.values(printComments));
-    
+    console.log(console.log(printComments[0]));
   };
 
   const selectColor = (e) => {
     setColor(e.target.value);
-    console.log()
   };
 
   const onClickMas = (e) => {
@@ -176,7 +171,7 @@ export const ProductsDetails = () => {
             </div>
 
             <h3 class="pt-1 pl-6 title has-text-weight-bold mb-4 has-text-left">
-              Cantidad prod
+            Quantity products
             </h3>
             <div className="column is-2-desktop is-3-tablet pl-6 ">
               <div
@@ -238,7 +233,7 @@ export const ProductsDetails = () => {
         <div className="column is-full">
           <div className="filee is-centered border-bottom">
             <h3 class="pt-1 pl-6 p title  mb-4 has-text-left">
-              PRODUCTOS RECOMENDADOS
+            RECOMMENDED PRODUCTS
             </h3>
           </div>
           <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold ">
@@ -250,7 +245,7 @@ export const ProductsDetails = () => {
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dw0c221234/1_front_750/00464362-01.jpg?sw=276&sh=414"
                 alt=""
               />
-              <p>Nombre producto</p>
+              <p>Name of product</p>
               <p className="pt-3">{arr.price}</p>
             </div>
 
@@ -262,7 +257,7 @@ export const ProductsDetails = () => {
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwb21f3df3/1_front_750/00463564-02.jpg?sw=276&sh=414"
                 alt=""
               />
-              <p>Nombre producto</p>
+              <p>Name of product</p>
               <p className="pt-3">{arr.price}</p>
             </div>
 
@@ -274,7 +269,7 @@ export const ProductsDetails = () => {
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dw24c02e7a/1_front_750/00464839-13.jpg?sw=276&sh=414"
                 alt=""
               />
-              <p>Nombre producto</p>
+             <p>Name of product</p>
               <p className="pt-3">{arr.price}</p>
             </div>
 
@@ -286,7 +281,7 @@ export const ProductsDetails = () => {
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwaa67b43b/1_front_750/00468678-03.jpg?sw=276&sh=414"
                 alt=""
               />
-              <p>Nombre producto</p>
+             <p>Name of product</p>
               <p className="pt-3">{arr.price}</p>
             </div>
           </div>
@@ -391,7 +386,7 @@ export const ProductsDetails = () => {
                 </div>
               </div>
               <div className="has-text-centered pt-3 pb-6">
-                <button className="button is-warning">Write review</button>
+                <button className="button is-warning">Write question</button>
               </div>
             </div>
           </div>
