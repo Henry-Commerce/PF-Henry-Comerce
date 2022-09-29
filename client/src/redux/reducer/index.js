@@ -6,31 +6,35 @@ const initialState = {
   detail: [],
   filtered: [],
   added: [],
-  notFound: "",
+  notFound: '',
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case "GET_CLOTHING":
+    case 'GET_CLOTHING':
       return {
         ...state,
         allClothing: action.payload,
-        notFound: "",
+        notFound: '',
       };
-      
-    case "GET_CLOTHING_DETAIL":
 
-    case "ADD_CLOTHING":
+    case 'GET_CLOTHING_DETAIL':
+      return {
+        ...state,
+        detail: action.payload,
+      }
 
-    case "FILTER_CLOTHING":
+    case 'ADD_CLOTHING':
 
-    case "SEARCH_BY_NAME":
+    case 'FILTER_CLOTHING':
 
-    case "SORT_CLOTHING":
+    case 'SEARCH_BY_NAME':
 
-    case "RESET_DETAIL":
+    case 'SORT_CLOTHING':
 
-    case "RESET_CLOTHING":
+    case 'RESET_DETAIL':
+
+    case 'RESET_CLOTHING':
 
     default:
       return state;

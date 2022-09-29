@@ -1,11 +1,13 @@
 /** @format */
 import { GrAdd } from 'react-icons/gr';
+import { Link } from 'react-router-dom';
 
 export const Product = ({ name, image, price }) => {
   function add() {}
 
   return (
     <div className='column is-3-desktop is-6-tablet'>
+      <Link to={"/products/"+name}>
       <div className='has-background-white pt-4 px-10 pb-10 is-relative'>
         <span className='is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-danger has-text-weight-bold'>
           -15%
@@ -44,6 +46,7 @@ export const Product = ({ name, image, price }) => {
           <GrAdd />
         </a>
       </div>
+      </Link>
     </div>
   );
 };
