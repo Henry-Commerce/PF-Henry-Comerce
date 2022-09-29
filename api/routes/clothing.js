@@ -11,11 +11,21 @@ router.get('/', async (req, res) => {
       categories.forEach(element => {
         responseArray.push(response.filter(elementFilter => elementFilter.category === element));
       });
-      return res.status(200).send(responseArray);
+      return res.status(200).send(responseArray.flat());
     }
-    return res.status(200).send(response);
+    else return res.status(200).send(response);
   } catch (error) {
     console.log('GET /clothing', error);
+  }
+});
+
+router.get('/:name', async(req, res) => {
+  const { name } = req.params;
+  try {
+    const response = await ClothingModel.find({name: name});
+    res.send(response);
+  } catch(error) {
+    console.log('Cannot GET /clothing/:name', error);
   }
 });
 
