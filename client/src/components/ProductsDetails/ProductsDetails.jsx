@@ -4,8 +4,19 @@ import "./ProductsDetails.scss";
 import { MdRemove, MdAdd } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getClothingDetail } from "../../redux/actions/actions";
 
 export const ProductsDetails = () => {
+
+  const dispatch = useDispatch()
+  const detail = useSelector((state) => state.detail);
+  const { name } = useParams();
+  
+  useEffect(() => {
+    dispatch(getClothingDetail(name));
+  }, []); 
 
   const arr = {
     name: "Remera henry basica",
@@ -132,7 +143,7 @@ export const ProductsDetails = () => {
               <p class="pt-6 pl-6 has-text-weight-bold mb-6">{arr.rating}</p>
             </div>
             <h1 class="pt-1 pl-6 title has-text-weight-bold mb-5 has-text-left">
-              {arr.name}
+              {detail.name}
             </h1>
             <h1 class=" pl-6 has-text-weight-bold mb-6">{arr.category}</h1>
             <section class="pt-5"></section>
