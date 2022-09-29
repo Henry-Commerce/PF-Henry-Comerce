@@ -34,7 +34,8 @@ const ClothingSchema = new Schema(
       max: 99
     },
     show: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     rating: {
       type: Number,
