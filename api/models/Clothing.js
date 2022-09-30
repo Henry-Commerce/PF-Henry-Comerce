@@ -33,6 +33,9 @@ const ClothingSchema = new Schema(
       min: 0,
       max: 99
     },
+    description: {
+      type: String
+    },
     show: {
       type: Boolean,
       default: false

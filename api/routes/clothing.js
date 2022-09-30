@@ -50,7 +50,6 @@ router.post('/add', async (req, res) => {
     const { 
       name,
       category,
-      size,
       price,
       stock,
       image
@@ -58,7 +57,6 @@ router.post('/add', async (req, res) => {
     const newCloth = new ClothingModel({
       name,
       category,
-      size,
       price,
       stock,
       image
