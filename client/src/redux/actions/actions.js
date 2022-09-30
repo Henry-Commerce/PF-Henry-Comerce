@@ -74,8 +74,7 @@ export function addClothing(name, image, price) {
 export function getClothingDetail(name) {
   return async function (dispatch) {
     try {
-
-      const cloth = await axios.get(`${LOCAL_HOST}/api/clothing/${name}`)
+      const cloth = await axios.get(`${LOCAL_HOST}/api/clothing/${name}`);
 
       console.log(cloth.data);
       return dispatch({
@@ -84,6 +83,23 @@ export function getClothingDetail(name) {
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+}
+
+export function getClothingByName(name) {
+  return async function (dispatch) {
+    try {
+      const cloth = await axios.get(
+        `${LOCAL_HOST}/api/clothing/search?name=${name}`
+      );
+      return dispatch({
+        type: "SEARCH_CLOTHING_NAME",
+        payload: cloth.data,
+      });
+    } catch (error) {
+      console.log(error);
+      return alert("Clothing was not found");
     }
   };
 }
