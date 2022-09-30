@@ -108,7 +108,7 @@ export const ProductsDetails = () => {
             <h1 class=" pl-6 has-text-weight-bold mb-6">{detail.category}</h1>
             <section className="pt-5"></section>
 
-            <div class="pl-6 pr-6">
+            <div className="pl-6 pr-6">
               
             {detail.stock ? Object.keys(detail.stock).map((e, index) => {
               return (
@@ -127,10 +127,10 @@ export const ProductsDetails = () => {
                 )
                 }) : null}
             </div>
-            <div class="pt-6 pl-6  has-text-weight-bold  has-text-left  mb-6">
+            <div className="pt-6 pl-6  has-text-weight-bold  has-text-left  mb-6">
             </div>
 
-            <h3 class="pt-1 pl-6 title has-text-weight-bold mb-4 has-text-left">
+            <h3 className="pt-1 pl-6 title has-text-weight-bold mb-4 has-text-left">
             Quantity products
             </h3>
             <div className="column is-2-desktop is-3-tablet pl-6 ">
@@ -170,9 +170,9 @@ export const ProductsDetails = () => {
               </div>
             </div>
             <div className="pt-6 pl-6 pb-6 border-bottom"></div>
-            <section class="pt-6"></section>
-            <div class="pl-6 pr-6 card-header-title ">
-              <p class="pr-6 title has-text-weight-bold mb-0 is-inline-block">
+            <section className="pt-6"></section>
+            <div className="pl-6 pr-6 card-header-title ">
+              <p className="pr-6 title has-text-weight-bold mb-0 is-inline-block">
                 ${pricee}
               </p>
               <p className="control">
@@ -187,19 +187,19 @@ export const ProductsDetails = () => {
           </div>
         </div>
       </div>
-      <section class="pt-6"></section>
-      <section class="pt-6"></section>
+      <section className="pt-6"></section>
+      <section className="pt-6"></section>
       <div className="container">
         <div className="column is-full">
           <div className="filee is-centered border-bottom">
-            <h3 class="pt-1 pl-6 p title  mb-4 has-text-left">
+            <h3 className="pt-1 pl-6 p title  mb-4 has-text-left">
             RECOMMENDED PRODUCTS
             </h3>
           </div>
           <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold ">
             <div className="">  
               <img
-                class=" image "
+                className=" image "
                 width="200"
                 height="120"
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dw0c221234/1_front_750/00464362-01.jpg?sw=276&sh=414"
@@ -211,7 +211,7 @@ export const ProductsDetails = () => {
 
             <div>
               <img
-                class="image "
+                className="image "
                 width="200"
                 height="120"
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwb21f3df3/1_front_750/00463564-02.jpg?sw=276&sh=414"
@@ -223,7 +223,7 @@ export const ProductsDetails = () => {
 
             <div>
               <img
-                class="image"
+                className="image"
                 width="200"
                 height="120"
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dw24c02e7a/1_front_750/00464839-13.jpg?sw=276&sh=414"
@@ -235,7 +235,7 @@ export const ProductsDetails = () => {
 
             <div>
               <img
-                class="image"
+                className="image"
                 width="200"
                 height="120"
                 src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwaa67b43b/1_front_750/00468678-03.jpg?sw=276&sh=414"
@@ -247,27 +247,27 @@ export const ProductsDetails = () => {
           </div>
         </div>
       </div>
-      <section class="pt-6"></section>
+      <section className="pt-6"></section>
       <div className="container">
         <div className="column is-full">
           <div className="filee is-centered border-bottom is-justify-content-flex-start">
-            <h3 class="pt-1 pl-6 title is-size-4  mb-2 has-text-left">
+            <h3 className="pt-1 pl-6 title is-size-4  mb-2 has-text-left">
               REVIEWS
             </h3>
           </div>
           <div className="is-flex-direction-row pt-4 has-text-left">
             <div className="container">
-              <div class="columns has-text-centered ">
-                <div class="column is-half">
+              <div className="columns has-text-centered ">
+                <div className="column is-half">
                   <div className="filee ">
-                    <h1 class="pt-4 pl-6 title is-size-1  mb-0 has-text-left">
+                    <h1 className="pt-4 pl-6 title is-size-1  mb-0 has-text-left">
                       {detail.rating}
                     </h1>
                     <h1 className="pt-6 title is-size-6 pl-3">out 5 stars</h1>
                   </div>
                 </div>
-                <div class="column is-half">
-                  <h1 class="pt-4 pl-6 title is-size-3  mb-0 has-text-center">
+                <div className="column is-half">
+                  <h1 className="pt-4 pl-6 title is-size-3  mb-0 has-text-center">
                     Count rating
                   </h1>
                 </div>
@@ -278,7 +278,7 @@ export const ProductsDetails = () => {
                   <h1 className="pt-6 pt-4 pl-6 title is-size-5">name acc</h1>
                   
                 </div>
-                <div class="column is-three-quarters   ">
+                <div className="column is-three-quarters   ">
                 <h1 className="pt-0 title is-size-4 has-text-centered ">name review of acc</h1>
                   <p className="is-size-6">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -299,7 +299,7 @@ export const ProductsDetails = () => {
                   <h1 className="pt-6 pt-4 pl-6 title is-size-5">name acc</h1>
                   
                 </div>
-                <div class="column is-three-quarters   ">
+                <div className="column is-three-quarters   ">
                 <h1 className="pt-0 title is-size-4 has-text-centered ">name review of acc</h1>
                   <p className="">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -320,7 +320,7 @@ export const ProductsDetails = () => {
             </div>
           </div>
           <div className="filee is-centered border-bottom is-justify-content-flex-end">
-            <h3 class="pt-1 pl-6 title is-size-4  mb-2 has-text-rigth ">
+            <h3 className="pt-1 pl-6 title is-size-4  mb-2 has-text-rigth ">
               QUESTIONS
             </h3>
           </div>
@@ -332,7 +332,7 @@ export const ProductsDetails = () => {
                   <h1 className="pt-6 pt-4 pl-6 title is-size-5">name acc</h1>
                   
                 </div>
-                <div class="column is-three-quarters   ">
+                <div className="column is-three-quarters   ">
                 <h1 className="pt-0 title is-size-4 has-text-centered ">name review of acc</h1>
                   <p className="">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
