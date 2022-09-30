@@ -136,7 +136,7 @@ export const Login = () => {
               <p className='has-text-grey s'>
                 <Link to='/register'>Sign Up</Link> &nbsp;·&nbsp;
                 <a href='#forgot'>Forgot Password</a> &nbsp;·&nbsp;
-                <a href='#need'>Need Help?</a>
+                <Link to='/faq'>Need Help?</Link>
               </p>
             </div>
           </div>
