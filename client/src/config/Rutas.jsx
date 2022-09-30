@@ -12,6 +12,7 @@ import {
   Offers,
   Shop,
   AddClothing,
+  FAQ,
 } from '../pages';
 
 export const Rutas = () => {
@@ -29,6 +30,8 @@ export const Rutas = () => {
 
       <Route path='/products' element={<Products />} />
       <Route path='/products/:id' element={<ProductsDetails />} />
+
+      <Route path='/faq' element={<FAQ />} />
 
       <Route path='/admin/add' element={<AddClothing />} />
     </Routes>
