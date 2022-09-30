@@ -58,17 +58,20 @@ export function getClothing(categories) {
     // }
   };
 }
-export function addClothing(name, image, price) {
-  return function (dispatch) {
-    dispatch({
-      type: "ADD_CLOTHING",
-      payload: {
-        name: name,
-        image: image,
-        price: price,
-      },
-    });
-  };
+
+export function addClothing(payload) {
+    return async function (dispatch) {
+        try {
+            var info = await axios.post(`${LOCAL_HOST}/api/add`, payload)
+            return dispatch({
+                type: 'ADD_CLOTHING',
+                info,
+            })
+        } catch (error) {
+            const errorMessage = { error: error.message }
+            console.log(errorMessage)
+        }
+    }
 }
 
 export function getClothingDetail(name) {
