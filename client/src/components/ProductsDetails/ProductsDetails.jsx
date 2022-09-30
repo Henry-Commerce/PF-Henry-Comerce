@@ -7,32 +7,24 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getClothingDetail } from "../../redux/actions/actions";
+import { Loading } from "../Loading/Loading";
+
 
 export const ProductsDetails = () => {
-
-  const dispatch = useDispatch()
   const detail = useSelector((state) => state.detail);
-  const { name } = useParams();
+  const detailStock = useSelector((state) => state.stock);
+  const dispatch = useDispatch()
+  const {id} = useParams();
+  
+  console.log(detail);
   
   useEffect(() => {
-    dispatch(getClothingDetail(name));
-  }, []); 
+    dispatch(getClothingDetail(id));
+  }, [dispatch,id]); 
+
 
   const arr = {
-    name: "Remera henry basica",
-    category: "Casual",
-    colors: ["Red", "Black", "White", "Yellow"],
-    rating: 4.91,
-    price: 15,
-    image: "https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dweb0954ea/5_detail_750/00463559-03.jpg?sw=1000&sh=1500",
-    user: [{name: "santiago",comment:`afsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasg
-    gafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafs{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}asggaf
-    sasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasgga{e.comment}{e.comment}{e.comment}{e.comment}{e.comm{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}ent}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}fsasggafsasggafsasggafsasggafsasgg
-    afsasggafsasggafsasggafsasggafsasggafsgg`},{name: "Martin",comment:`afsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasg
-    gafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafs{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}asggaf
-    sasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasggafsasgga{e.comment}{e.comment}{e.comment}{e.comment}{e.comm{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}ent}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}{e.comment}fsasggafsasggafsasggafsasggafsasgg
-    afsasggafsasggafsasggafsasggafsasggafsgg`}],
-    stocki:{
+    stock:{
       XS: 1,
       S: 5,
       M: 7,
@@ -41,46 +33,37 @@ export const ProductsDetails = () => {
       XXL: 4
     }
   };
- 
-  
 
+  
   const [count, setCount] = useState(1);
 
-  const [stock, setStock] = useState(1);
+  const [stockk, setStock] = useState(1);
 
   const [size, setSize] = useState("");
 
-  const [color, setColor] = useState("");
-
-  const [price, setPrice] = useState(arr.price);
+  const [pricee, setPrice] = useState(detail.price);
   
-  /* const [rating, setRating] = useState(""); */
+  let printStock = [arr.stock]
 
-  useEffect(() => {}, []);
-
-  let printStock = [arr.stocki]
-
-  let printComments = [arr.comments]
+  console.log(printStock);
   
-
   const selectSize = (e) => {
     setSize(e.target.value);
     setStock(printStock[0][e.target.value])
     setCount(1)
-    setPrice(arr.price)
-    console.log(console.log(printComments[0]));
-  };
+    setPrice(detail.price)
+  }
+  
+  console.log(detail);
 
-  const selectColor = (e) => {
-    setColor(e.target.value);
-  };
+  
 
   const onClickMas = (e) => {
-    if (count >= stock) {
+    if (count >= stockk) {
       return;
     } else {
       setCount(count + 1);
-      setPrice(price+arr.price) 
+      setPrice(pricee+detail.price) 
     }
   };
 
@@ -89,7 +72,7 @@ export const ProductsDetails = () => {
       return;
     } else {
       setCount(count - 1);
-      setPrice(price-arr.price) 
+      setPrice(pricee-detail.price) 
     }
   };
 
@@ -101,60 +84,38 @@ export const ProductsDetails = () => {
     }
   };
 
-  const selectedColor = (e) => {
-    if (color === e) {
-      return false;
-    } else {
-      return true;
-    }
-  };
+  
 
   return (
+    
     <div>
-      <section class="pt-6"></section>
-      <div class="container has-text-left">
-        <div class="columns ">
-          <div class="column">
-            <img
-              class="image pb-2 "
-              height="1rem"
-              src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwb8336388/1_front_750/00463559-03.jpg?sw=1000&sh=1500"
-              alt=""
-            />
-            <img
-              class="image  pb-2"
-              src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dw1f853781/2_side_750/00463559-03.jpg?sw=1000&sh=1500"
-              alt=""
-            />
-            <img
-              class="image pb-2"
-              src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwd6adb6ca/7_additional_750/00463559-03.jpg?sw=1000&sh=1500"
-              alt=""
-            />
-          </div>
-
-          <div class="column is-half">
-            <img src={arr.image} alt="" />
+      <section className="pt-6"></section>
+      <div className="container has-text-left pt-6">
+        <div className="columns pl-4">
+          <div className="column is-half pl-6 ">
+            <section className="pl-6"></section>
+            <img className="pl-6 pt-6" src={detail.image} alt="" />
           </div>
 
           <div class="column is-two-fifths">
             <div className="filee">
-              <p class="pt-6 pl-6 has-text-weight-bold mb-6">Rating:</p>
-              <p class="pt-6 pl-6 has-text-weight-bold mb-6">{arr.rating}</p>
+              <p className="pt-6 pl-6 has-text-weight-bold mb-6">Rating:</p>
+              <p className="pt-6 pl-6 has-text-weight-bold mb-6">{detail.rating}</p>
             </div>
             <h1 class="pt-1 pl-6 title has-text-weight-bold mb-5 has-text-left">
               {detail.name}
             </h1>
-            <h1 class=" pl-6 has-text-weight-bold mb-6">{arr.category}</h1>
-            <section class="pt-5"></section>
+            <h1 class=" pl-6 has-text-weight-bold mb-6">{detail.category}</h1>
+            <section className="pt-5"></section>
 
             <div class="pl-6 pr-6">
               
-              {Object.keys(printStock[0]).map((e) => (
+            {detail.stock ? Object.keys(detail.stock).map((e, index) => {
+              return (
                 <button
                   onClick={selectSize}
                   value={e}
-                  key={e}
+                  key={index}
                   class={
                     selectedSize(e)
                       ? "button  mr-4 has-text-weight-bold "
@@ -163,25 +124,10 @@ export const ProductsDetails = () => {
                 >
                   {e}
                 </button>
-              ))}
+                )
+                }) : null}
             </div>
             <div class="pt-6 pl-6  has-text-weight-bold  has-text-left  mb-6">
-              {arr.colors.map((e) => (
-                
-                <button
-                  onClick={selectColor}
-                  value={e}
-                  key={e}
-                  class={
-                    selectedColor(e)
-                      ? "button  mr-1 has-text-weight-bold"
-                      : "button  is-dark mr-1 has-text-weight-bold"
-                  }
-                >
-                  {e}
-                </button>
-                
-              ))}
             </div>
 
             <h3 class="pt-1 pl-6 title has-text-weight-bold mb-4 has-text-left">
@@ -227,7 +173,7 @@ export const ProductsDetails = () => {
             <section class="pt-6"></section>
             <div class="pl-6 pr-6 card-header-title ">
               <p class="pr-6 title has-text-weight-bold mb-0 is-inline-block">
-                ${price}
+                ${pricee}
               </p>
               <p className="control">
                 <Link className="button is-primary" to="">
@@ -260,7 +206,7 @@ export const ProductsDetails = () => {
                 alt=""
               />
               <p>Name of product</p>
-              <p className="pt-3">{arr.price}</p>
+              <p className="pt-3">{detail.price}</p>
             </div>
 
             <div>
@@ -272,7 +218,7 @@ export const ProductsDetails = () => {
                 alt=""
               />
               <p>Name of product</p>
-              <p className="pt-3">{arr.price}</p>
+              <p className="pt-3">{detail.price}</p>
             </div>
 
             <div>
@@ -284,7 +230,7 @@ export const ProductsDetails = () => {
                 alt=""
               />
              <p>Name of product</p>
-              <p className="pt-3">{arr.price}</p>
+              <p className="pt-3">{detail.price}</p>
             </div>
 
             <div>
@@ -296,7 +242,7 @@ export const ProductsDetails = () => {
                 alt=""
               />
              <p>Name of product</p>
-              <p className="pt-3">{arr.price}</p>
+              <p className="pt-3">{detail.price}</p>
             </div>
           </div>
         </div>
@@ -315,7 +261,7 @@ export const ProductsDetails = () => {
                 <div class="column is-half">
                   <div className="filee ">
                     <h1 class="pt-4 pl-6 title is-size-1  mb-0 has-text-left">
-                      {arr.rating}
+                      {detail.rating}
                     </h1>
                     <h1 className="pt-6 title is-size-6 pl-3">out 5 stars</h1>
                   </div>
@@ -380,17 +326,37 @@ export const ProductsDetails = () => {
           </div>
           <div className="is-flex-direction-column pt-4 has-text-left">
             <div className="container is-flex-direction-column">
-              
+            <div className="columns pt-6 ">
+                <div className="column is-one-quarter has-text-left">
+                  <h1 className="pt-4 pl-6 title is-size-5">rating acc</h1>
+                  <h1 className="pt-6 pt-4 pl-6 title is-size-5">name acc</h1>
+                  
+                </div>
+                <div class="column is-three-quarters   ">
+                <h1 className="pt-0 title is-size-4 has-text-centered ">name review of acc</h1>
+                  <p className="">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Commodi neque dolores, laboriosam cupiditate incidunt
+                    maiores doloremque illum facere odit fuga voluptatem in
+                    praesentium, aperiam beatae! At dicta dolor ipsam magni.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nulla accusamus accusantium veritatis, impedit, nisi quod
+                    voluptate eius provident consequuntur asperiores adipisci
+                    perferendis minima, id illo dolorem? Provident voluptatem
+                    distinctio nam.
+                  </p>
+                </div>
+              </div>
+                {/* {detail.user.map((e) => (
               <div className="columns my-0 is-flex-direction-column">
-                {arr.user.map((e) => (
                 <div key={e.name} class="column my-0">
                 <h1 className="pt-0 title is-size-4 has-text-left">{e.name}</h1>
                   <p>
                   {e.comment}
                   </p>
               </div>
-                 ))}
                 </div>
+                 ))} */}
               </div>
               <div className="has-text-centered pt-3 pb-6">
                 <button className="button is-warning">Write question</button>
