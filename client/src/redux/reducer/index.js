@@ -21,7 +21,7 @@ function rootReducer(state = initialState, action) {
     case "GET_CLOTHING_DETAIL":
       return {
         ...state,
-        detail: action.payload,
+        detail: action.payload[0],
       };
 
     case "SET_ORDER_PRICE":
