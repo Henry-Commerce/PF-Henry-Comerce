@@ -12,15 +12,17 @@ export const Filter = () => {
   const [isActive2, setisActive2] = useState(false);
   const [isActive3, setisActive3] = useState(false);
 
-  const [categories, setCategories] = useState([]);
+  const handleOnClick = () => {
+    dispatch(getClothing());
+  };
 
-  const allClothing = useSelector((state) => state.allClothing);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     dispatch(getClothing(categories));
   }, [dispatch, categories]);
 
-  const handleChange = (event) => {
+  const handleCategories = (event) => {
     if (event.target.checked) {
       return setCategories([...categories, event.target.value]);
     } else {
@@ -30,10 +32,6 @@ export const Filter = () => {
       return setCategories(change);
     }
   };
-
-  const set = new Set(allClothing.map((element) => element.category));
-
-  const setArray = [...set];
 
   return (
     <div className="box filter">
@@ -60,19 +58,28 @@ export const Filter = () => {
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
           <div className="dropdown-content">
             <label className="checkbox">
-              {setArray.map((element, index) => (
-                <div key={index}>
-                  <input
-                    id={index}
-                    type="checkbox"
-                    value={element}
-                    onClick={(event) => handleChange(event)}
-                  />
-                  <label className="ml-1" htmlFor={index}>
-                    {element}
-                  </label>
-                </div>
-              ))}
+              <input
+                type="checkbox"
+                value="Camisas"
+                onClick={(event) => handleCategories(event)}
+              />
+              <label className="ml-1">Camisas</label>
+            </label>
+            <label className="checkbox">
+              <input
+                type="checkbox"
+                value="Buzos"
+                onClick={(event) => handleCategories(event)}
+              />
+              <label className="ml-1">Buzos</label>
+            </label>
+            <label className="checkbox">
+              <input
+                type="checkbox"
+                value="Gorras"
+                onClick={(event) => handleCategories(event)}
+              />
+              <label className="ml-1">Gorras</label>
             </label>
           </div>
         </div>
@@ -167,7 +174,9 @@ export const Filter = () => {
         </div>
       </div>
       <div className="clear">
-        <a className="has-text-grey">CLEAR ALL</a>
+        <a className="has-text-grey" onClick={() => handleOnClick()}>
+          CLEAR ALL
+        </a>
       </div>
     </div>
   );
