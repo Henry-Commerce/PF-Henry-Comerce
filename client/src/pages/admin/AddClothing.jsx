@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Notify } from '../../components';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { addClothing } from '../../redux/actions';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -10,14 +12,29 @@ import * as Yup from 'yup';
 import { uploadFile } from '../../firebase/config.js';
 import { FaDollarSign } from 'react-icons/fa';
 import { BiRename } from 'react-icons/bi';
+import axios from 'axios';
 
 export const AddClothing = () => {
+  const dispatch = useDispatch();
   const [file, setFile] = useState(null);
+  const [image, setImage] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleaddImage = async (e) => {
     e.preventDefault();
-    const result = await uploadFile(file);
-    console.log(result);
+    await setFile(e.target.files[0]);
+    const data = await new FormData();
+    await data.append('image', file);
+    await data.append('upload_preset', 'images');
+    const res = await axios.post(
+      'https://api.cloudinary.com/v1_1/dmk0kmt7d/image/upload',
+      data
+    );
+    // dispatch(addClothing(data));
+    // const result = await uploadFile(file);
+    // values.image = await result;
+    await console.log(res);
+    setImage(res.secure_url);
+    console.log(image);
   };
 
   const notify = () =>
@@ -34,7 +51,7 @@ export const AddClothing = () => {
   const formik = useFormik({
     initialValues: {
       name: '',
-      category: '',
+      category: 'T-shirt',
       price: '',
       stock: {
         XS: 0,
@@ -51,98 +68,134 @@ export const AddClothing = () => {
       name: Yup.string('Name must be string').required(
         'Name is a required field'
       ),
-      category: Yup.boolean().oneOf([true], 'You must select any category'),
+      category: Yup.string('Name must be string').required(
+        'You must select any category'
+      ),
       price: Yup.number().min(0).required('Price is required'),
       image: Yup.string().required('You must upload an image'),
       description: Yup.string().required('You must add a description'),
     }),
     onSubmit: (formData) => {
-      // console.log(formData);
-
+      console.log('formdata', formData);
+      // dispatch(addClothing(formData));
       handleReset();
       notify();
     },
   });
 
-  return (
-    <div className='container box p-6 has-background-light'>
-      <h1 className='title has-text-centered '>Add Product</h1>
-      <h2 className='subtitle has-text-centered'>
-        Fill in the details correctly
-      </h2>
-      <form action='' onSubmit={handleSubmit}>
-        <div className='field'>
-          <label className='label'>Name</label>
-          <div className='control has-icons-left has-icons-right'>
-            <input
-              className='input'
-              type='text'
-              name='name'
-              placeholder='Enter product name'
-            />
-            <span className='icon is-small is-left'>
-              <BiRename />
-            </span>
-          </div>
-        </div>
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleReset,
+    handleSubmit,
+    errors,
+    touched,
+  } = formik;
 
-        <div className='field'>
-          <label className='label'>Choose category</label>
-          <div className='control'>
-            <div className='select'>
-              <select>
-                <option>T-shirt</option>
-                <option>Pants</option>
-                <option>Jacket</option>
-                <option>Caps</option>
-              </select>
+  return (
+    <>
+      <Notify />
+      <div className='container box p-6 has-background-light'>
+        <h1 className='title has-text-centered '>Add Product</h1>
+        <h2 className='subtitle has-text-centered'>
+          Fill in the details correctly
+        </h2>
+        <form action='' onSubmit={handleSubmit}>
+          <div className='field'>
+            <label className='label'>Name</label>
+            <div className='control has-icons-left has-icons-right'>
+              <input
+                className='input'
+                type='text'
+                name='name'
+                placeholder='Enter product name'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+              />
+              {errors.name && touched.name && (
+                <div className='has-text-danger pt-2'>{errors.name}</div>
+              )}
+              <span className='icon is-small is-left'>
+                <BiRename />
+              </span>
             </div>
           </div>
-        </div>
 
-        <div className='field'>
-          <label className='label'>Price</label>
-          <div className='control has-icons-left has-icons-right'>
-            <input
-              className='input is-danger'
-              type='number'
-              placeholder='Enter the price of the garment'
-              name='price'
-            />
-            <span className='icon is-small is-left'>
-              <FaDollarSign />
-            </span>
-          </div>
-        </div>
-
-        <div className='field'>
-          <label className='label'>Image</label>
-          <input type='file' onChange={(e) => setFile(e.target.files[0])} />
-        </div>
-
-        <div className='field'>
-          <label className='label'>Product description</label>
-          <div className='control'>
-            <textarea
-              className='textarea'
-              placeholder='Want to tell anything?'
-              name='description'
-            />
-          </div>
-        </div>
-
-        <div className='field is-grouped'>
-          <div className='control'>
-            <button className='button is-primary' type='submit'>
-              Add
-            </button>
+          <div className='field'>
+            <label className='label'>Choose category</label>
+            <div className='control'>
+              <div className='select'>
+                <select
+                  value={values.category}
+                  onChange={handleChange}
+                  name='category'>
+                  <option>T-shirt</option>
+                  <option>Pants</option>
+                  <option>Jacket</option>
+                  <option>Caps</option>
+                </select>
+              </div>
+            </div>
           </div>
 
-          <div className='control'>
-            <button className='button is-link is-light'>Clear</button>
+          <div className='field'>
+            <label className='label'>Price</label>
+            <div className='control has-icons-left has-icons-right'>
+              <input
+                className='input'
+                type='number'
+                placeholder='Enter the price of the garment'
+                name='price'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.price}
+              />
+              {errors.price && touched.price && (
+                <div className='has-text-danger pt-2'>{errors.price}</div>
+              )}
+              <span className='icon is-small is-left'>
+                <FaDollarSign />
+              </span>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+
+          <div className='field'>
+            <label className='label'>Image</label>
+            <input type='file' name='image' onChange={handleaddImage} />
+          </div>
+
+          <div className='field'>
+            <label className='label'>Product description</label>
+            <div className='control'>
+              <textarea
+                className='textarea'
+                placeholder='Want to tell anything?'
+                name='description'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.description}
+              />
+              {errors.description && touched.description && (
+                <div className='has-text-danger pt-2'>{errors.description}</div>
+              )}
+            </div>
+          </div>
+
+          <div className='field is-grouped'>
+            <div className='control'>
+              <button className='button is-primary' type='submit'>
+                Add
+              </button>
+            </div>
+
+            <div className='control'>
+              <button className='button is-link is-light'>Clear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
