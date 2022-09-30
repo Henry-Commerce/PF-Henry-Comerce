@@ -40,6 +40,12 @@ function rootReducer(state = initialState, action) {
         allClothing: orderByPrice,
       };
 
+    case "SEARCH_CLOTHING_NAME":
+      return {
+        ...state,
+        allClothing: action.payload,
+      };
+
     case "ADD_CLOTHING":
 
     case "FILTER_CLOTHING":
