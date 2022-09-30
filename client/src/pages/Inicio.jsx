@@ -9,6 +9,7 @@ import { getClothing } from "../redux/actions";
 import { Loading, Product } from "../components";
 import { Order } from "../components/Order/Order";
 import { Filter } from "../components/Filter/Filter";
+import { setOrderByPrice } from "../redux/actions";
 
 export const Inicio = () => {
   const dispatch = useDispatch();
@@ -16,10 +17,16 @@ export const Inicio = () => {
   const clothing = useSelector((state) => state.allClothing);
   const notFound = useSelector((state) => state.notFound);
   const Added = useSelector((state) => state.added);
+  const [, setOrder] = useState("");
 
   useEffect(() => {
     dispatch(getClothing());
   }, [dispatch]);
+
+  const handleOrderByPrice = (event) => {
+    dispatch(setOrderByPrice(event.target.value));
+    setOrder(event.target.value);
+  };
 
   return (
     <>
@@ -31,7 +38,7 @@ export const Inicio = () => {
               <Filter />
             </div>
             <div className="column is-10">
-              <Order />
+              <Order handleOrderByPrice={handleOrderByPrice} />
               <div className="mb-20 columns is-multiline">
                 {clothing.map((product, index) => {
                   return (
