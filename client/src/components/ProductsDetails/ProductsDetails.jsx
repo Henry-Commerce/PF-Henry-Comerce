@@ -43,7 +43,7 @@ export const ProductsDetails = () => {
 
   const [pricee, setPrice] = useState(detail.price);
   
-  let printStock = [detail.stock]
+  let printStock = [detail.stock] 
 
   console.log(printStock);
   
