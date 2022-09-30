@@ -19,6 +19,22 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/search', async(req, res) => {
+  try{
+    if(req.query.name) {
+      const name = req.query.name;
+      const foundName = await ClothingModel.find({name: {'$regex' : name, '$options' : 'i'}});
+      if(foundName.length > 0) {
+        return res.json(foundName);
+      } else {
+        return res.status(404).send("No hay coincidencias")
+      }
+    } 
+  } catch (error) {
+    res.status(404).send("No hay coincidencias");
+  }
+});
+
 router.get('/:name', async(req, res) => {
   const { name } = req.params;
   try {
