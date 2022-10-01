@@ -46,10 +46,10 @@ function rootReducer(state = initialState, action) {
         allClothing: action.payload,
       };
 
-        case 'ADD_CLOTHING':
-            return {
-                ...state,
-            }
+    case "ADD_CLOTHING":
+      return {
+        ...state,
+      };
 
     case "FILTER_CLOTHING":
 
@@ -60,6 +60,13 @@ function rootReducer(state = initialState, action) {
     case "RESET_DETAIL":
 
     case "RESET_CLOTHING":
+
+    case "CLEAR_STATE":
+      return {
+        ...state,
+        allClothing: [],
+        filtered: [],
+      };
 
     default:
       return state;
