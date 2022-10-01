@@ -60,18 +60,18 @@ export function getClothing(categories) {
 }
 
 export function addClothing(payload) {
-    return async function (dispatch) {
-        try {
-            var info = await axios.post(`${LOCAL_HOST}/api/add`, payload)
-            return dispatch({
-                type: 'ADD_CLOTHING',
-                info,
-            })
-        } catch (error) {
-            const errorMessage = { error: error.message }
-            console.log(errorMessage)
-        }
+  return async function (dispatch) {
+    try {
+      var info = await axios.post(`${LOCAL_HOST}/api/add`, payload);
+      return dispatch({
+        type: "ADD_CLOTHING",
+        info,
+      });
+    } catch (error) {
+      const errorMessage = { error: error.message };
+      console.log(errorMessage);
     }
+  };
 }
 
 export function getClothingDetail(name) {
@@ -111,5 +111,11 @@ export function setOrderByPrice(price) {
   return {
     type: "SET_ORDER_PRICE",
     payload: price,
+  };
+}
+
+export function clearState() {
+  return (dispatch) => {
+    dispatch({ type: "CLEAR_STATE" });
   };
 }
