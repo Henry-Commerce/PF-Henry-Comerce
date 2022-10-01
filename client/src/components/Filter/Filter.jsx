@@ -20,7 +20,7 @@ export const Filter = () => {
   const [checked3, setChecked3] = useState(false);
 
   const toggleChecked = () => {
-    dispatch(getClothing()); // El problema es q no estoy limpiando el estado, solo vuelvo a traer las cosas
+    dispatch(getClothing());
     dispatch(clearState());
     setChecked(false);
     setChecked1(false);
@@ -54,6 +54,9 @@ export const Filter = () => {
       <div
         onClick={() => {
           setisActive(!isActive);
+          setisActive1(false);
+          setisActive2(false);
+          setisActive3(false);
         }}
         className={`dropdown dropdown ${isActive ? "is-active" : ""}`}
       >
@@ -125,7 +128,10 @@ export const Filter = () => {
 
       <div
         onClick={() => {
+          setisActive(false);
           setisActive1(!isActive1);
+          setisActive2(false);
+          setisActive3(false);
         }}
         className={`dropdown dropdown ${isActive1 ? "is-active" : ""}`}
       >
@@ -173,7 +179,10 @@ export const Filter = () => {
 
       <div
         onClick={() => {
+          setisActive(false);
+          setisActive1(false);
           setisActive2(!isActive2);
+          setisActive3(false);
         }}
         className={`dropdown dropdown ${isActive2 ? "is-active" : ""}`}
       >
@@ -201,6 +210,9 @@ export const Filter = () => {
 
       <div
         onClick={() => {
+          setisActive(false);
+          setisActive1(false);
+          setisActive2(false);
           setisActive3(!isActive3);
         }}
         className={`dropdown dropdown ${isActive3 ? "is-active" : ""}`}
