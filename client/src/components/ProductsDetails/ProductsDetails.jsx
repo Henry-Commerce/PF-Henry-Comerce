@@ -14,16 +14,16 @@ export const ProductsDetails = () => {
   const detail = useSelector((state) => state.detail);
   const allProducts = useSelector(state => state.allClothing)
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id,name } = useParams();
 
 
 
   useEffect(() => {
     dispatch(getClothingDetail(id));
-    dispatch(getClothing());
+    dispatch(getClothing(name));
   }, [dispatch]);
 
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
 
   const [stockk, setStock] = useState(1);
 
@@ -33,20 +33,29 @@ export const ProductsDetails = () => {
 
   const recomended = Object.values(allProducts).filter((e) => e.category === detail.category);
 
-  console.log(recomended)
+ 
 
   let printStock = [detail.stock];
 
  
 
   const selectSize = (e) => {
+    
+    if(printStock[0][e.target.value] === 0){
+      setCount(0)
+      setPrice(0, "No contamos con stock :(")
+    } else {
+      setStock(printStock[0][e.target.value])
+      setCount(1);
+      setPrice(detail.price);
+    }
     setSize(e.target.value);
-    setStock(printStock[0][e.target.value]);
-    setCount(1);
-    setPrice(detail.price);
   };
 
   const sumStock = (e) => {
+    if(count === 0){
+      return 
+    }
     if (count >= stockk) {
       return;
     } else {
@@ -56,6 +65,9 @@ export const ProductsDetails = () => {
   };
 
   const downStock = () => {
+    if (count < 1){
+      return
+    }
     if (count === 1) {
       return;
     } else {
@@ -185,7 +197,8 @@ export const ProductsDetails = () => {
           </div>
           <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold ">
             {recomended.map((e) => (
-            <div className="">
+             <a href={"http://127.0.0.1:5173/products/" + e.name}>
+            <div>
               <img
                 className=" image "
                 width="200"
@@ -196,42 +209,9 @@ export const ProductsDetails = () => {
               <p>{e.name}</p>
               <p className="pt-3">{e.price}</p>
             </div>
+            </a>
 ))}
-            {/* <div>
-              <img
-                className="image "
-                width="200"
-                height="120"
-                src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwb21f3df3/1_front_750/00463564-02.jpg?sw=276&sh=414"
-                alt=""
-              />
-              <p>Name of product</p>
-              <p className="pt-3">{detail.price}</p>
-            </div>
-
-            <div>
-              <img
-                className="image"
-                width="200"
-                height="120"
-                src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dw24c02e7a/1_front_750/00464839-13.jpg?sw=276&sh=414"
-                alt=""
-              />
-              <p>Name of product</p>
-              <p className="pt-3">{detail.price}</p>
-            </div>
-
-            <div>
-              <img
-                className="image"
-                width="200"
-                height="120"
-                src="https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwaa67b43b/1_front_750/00468678-03.jpg?sw=276&sh=414"
-                alt=""
-              />
-              <p>Name of product</p>
-              <p className="pt-3">{detail.price}</p>
-            </div> */}
+            
           </div>
         </div>
       </div>
@@ -314,14 +294,8 @@ export const ProductsDetails = () => {
               QUESTIONS
             </h3>
           </div>
-          <div className="is-flex-direction-column pt-4 has-text-left">
-            <div className="container is-flex-direction-column">
               <div className="columns pt-6 ">
-                <div className="column is-one-quarter has-text-left">
-                  <h1 className="pt-4 pl-6 title is-size-5">rating acc</h1>
-                  <h1 className="pt-6 pt-4 pl-6 title is-size-5">name acc</h1>
-                </div>
-                <div className="column is-three-quarters   ">
+                <div className="column">
                   <h1 className="pt-0 title is-size-4 has-text-centered ">
                     name review of acc
                   </h1>
@@ -354,8 +328,6 @@ export const ProductsDetails = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
   );
 };
 
