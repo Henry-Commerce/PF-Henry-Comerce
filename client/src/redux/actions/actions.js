@@ -3,18 +3,11 @@
 import axios from "axios";
 const LOCAL_HOST = "http://localhost:3001";
 
-export function getClothing(categories) {
+export function getClothing(allFilters) {
   return async function (dispatch) {
-    let joinCategories;
     try {
-      if (categories) {
-        joinCategories = categories.join(",");
-      } else {
-        joinCategories = "";
-      }
-      console.log(joinCategories);
       axios
-        .get(`${LOCAL_HOST}/api/clothing?categories=${joinCategories}`)
+        .get(`${LOCAL_HOST}/api/clothing?${allFilters}`)
         .then((response) => {
           return dispatch({ type: "GET_CLOTHING", payload: response.data });
         })

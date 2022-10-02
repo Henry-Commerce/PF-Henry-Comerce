@@ -28,12 +28,16 @@ export const Filter = () => {
     setChecked3(false);
   };
 
-  // To filter categories
+  // To filter
   const [categories, setCategories] = useState([]);
+  const [size, setSize] = useState([]);
+  const [price, setPrice] = useState([]);
+
+  const allFilters = `categories=${categories.join(",")}&size=${size.join(",")}&price=${price.join(",")}`;
 
   useEffect(() => {
-    dispatch(getClothing(categories));
-  }, [dispatch, categories]);
+    dispatch(getClothing(allFilters));
+  }, [dispatch, allFilters]);
 
   const handleCategories = (event) => {
     if (event.target.checked) {
@@ -43,6 +47,24 @@ export const Filter = () => {
         (element) => element != event.target.value
       );
       return setCategories(change);
+    }
+  };
+
+  const handleSize = (event) => {
+    if (event.target.checked) {
+      return setSize([...size, event.target.value]);
+    } else {
+      const change = size.filter((element) => element != event.target.value);
+      return setSize(change);
+    }
+  };
+
+  const handlePrice = (event) => {
+    if (event.target.checked) {
+      return setPrice([...price, event.target.value]);
+    } else {
+      const change = price.filter((element) => element != event.target.value);
+      return setPrice(change);
     }
   };
 
@@ -150,27 +172,51 @@ export const Filter = () => {
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
           <div className="dropdown-content">
             <label className="checkbox">
-              <input type="checkbox" value="XS" onClick={""} />
+              <input
+                type="checkbox"
+                value="XS"
+                onClick={(event) => handleSize(event)}
+              />
               <label className="ml-1">XS</label>
             </label>
             <label className="checkbox">
-              <input type="checkbox" value="S" onClick={""} />
+              <input
+                type="checkbox"
+                value="S"
+                onClick={(event) => handleSize(event)}
+              />
               <label className="ml-1">S</label>
             </label>
             <label className="checkbox">
-              <input type="checkbox" value="M" onClick={""} />
+              <input
+                type="checkbox"
+                value="M"
+                onClick={(event) => handleSize(event)}
+              />
               <label className="ml-1">M</label>
             </label>
             <label className="checkbox">
-              <input type="checkbox" value="L" onClick={""} />
+              <input
+                type="checkbox"
+                value="L"
+                onClick={(event) => handleSize(event)}
+              />
               <label className="ml-1">L</label>
             </label>
             <label className="checkbox">
-              <input type="checkbox" value="XL" onClick={""} />
+              <input
+                type="checkbox"
+                value="XL"
+                onClick={(event) => handleSize(event)}
+              />
               <label className="ml-1">XL</label>
             </label>
             <label className="checkbox">
-              <input type="checkbox" value="XXL" onClick={""} />
+              <input
+                type="checkbox"
+                value="XXL"
+                onClick={(event) => handleSize(event)}
+              />
               <label className="ml-1">XXL</label>
             </label>
           </div>
@@ -232,15 +278,27 @@ export const Filter = () => {
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
           <div className="dropdown-content">
             <label className="checkbox">
-              <input type="checkbox" value="0-25" />
+              <input
+                type="checkbox"
+                value="0-25"
+                onClick={(event) => handlePrice(event)}
+              />
               <span className="ml-1">$0 - $25</span>
             </label>
             <label className="checkbox">
-              <input type="checkbox" value="25-50" />
+              <input
+                type="checkbox"
+                value="25-50"
+                onClick={(event) => handlePrice(event)}
+              />
               <span className="ml-1">$25 - $50</span>
             </label>
             <label className="checkbox">
-              <input type="checkbox" value="50-100" />
+              <input
+                type="checkbox"
+                value="50-100"
+                onClick={(event) => handlePrice(event)}
+              />
               <span className="ml-1">$50 - $100</span>
             </label>
           </div>
