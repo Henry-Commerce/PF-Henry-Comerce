@@ -85,6 +85,9 @@ export const Nav = () => {
                 </a>
               </div>
             </div>
+            <Link className="navbar-item jsi" to="/admin/add">
+            Add new Products
+            </Link>
             <Link className="navbar-item jsi" to="/news">
               News
             </Link>
