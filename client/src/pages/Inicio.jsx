@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { getClothing } from "../redux/actions";
 
-import { Loading, Product } from "../components";
+import { Loading, Pagination, Product } from "../components";
 import { Order } from "../components/Order/Order";
 import { Filter } from "../components/Filter/Filter";
 import { setOrderByPrice } from "../redux/actions";
@@ -18,6 +18,21 @@ export const Inicio = () => {
   const notFound = useSelector((state) => state.notFound);
   const Added = useSelector((state) => state.added);
   const [, setOrder] = useState("");
+  
+
+  
+  // PAGINADO
+  const quantyProducts = useSelector((state) => state.allClothing.length);
+  const [currentPage,setCurrentPage] = useState(1)
+  const [productsPage ] = useState(12);
+  const lastProduct = currentPage* productsPage; 
+  const firstProduct = lastProduct - productsPage;
+
+ const currentProducts = clothing.slice(firstProduct,lastProduct);
+
+ const paginado = (pageNumber) => {
+  setCurrentPage(pageNumber)
+ }
 
   useEffect(() => {
     dispatch(getClothing());
@@ -38,9 +53,10 @@ export const Inicio = () => {
               <Filter />
             </div>
             <div className="column is-10">
+              
               <Order handleOrderByPrice={handleOrderByPrice} />
               <div className="mb-20 columns is-multiline">
-                {clothing.map((product, index) => {
+                {currentProducts.map((product, index) => {
                   return (
                     <Product
                       key={index}
@@ -53,11 +69,21 @@ export const Inicio = () => {
               </div>
             </div>
           </div>
-          <div className="has-text-centered">
+          <Pagination
+          productsPage={productsPage}
+          clothing={clothing.length}
+          paginado={paginado}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          />
+
+          
+          {/* <div className="has-text-centered">
             <a className="button is-primary mt-6" href="#">
               Show More
             </a>
-          </div>
+          </div> */}
+
         </section>
       )}
       {notFound && (
