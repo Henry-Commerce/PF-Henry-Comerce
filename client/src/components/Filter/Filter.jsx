@@ -223,7 +223,7 @@ export const Filter = () => {
         </div>
       </div>
 
-      <div
+      {/* <div
         onClick={() => {
           setisActive(false);
           setisActive1(false);
@@ -252,7 +252,7 @@ export const Filter = () => {
             </label>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div
         onClick={() => {
