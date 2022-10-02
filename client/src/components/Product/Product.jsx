@@ -11,9 +11,9 @@ export const Product = ({ name, image, price }) => {
       to={"/products/"+name}
       preventScrollReset={false}>
       <div className='has-background-white pt-4 px-10 pb-10 is-relative'>
-        <span className='is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-danger has-text-weight-bold'>
+        {/* <span className='is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-danger has-text-weight-bold'>
           -15%
-        </span>
+        </span> */}
         <a className='mt-6 mb-2 px-6 is-block' href='#'>
           <img
             className='mx-auto mb-5 image'
@@ -29,13 +29,13 @@ export const Product = ({ name, image, price }) => {
             <span className='has-text-info is-size-5 has-text-weight-bold'>
               ${price}
             </span>
-            <span
+            {/* <span
               className='has-text-grey-dark is-size-7 has-text-weight-normal pl-1'
               style={{
                 textDecoration: 'line-through',
               }}>
               $33.69
-            </span>
+            </span> */}
           </p>
         </a>
         <a
