@@ -180,6 +180,7 @@ const CreateClothes = () => {
 
                 <div class="select">
                   <select name="category" onChange={(e) => handleChange(e)}>
+                  <option value="" >Select option</option>
                     <option value="Camisas">Camisas</option>
                     <option value="Buzos">Buzos</option>
                     <option value="Gorras">Gorras</option>

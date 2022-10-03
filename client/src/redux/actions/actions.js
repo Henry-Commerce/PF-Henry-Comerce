@@ -70,7 +70,7 @@ export function getClothing(allFilters) {
 export function addClothing(data) {
   return async function (dispatch) {
     try {
-      const info = await axios.post(`${LOCAL_HOST}/api/add`, data);
+      const info = await axios.post(`${LOCAL_HOST}/api/clothing/add`, data);
       return dispatch({
         type: "ADD_CLOTHING",
         payload:info.data
