@@ -2,6 +2,7 @@
 
 import { Route, Routes } from 'react-router-dom';
 import { ProductsDetails } from '../components';
+import CreateClothes from '../pages/admin/CreateClothes';
 import {
   Page404,
   Login,
@@ -14,6 +15,9 @@ import {
   AddClothing,
   FAQ,
 } from '../pages';
+
+
+
 
 export const Rutas = () => {
   return (
@@ -34,6 +38,7 @@ export const Rutas = () => {
       <Route path='/faq' element={<FAQ />} />
 
       <Route path='/admin/add' element={<AddClothing />} />
+      <Route path="/admin/create" element={<CreateClothes/>}/>
     </Routes>
   );
 };

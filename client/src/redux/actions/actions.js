@@ -52,7 +52,7 @@ export function getClothing(allFilters) {
   };
 }
 
-export function addClothing(payload) {
+/* export function addClothing(payload) {
   return async function (dispatch) {
     try {
       var info = await axios.post(`${LOCAL_HOST}/api/add`, payload);
@@ -65,7 +65,23 @@ export function addClothing(payload) {
       console.log(errorMessage);
     }
   };
+} */
+
+export function addClothing(data) {
+  return async function (dispatch) {
+    try {
+      const info = await axios.post(`${LOCAL_HOST}/api/add`, data);
+      return dispatch({
+        type: "ADD_CLOTHING",
+        payload:info.data
+      });
+    } catch (error) {
+      const errorMessage = { error: error.message };
+      console.log(errorMessage);
+    }
+  };
 }
+
 
 export function getClothingDetail(name) {
   return async function (dispatch) {
