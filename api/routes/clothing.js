@@ -25,6 +25,17 @@ router.get('/', async (req, res) => {
         responseArraySize.push(responseArrayCat[0].filter(elementFilter => elementFilter.stock[element] > 0));
       });
       return res.status(200).send(responseArraySize.flat());
+    } else if (req.query.categories  && !req.query.size  && req.query.price) {
+      const categories = req.query.categories.split(',');
+      const responseArrayCat = [];
+      categories.forEach(element => {
+        responseArrayCat.push(response.filter(elementFilter => elementFilter.category === element));
+      });
+      responseArrayCat.flat();
+      const price = req.query.price.split('-');
+      const responseArrayPrice = [];
+      responseArrayPrice.push(responseArrayCat[0].filter(elementFilter => elementFilter.price > parseInt(price[0]) && elementFilter.price < parseInt(price[1])));
+      return res.status(200).send(responseArrayPrice[0]);
     } else if (req.query.categories  && req.query.size  && req.query.price ) {
       const categories = req.query.categories.split(',');
       const responseArrayCat = [];
