@@ -33,6 +33,9 @@ export const ProductsDetails = () => {
 
   const recomended = Object.values(allProducts).filter((e) => e.category === detail.category);
 
+  
+ 
+
  
 
   let printStock = [detail.stock];
@@ -88,8 +91,8 @@ export const ProductsDetails = () => {
     <div>
       <section className="pt-6"></section>
       <div className="container has-text-left pt-6">
-        <div className="columns">
-          <div className="column is-half border-rigth">
+        <div className="columns is-centered">
+          <div className="column is-half border-rigth filee">
             <section className="pl-6"></section>
             <img className="" src={detail.image} alt="" />
           </div>
@@ -168,6 +171,7 @@ export const ProductsDetails = () => {
                 </button>
               </div>
             </div>
+            <div>{detail.description}</div>
             <div className="pt-6 pl-6 pb-6 border-bottom"></div>
             <section className="pt-6"></section>
             <div className="pl-6 pr-6 card-header-title ">
@@ -196,12 +200,12 @@ export const ProductsDetails = () => {
             </h3>
           </div>
           <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold ">
-            {recomended.map((e) => (
+            {recomended.slice(0,4).map((e) => (
              <a href={"http://127.0.0.1:5173/products/" + e.name}>
             <div>
               <img
-                className=" image "
-                width="200"
+                className="image"
+                width="220"
                 height="120"
                 src={e.image}
                 alt=""
