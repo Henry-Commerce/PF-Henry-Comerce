@@ -147,7 +147,7 @@ export const AddClothing = () => {
                                     <option>Camisas</option>
                                     <option>Pantalones</option>
                                     <option>Sudaderas</option>
-                                    <option>Gorras</option>
+                                    <option>Accesorios</option>
                                 </select>
                             </div>
                         </div>

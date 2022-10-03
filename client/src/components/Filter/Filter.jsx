@@ -104,19 +104,19 @@ export const Filter = () => {
                 type="checkbox"
                 value="T-shirt"
                 checked={checked}
-                onClick={(event) => handleCategories(event)}
+                onChange={(event) => handleCategories(event)}
               />
               <span className="ml-1">Camisas</span>
             </label>
             <label
               className="checkbox"
-              onClick={() => setChecked1((check) => !check)}
+              onChange={() => setChecked1((check) => !check)}
             >
               <input
                 type="checkbox"
                 value="Pants"
                 checked={checked1}
-                onClick={(event) => handleCategories(event)}
+                onChange={(event) => handleCategories(event)}
               />
               <span className="ml-1">Pantalones</span>
             </label>
@@ -126,11 +126,11 @@ export const Filter = () => {
             >
               <input
                 type="checkbox"
-                value="Caps"
+                value="Accesories"
                 checked={checked2}
-                onClick={(event) => handleCategories(event)}
+                onChange={(event) => handleCategories(event)}
               />
-              <span className="ml-1">Gorras</span>
+              <span className="ml-1">Accesorios</span>
             </label>
             <label
               className="checkbox"
@@ -140,7 +140,7 @@ export const Filter = () => {
                 type="checkbox"
                 value="Jacket"
                 checked={checked3}
-                onClick={(event) => handleCategories(event)}
+                onChange={(event) => handleCategories(event)}
               />
               <span className="ml-1">Sudaderas</span>
             </label>
@@ -175,7 +175,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="XS"
-                onClick={(event) => handleSize(event)}
+                onChange={(event) => handleSize(event)}
               />
               <span className="ml-1">XS</span>
             </label>
@@ -183,7 +183,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="S"
-                onClick={(event) => handleSize(event)}
+                onChange={(event) => handleSize(event)}
               />
               <span className="ml-1">S</span>
             </label>
@@ -191,7 +191,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="M"
-                onClick={(event) => handleSize(event)}
+                onChange={(event) => handleSize(event)}
               />
               <span className="ml-1">M</span>
             </label>
@@ -199,7 +199,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="L"
-                onClick={(event) => handleSize(event)}
+                onChange={(event) => handleSize(event)}
               />
               <span className="ml-1">L</span>
             </label>
@@ -207,7 +207,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="XL"
-                onClick={(event) => handleSize(event)}
+                onChange={(event) => handleSize(event)}
               />
               <span className="ml-1">XL</span>
             </label>
@@ -215,7 +215,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="XXL"
-                onClick={(event) => handleSize(event)}
+                onChange={(event) => handleSize(event)}
               />
               <span className="ml-1">XXL</span>
             </label>
@@ -281,7 +281,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="0-25"
-                onClick={(event) => handlePrice(event)}
+                onChange={(event) => handlePrice(event)}
               />
               <span className="ml-1">$0 - $25</span>
             </label>
@@ -289,7 +289,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="25-50"
-                onClick={(event) => handlePrice(event)}
+                onChange={(event) => handlePrice(event)}
               />
               <span className="ml-1">$25 - $50</span>
             </label>
@@ -297,7 +297,7 @@ export const Filter = () => {
               <input
                 type="checkbox"
                 value="50-100"
-                onClick={(event) => handlePrice(event)}
+                onChange={(event) => handlePrice(event)}
               />
               <span className="ml-1">$50 - $100</span>
             </label>
