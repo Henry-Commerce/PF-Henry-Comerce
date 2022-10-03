@@ -114,7 +114,7 @@ export const Filter = () => {
             >
               <input
                 type="checkbox"
-                value="Pants"
+                value="Pantalones"
                 checked={checked1}
                 onChange={(event) => handleCategories(event)}
               />
@@ -126,7 +126,7 @@ export const Filter = () => {
             >
               <input
                 type="checkbox"
-                value="Accesories"
+                value="Accesorios"
                 checked={checked2}
                 onChange={(event) => handleCategories(event)}
               />
