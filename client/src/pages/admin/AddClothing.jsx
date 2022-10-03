@@ -144,10 +144,10 @@ export const AddClothing = () => {
                                     value={values.category}
                                     onChange={handleChange}
                                     name='category'>
-                                    <option>T-shirt</option>
-                                    <option>Pants</option>
-                                    <option>Jacket</option>
-                                    <option>Caps</option>
+                                    <option>Camisas</option>
+                                    <option>Pantalones</option>
+                                    <option>Sudaderas</option>
+                                    <option>Gorras</option>
                                 </select>
                             </div>
                         </div>
