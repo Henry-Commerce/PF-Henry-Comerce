@@ -85,7 +85,7 @@ export const AddClothing = () => {
                 'You must select any category'
             ),
             price: Yup.number().min(0).required('Price is required'),
-            image: Yup.string().required('You must upload an image'),
+            // image: Yup.string().required('You must upload an image'),
             description: Yup.string().required('You must add a description'),
         }),
         onSubmit: (formData) => {
