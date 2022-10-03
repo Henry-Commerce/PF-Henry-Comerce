@@ -26,7 +26,7 @@ export const AddClothing = () => {
         const data = new FormData()
         data.append('file', e.target.files[0])
         data.append('upload_preset', 'images')
-        data.append('cloud_name', 'dmk0kmt7d')
+        data.append('cloud_name', 'dg50vvzpm')
         data.append('public_id', v4())
         // const res = await axios.post(
         //     'https://api.cloudinary.com/v1_1/dmk0kmt7d/image/upload',
@@ -34,7 +34,7 @@ export const AddClothing = () => {
         // )
 
         const res = await fetch(
-            '  https://api.cloudinary.com/v1_1/dmk0kmt7d/image/upload',
+            '  https://api.cloudinary.com/v1_1/dg50vvzpm/image/upload',
             {
                 method: 'post',
                 body: data,
@@ -47,8 +47,6 @@ export const AddClothing = () => {
                 setImage(data.url)
             })
             .catch((err) => console.log(err))
-        // dispatch(addClothing(data));
-        // const result = await uploadFile(file);
         values.image = image
     }
 
