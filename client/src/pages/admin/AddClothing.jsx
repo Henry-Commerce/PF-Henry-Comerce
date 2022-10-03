@@ -1,6 +1,6 @@
 /** @format */
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Notify } from '../../components'
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,13 +28,9 @@ export const AddClothing = () => {
         data.append('upload_preset', 'images')
         data.append('cloud_name', 'dg50vvzpm')
         data.append('public_id', v4())
-        // const res = await axios.post(
-        //     'https://api.cloudinary.com/v1_1/dmk0kmt7d/image/upload',
-        //     data
-        // )
 
-        const res = await fetch(
-            '  https://api.cloudinary.com/v1_1/dg50vvzpm/image/upload',
+        await fetch(
+            'https://api.cloudinary.com/v1_1/dg50vvzpm/image/upload',
             {
                 method: 'post',
                 body: data,
@@ -43,12 +39,14 @@ export const AddClothing = () => {
             .then((resp) => resp.json())
             .then((data) => {
                 console.log(data)
-
                 setImage(data.url)
             })
-            .catch((err) => console.log(err))
-        values.image = image
+            .catch((err) => console.log(err));
     }
+    
+    useEffect(() => {
+        values.image = image;
+    }, [image])
 
     const notify = () =>
         toast.success('🦄 Prenda añadida correctamente', {
