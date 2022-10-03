@@ -16,8 +16,6 @@ export const ProductsDetails = () => {
   const dispatch = useDispatch();
   const { id,name } = useParams();
 
-
-
   useEffect(() => {
     dispatch(getClothingDetail(id));
     dispatch(getClothing(name));
@@ -90,7 +88,7 @@ export const ProductsDetails = () => {
       <section className="pt-6"></section>
       <div className="container has-text-left pt-6">
         <div className="columns">
-          <div className="column is-half border-rigth">
+          <div className="column is-half border-rigth filee">
             <section className="pl-6"></section>
             <img className="" src={detail.image} alt="" />
           </div>
@@ -197,7 +195,7 @@ export const ProductsDetails = () => {
             </h3>
           </div>
           <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold ">
-            {recomended.map((e) => (
+            {recomended.slice(0, 4).map((e) => (
              <a href={"http://127.0.0.1:5173/products/" + e.name}>
             <div>
               <img

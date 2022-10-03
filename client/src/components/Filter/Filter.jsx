@@ -4,7 +4,7 @@ import { getClothing, clearState } from "../../redux/actions/actions";
 import { AiOutlineDown } from "react-icons/ai";
 import "./Filter.scss";
 
-export const Filter = () => {
+export const Filter = ({ setCurrentPage }) => {
   const dispatch = useDispatch();
 
   // To open dropdown
@@ -33,7 +33,9 @@ export const Filter = () => {
   const [size, setSize] = useState([]);
   const [price, setPrice] = useState([]);
 
-  const allFilters = `categories=${categories.join(",")}&size=${size.join(",")}&price=${price.join(",")}`;
+  const allFilters = `categories=${categories.join(",")}&size=${size.join(
+    ","
+  )}&price=${price.join(",")}`;
 
   useEffect(() => {
     dispatch(getClothing(allFilters));
@@ -41,28 +43,34 @@ export const Filter = () => {
 
   const handleCategories = (event) => {
     if (event.target.checked) {
+      setCurrentPage(1);
       return setCategories([...categories, event.target.value]);
     } else {
       const change = categories.filter(
         (element) => element != event.target.value
       );
+      setCurrentPage(1);
       return setCategories(change);
     }
   };
 
   const handleSize = (event) => {
     if (event.target.checked) {
+      setCurrentPage(1);
       return setSize([...size, event.target.value]);
     } else {
       const change = size.filter((element) => element != event.target.value);
+      setCurrentPage(1);
       return setSize(change);
     }
   };
 
   const handlePrice = (event) => {
     if (event.target.checked) {
+      setCurrentPage(1);
       return setPrice([...price, event.target.value]);
     } else {
+      setCurrentPage(1);
       const change = price.filter((element) => element != event.target.value);
       return setPrice(change);
     }

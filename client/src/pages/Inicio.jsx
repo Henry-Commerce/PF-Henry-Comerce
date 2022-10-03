@@ -18,21 +18,19 @@ export const Inicio = () => {
   const notFound = useSelector((state) => state.notFound);
   const Added = useSelector((state) => state.added);
   const [, setOrder] = useState("");
-  
 
-  
   // PAGINADO
   const quantyProducts = useSelector((state) => state.allClothing.length);
-  const [currentPage,setCurrentPage] = useState(1)
-  const [productsPage ] = useState(12);
-  const lastProduct = currentPage* productsPage; 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPage] = useState(12);
+  const lastProduct = currentPage * productsPage;
   const firstProduct = lastProduct - productsPage;
 
- const currentProducts = clothing.slice(firstProduct,lastProduct);
+  const currentProducts = clothing.slice(firstProduct, lastProduct);
 
- const paginado = (pageNumber) => {
-  setCurrentPage(pageNumber)
- }
+  const paginado = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
     dispatch(getClothing());
@@ -50,10 +48,9 @@ export const Inicio = () => {
           <h2 className="title mb-16 mb-24-tablet">Discover our products</h2>
           <div className="columns">
             <div className="column is-2 center is-justify-content-center">
-              <Filter />
+              <Filter setCurrentPage={setCurrentPage}/>
             </div>
             <div className="column is-10">
-              
               <Order handleOrderByPrice={handleOrderByPrice} />
               <div className="mb-20 columns is-multiline">
                 {currentProducts.map((product, index) => {
@@ -70,20 +67,18 @@ export const Inicio = () => {
             </div>
           </div>
           <Pagination
-          productsPage={productsPage}
-          clothing={clothing.length}
-          paginado={paginado}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+            productsPage={productsPage}
+            clothing={clothing.length}
+            paginado={paginado}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
 
-          
           {/* <div className="has-text-centered">
             <a className="button is-primary mt-6" href="#">
               Show More
             </a>
           </div> */}
-
         </section>
       )}
       {notFound && (
