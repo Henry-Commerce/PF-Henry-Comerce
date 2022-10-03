@@ -66,6 +66,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         allClothing: [],
         filtered: [],
+        detail: [],
       };
 
     default:

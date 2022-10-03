@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getClothingDetail } from "../../redux/actions/actions";
 import { Loading } from "../Loading/Loading";
-import { getClothing } from "../../redux/actions/actions";
+import { getClothing, clearState } from "../../redux/actions/actions";
  
 export const ProductsDetails = () => {
   const detail = useSelector((state) => state.detail);
@@ -21,6 +21,7 @@ export const ProductsDetails = () => {
   useEffect(() => {
     dispatch(getClothingDetail(id));
     dispatch(getClothing(name));
+    dispatch(clearState());
   }, [dispatch]);
 
   const [count, setCount] = useState(0);
