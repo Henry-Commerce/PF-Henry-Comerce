@@ -102,11 +102,11 @@ export const Filter = () => {
             >
               <input
                 type="checkbox"
-                value="Camisas"
+                value="T-shirt"
                 checked={checked}
                 onClick={(event) => handleCategories(event)}
               />
-              <label className="ml-1">Camisas</label>
+              <span className="ml-1">Camisas</span>
             </label>
             <label
               className="checkbox"
@@ -114,11 +114,11 @@ export const Filter = () => {
             >
               <input
                 type="checkbox"
-                value="Buzos"
+                value="Pants"
                 checked={checked1}
                 onClick={(event) => handleCategories(event)}
               />
-              <label className="ml-1">Buzos</label>
+              <span className="ml-1">Pantalones</span>
             </label>
             <label
               className="checkbox"
@@ -126,11 +126,11 @@ export const Filter = () => {
             >
               <input
                 type="checkbox"
-                value="Gorras"
+                value="Caps"
                 checked={checked2}
                 onClick={(event) => handleCategories(event)}
               />
-              <label className="ml-1">Gorras</label>
+              <span className="ml-1">Gorras</span>
             </label>
             <label
               className="checkbox"
@@ -138,11 +138,11 @@ export const Filter = () => {
             >
               <input
                 type="checkbox"
-                value="Sudaderas"
+                value="Jacket"
                 checked={checked3}
                 onClick={(event) => handleCategories(event)}
               />
-              <label className="ml-1">Sudaderas</label>
+              <span className="ml-1">Sudaderas</span>
             </label>
           </div>
         </div>
@@ -177,7 +177,7 @@ export const Filter = () => {
                 value="XS"
                 onClick={(event) => handleSize(event)}
               />
-              <label className="ml-1">XS</label>
+              <span className="ml-1">XS</span>
             </label>
             <label className="checkbox">
               <input
@@ -185,7 +185,7 @@ export const Filter = () => {
                 value="S"
                 onClick={(event) => handleSize(event)}
               />
-              <label className="ml-1">S</label>
+              <span className="ml-1">S</span>
             </label>
             <label className="checkbox">
               <input
@@ -193,7 +193,7 @@ export const Filter = () => {
                 value="M"
                 onClick={(event) => handleSize(event)}
               />
-              <label className="ml-1">M</label>
+              <span className="ml-1">M</span>
             </label>
             <label className="checkbox">
               <input
@@ -201,7 +201,7 @@ export const Filter = () => {
                 value="L"
                 onClick={(event) => handleSize(event)}
               />
-              <label className="ml-1">L</label>
+              <span className="ml-1">L</span>
             </label>
             <label className="checkbox">
               <input
@@ -209,7 +209,7 @@ export const Filter = () => {
                 value="XL"
                 onClick={(event) => handleSize(event)}
               />
-              <label className="ml-1">XL</label>
+              <span className="ml-1">XL</span>
             </label>
             <label className="checkbox">
               <input
@@ -217,7 +217,7 @@ export const Filter = () => {
                 value="XXL"
                 onClick={(event) => handleSize(event)}
               />
-              <label className="ml-1">XXL</label>
+              <span className="ml-1">XXL</span>
             </label>
           </div>
         </div>
