@@ -32,10 +32,42 @@ export const ProductsDetails = () => {
 
   const recomended = Object.values(allProducts).filter((e) => e.category === detail.category);
 
- 
+ const arr = [{
+  comments: [{
+    user : "Santiago",
+    comment : "Buenas, queria saber si tenian para la semana que viene talle XL? muchas gracias",
+    respuesta: "Hola Santiago! la semana que viene tendriamos la recarga de stock, te esperamos!"
+  },{
+    user : "Martin",
+    comment : "Buenas, queria saber si tenian para la semana que viene talle S? muchas gracias",
+    respuesta: "Hola Santiago! la semana que viene tendriamos la recarga de stock, te esperamos!"
+  },
+  {
+    user : "martin",
+    comment : "asfasfasfaskfkasf",
+    respuesta: ""
+  }],
+  reviews: [{
+    user : "Santiago",
+    rating : 4,
+    review: "La tela excelente calidad, sobrepaso totalmente mis expectativas",
+    nameReview: "Me encanto"
+    
+  },
+  {
+    user : "Juan Martin",
+    rating : 4,
+    review: "La tela excelente calidad, sobrepaso totalmente mis expectativas",
+    nameReview: "Me encanto"
+    
+  }]
+  
+ }]
+
 
   let printStock = [detail.stock];
 
+  console.log(arr[0].comments);
  
 
   const selectSize = (e) => {
@@ -82,6 +114,7 @@ export const ProductsDetails = () => {
       return true;
     }
   };
+
 
   return (
     <div>
@@ -187,14 +220,17 @@ export const ProductsDetails = () => {
       </div>
       <section className="pt-6"></section>
       <section className="pt-6"></section>
-      <div className="container">
-        <div className="column is-full">
+      
+      <div className="columns is-centered">
+        <div className="column is-11 background-a is-centered">
+      <div className="columns is-centered">
+        <div className="column is-11 border-bottom">
           <div className="filee is-centered border-bottom">
             <h3 className="pt-1 pl-6 p title  mb-4 has-text-left">
               RECOMMENDED PRODUCTS
             </h3>
           </div>
-          <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold ">
+          <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold">
             {recomended.slice(0, 4).map((e) => (
              <a href={"http://127.0.0.1:5173/products/" + e.name}>
             <div>
@@ -213,139 +249,123 @@ export const ProductsDetails = () => {
             
           </div>
         </div>
-      </div>
+        </div>
+        
+      
       <section className="pt-6"></section>
-      <div className="container">
-        <div className="column is-full">
-          <div className="filee is-centered border-bottom is-justify-content-flex-start">
-            <h3 className="pt-1 pl-6 title is-size-4  mb-2 has-text-left">
-              REVIEWS
-            </h3>
+      <section className="pt-6"></section>
+      <section className="pt-6"></section>
+      
+         <div className="columns is-centered">
+        <div className="column is-9">
+          <div className="filee is-centered  is-justify-content-flex-start">
+            
           </div>
-          <div className="is-flex-direction-row pt-4 has-text-left">
-            <div className="container">
-              <div className="columns has-text-centered ">
-                <div className="column is-half">
-                  <div className="filee ">
-                    <h1 className="pt-4 pl-6 title is-size-1  mb-0 has-text-left">
+          <div className="is-flex-direction-row pt-6 has-text-centered background-e">
+            
+              <div className="columns is-centered">
+                <div className="column fileee">
+                <h1 className="title is-size-1 mb-4">
                       {detail.rating}
                     </h1>
-                    <h1 className="pt-6 title is-size-6 pl-3">out 5 stars</h1>
+                    <h1 className="title is-size-6 pl-3" >out 5 stars</h1>
+                </div>
+                <div className="column has-text-left ">
+                  
+                  <div className="fileee has-text-left pl-6 ">
+                    <section className="pl-6 ">
+                  <h3 className="title is-size-3  border-bottom has-text-left"> REVIEWS</h3>
+                  </section>
                   </div>
                 </div>
-                <div className="column is-half">
-                  <h1 className="pt-4 pl-6 title is-size-3  mb-0 has-text-center">
-                    Count rating
-                  </h1>
-                </div>
               </div>
-              <div className="columns pt-6 ">
-                <div className="column is-one-quarter has-text-left">
-                  <h1 className="pt-4 pl-6 title is-size-5">rating acc</h1>
-                  <h1 className="pt-6 pt-4 pl-6 title is-size-5">name acc</h1>
+                {Object.values(arr[0].reviews) ? Object.values(arr[0].reviews).slice(0,2).map((e) => (
+                  <div className=" pt-2 pb-2 border-bottom">
+              <div className="columns pt-3 pb-4">
+                <div className="column is-one-quarter ">
+                  <h1 className="title is-size-5">{e.user}</h1>
                 </div>
-                <div className="column is-three-quarters   ">
-                  <h1 className="pt-0 title is-size-4 has-text-centered ">
-                    name review of acc
+                <div className="column ">
+                  <h1 className="pt-0 title is-size-4 ">
+                    {e.nameReview}
                   </h1>
-                  <p className="is-size-6">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Commodi neque dolores, laboriosam cupiditate incidunt
-                    maiores doloremque illum facere odit fuga voluptatem in
-                    praesentium, aperiam beatae! At dicta dolor ipsam magni.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nulla accusamus accusantium veritatis, impedit, nisi quod
-                    voluptate eius provident consequuntur asperiores adipisci
-                    perferendis minima, id illo dolorem? Provident voluptatem
-                    distinctio nam.
+                  
+                </div>
+               </div>
+               <div className="columns pt- pb-0">
+               <div className="column is-one-quarter ">
+                <h1 className="title is-size-5">{e.rating}</h1>
+                </div>
+                <div className="column">
+                <p className="is-size-6 has-text-centered">
+                    {e.review}
                   </p>
                 </div>
+               </div>
+              
+               </div>
+               )) : <h1>No hay reviews disponibles</h1>}
+ 
+              <div className="has-text-centered pt-6 pb-6">
+              <button className="button is-warning ">Write review</button>
               </div>
-              <div className="columns pt-6 ">
-                <div className="column is-one-quarter has-text-left">
-                  <h1 className="pt-4 pl-6 title is-size-5">rating acc</h1>
-                  <h1 className="pt-6 pt-4 pl-6 title is-size-5">name acc</h1>
-                </div>
-                <div className="column is-three-quarters   ">
-                  <h1 className="pt-0 title is-size-4 has-text-centered ">
-                    name review of acc
-                  </h1>
-                  <p className="">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Commodi neque dolores, laboriosam cupiditate incidunt
-                    maiores doloremque illum facere odit fuga voluptatem in
-                    praesentium, aperiam beatae! At dicta dolor ipsam magni.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nulla accusamus accusantium veritatis, impedit, nisi quod
-                    voluptate eius provident consequuntur asperiores adipisci
-                    perferendis minima, id illo dolorem? Provident voluptatem
-                    distinctio nam.
-                  </p>
-                </div>
-              </div>
-              <div className="has-text-centered pt-3 pb-6">
-                <button className="button is-warning">Write review</button>
-              </div>
-            </div>
+            
           </div>
-          <div className="filee is-centered border-bottom is-justify-content-flex-end">
-            <h3 className="pt-1 pl-6 title is-size-4  mb-2 has-text-rigth ">
+          <section className="pt-6"></section>
+          <section className="pt-6"></section>
+          <div className="background-e">
+          <div className="fileee is-centered border-bottom pb-4">
+            <h3 className="pt-6 pl-6 title is-size-3  mb-2 has-text-centered ">
               QUESTIONS
             </h3>
           </div>
-              <div className="columns pt-6 ">
+              <div className="columns pt-3 is-centered has-text-left">
                 <div className="column">
-                  <h1 className="pt-0 title is-size-4 has-text-centered ">
-                    name review of acc
-                  </h1>
-                  <p className="">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Commodi neque dolores, laboriosam cupiditate incidunt
-                    maiores doloremque illum facere odit fuga voluptatem in
-                    praesentium, aperiam beatae! At dicta dolor ipsam magni.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nulla accusamus accusantium veritatis, impedit, nisi quod
-                    voluptate eius provident consequuntur asperiores adipisci
-                    perferendis minima, id illo dolorem? Provident voluptatem
-                    distinctio nam.
-                  </p>
-                </div>
-              </div>
-              {/* {detail.user.map((e) => (
-              <div className="columns my-0 is-flex-direction-column">
-                <div key={e.name} class="column my-0">
-                <h1 className="pt-0 title is-size-4 has-text-left">{e.name}</h1>
-                  <p>
+                {Object.values(arr[0].comments) && Object.values(arr[0].comments).slice(0,2).map((e) => (
+                  <div>
+              <div key={e.user}  className="columns my-0 pl-6 pt-2">
+                <div  class="column">
+                <h1 className="is-size-4 ">{e.user}</h1>
+                  <p className="pt-2 is-size-5 ">
                   {e.comment}
                   </p>
+                  {<h1 className="pt-5 pl-5 is-size-6 ">{e.respuesta}</h1>}
               </div>
                 </div>
-                 ))} */}
-            </div>
-            <div className="has-text-centered pt-3 pb-6">
+                <div className="columns is-centered">
+               <div className="column is-11 border-bottom">
+
+               </div>
+               </div>
+                </div>
+                 ))}
+                </div>
+                
+              </div>
+              <div className="has-text-centered pt-6 pb-6">
+                <div className="columns is-centered">
+                  <div className="column is-6 filee">
+              <input class="input" type="text" placeholder="Text input"></input>
               <button className="button is-warning">Write question</button>
+                  </div>
+                </div>
             </div>
+            </div>
+            
+          </div>
           </div>
         </div>
+        </div>
+        </div>
+        
   );
 };
 
-/* {arr.user.map((e) => (
-  <div key={e.name}>
-    <h1 className="title is-size-5 ">{e.name}</h1>
-  <p className="is-size-6">
-  {e.comment}
-  </p>
-  </div>
-  ))}
- */
-
-/* {Object.values(arr.comments).map((e) => (
-                <div>
-                <h1 className="title is-size-5 ">{e}</h1>
-                  <p className="is-size-6">
-                    {e.comment}
-                  </p>
-                  </div>
-                  ))}
-                </div> */
+/* {Object.values(arr[0].comments) && Object.values(arr[0].comments).slice(0,2).map((e) => (
+              <div className="columns my-0 ">
+                <div key={e.respuesta} class="column my-0 has-text-centered is-align-items-center">
+                <h1 className="pt-0  is-size-5 ">{e.respuesta}</h1>
+                  
+              </div>
+                </div>
+                 ))}*/
