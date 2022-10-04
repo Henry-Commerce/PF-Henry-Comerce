@@ -99,6 +99,16 @@ router.get('/search', async(req, res) => {
   }
 });
 
+router.get('/oferts', async(req, res) => {
+  try {
+    const response = await ClothingModel.find({});
+    var filtOffer=response.filter(el=>el.discount>0)
+    res.send(filtOffer);
+  } catch(error) {
+    console.log('Cannot GET /clothing/oferts', error);
+  }
+});
+
 router.get('/:name', async(req, res) => {
   const { name } = req.params;
   try {
@@ -141,4 +151,14 @@ router.post('/add', async (req, res) => {
   }
 });
 
+router.put('/restock/:name', async (req, res) => {
+
+  const newstock = await ClothingModel.findOneAndUpdate(
+    {name:req.params.name},
+    {stock:req.body}
+    );
+
+    return res.json(newstock);
+
+});
 module.exports = router;
