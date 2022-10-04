@@ -15,7 +15,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
-      select: false
+     // select: false
     },
     country: {
       type: String,
@@ -24,10 +24,10 @@ const UserSchema = new Schema(
     boughtitems: {
         type: Array(Types.String)
       },
-      reviews: {
+    reviews: {
         type: Array(Types.String)
       },
-      isAdmin:{
+    isAdmin:{
         type: Boolean,
         required: true
       }
