@@ -67,7 +67,7 @@ export const ProductsDetails = () => {
 
   let printStock = [detail.stock];
 
-  console.log(arr[0].comments);
+  console.log(detail);
  
 
   const selectSize = (e) => {
@@ -127,12 +127,6 @@ export const ProductsDetails = () => {
           </div>
 
           <div class="column is-two-fifths pl-6">
-            <div className="filee">
-              <p className="pt-6 pl-6 has-text-weight-bold mb-6">Rating:</p>
-              <p className="pt-6 pl-6 has-text-weight-bold mb-6">
-                {detail.rating}
-              </p>
-            </div>
             <h1 class="pt-1 pl-6 title has-text-weight-bold mb-5 has-text-left">
               {detail.name}
             </h1>
@@ -159,7 +153,7 @@ export const ProductsDetails = () => {
                   })
                 : null}
             </div>
-            <div className="pt-6 pl-6  has-text-weight-bold  has-text-left  mb-6"></div>
+            <div className="pt-1 pl-6  has-text-weight-bold  has-text-left  mb-6"></div>
 
             <h3 className="pt-1 pl-6 title has-text-weight-bold mb-4 has-text-left">
               Quantity products
@@ -200,7 +194,10 @@ export const ProductsDetails = () => {
                 </button>
               </div>
             </div>
-            <div className="pt-6 pl-6 pb-6 border-bottom"></div>
+            <div className="pl-6 pt-4">
+                <p>{detail.description}</p>
+              </div>
+            <div className="pt-2 pl-6 pb-6 border-bottom"></div>
             <section className="pt-6"></section>
             <div className="pl-6 pr-6 card-header-title ">
               <p className="pr-6 title has-text-weight-bold mb-0 is-inline-block">
@@ -315,7 +312,7 @@ export const ProductsDetails = () => {
           <section className="pt-6"></section>
           <div className="background-e">
           <div className="fileee is-centered border-bottom pb-4">
-            <h3 className="pt-6 pl-6 title is-size-3  mb-2 has-text-centered ">
+            <h3 className="pt-6 filee pl-6 title is-size-3  mb-2 has-text-centered ">
               QUESTIONS
             </h3>
           </div>
