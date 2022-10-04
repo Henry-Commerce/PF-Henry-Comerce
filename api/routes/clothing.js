@@ -116,14 +116,16 @@ router.post('/add', async (req, res) => {
       category,
       price,
       stock,
-      image
+      image,
+      description
     } = req.body;
     const newCloth = new ClothingModel({
       name,
       category,
       price,
       stock,
-      image
+      image,
+      description
     });
     newCloth.save()
     .then(data => {
