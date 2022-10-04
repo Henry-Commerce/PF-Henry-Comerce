@@ -149,4 +149,14 @@ router.post('/add', async (req, res) => {
   }
 });
 
+router.put('/restock/:name', async (req, res) => {
+
+  const newstock = await ClothingModel.findOneAndUpdate(
+    {name:req.params.name},
+    {stock:req.body}
+    );
+
+    return res.json(newstock);
+
+});
 module.exports = router;
