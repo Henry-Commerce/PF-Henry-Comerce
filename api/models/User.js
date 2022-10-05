@@ -27,6 +27,10 @@ const UserSchema = new Schema(
     reviews: {
         type: Array(Types.String)
       },
+    cart: Array(new Schema({
+        item: String,
+        count: Number
+    }, {_id: false})),
     isAdmin:{
         type: Boolean,
         required: true
