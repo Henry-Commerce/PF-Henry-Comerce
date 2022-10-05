@@ -22,10 +22,20 @@ const UserSchema = new Schema(
       required: true
     },
     boughtitems: {
-        type: Array(Types.String)
+        type: Array(Types.String),
+        default:[]
       },
     reviews: {
-        type: Array(Types.String)
+        type: Array(Types.String),
+        default:[]
+      },
+      cart:{
+        type:Array(new Schema({
+         name: String,
+        count: Number
+        }, {_id: false}))
+        ,
+        default:[]
       },
     isAdmin:{
         type: Boolean,

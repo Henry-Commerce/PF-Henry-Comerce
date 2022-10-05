@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const UserModel = require('../models/User');
 
-//-----Created-----//
+
 router.get('/login', async (req, res) => {
   try {
     const username=req.query.username;
@@ -79,13 +79,14 @@ router.get('/info/:username', async(req, res) => {
       boughtitems: resultUN[0].boughtitems,
       reviews: resultUN[0].reviews,
       isAdmin: resultUN[0].isAdmin,
+      cart:resultUN[0].cart
     }
     res.send(User);
   } catch(error) {
     console.log('Cannot GET /user/:username', error);
   }
 });
-//-----Created-----//
+
 router.post('/register', async (req, res) => {
   try {
     const { 
@@ -114,5 +115,16 @@ router.post('/register', async (req, res) => {
     console.log('GET /', error);
   }
 });
+
+router.put('/addcart', async (req, res) => {
+  console.log(req.query)
+  var newcart = await UserModel.findOneAndUpdate(
+    {username:req.query.username},
+    {cart:req.body}
+    );
+    return res.json(newcart);
+});
+
+
 
 module.exports = router;
