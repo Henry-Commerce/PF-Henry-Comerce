@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const {
   DB_USER,
-  DB_PASSWORD
+  DB_PASSWORD,
+  ACCESS_TOKEN
 } = process.env;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -13,7 +14,7 @@ const app = express();
 const mercadopago = require('mercadopago');
 
 mercadopago.configure({
-	access_token: "TEST-7750625349320937-100410-ef40284f62a63e0c898e907b27eda501-128332427"
+	access_token: `${ACCESS_TOKEN}`
 });
 
 app.name = 'API';
