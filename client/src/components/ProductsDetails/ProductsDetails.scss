@@ -12,7 +12,7 @@
 .filee {
   /* align-items: stretch; */
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
@@ -21,6 +21,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.fileeee {
+  /* align-items: stretch; */
+  display: flex;
+  justify-content: space-around;
+  align-items: space-around;
 }
 
 
@@ -34,3 +41,8 @@
   background-color: rgba(199, 199, 199, 0.075);
   border-radius: 1.2rem;
 }
+
+/* .background-c{
+  background-color: rgba(102, 102, 102, 0.726);
+  border-radius: 0.2rem;
+} */
