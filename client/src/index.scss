@@ -50,5 +50,6 @@ body::-webkit-scrollbar-thumb {
 
 .center {
   display: flex;
-  height: 26rem;
+  justify-content: center;
+  height: min-content;
 }
