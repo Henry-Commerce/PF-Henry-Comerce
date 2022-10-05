@@ -78,8 +78,8 @@ export const Filter = ({ setCurrentPage }) => {
 
   // Render
   return (
-    <div className="box filter">
-      <h5 className="subtitle is-5 mb-4">Filters</h5>
+    <div className="box filter mt-0">
+      <h5 className="subtitle is-5">Filters</h5>
 
       <div
         onClick={() => {

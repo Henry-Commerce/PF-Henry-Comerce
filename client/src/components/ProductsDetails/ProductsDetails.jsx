@@ -9,12 +9,34 @@ import { useParams } from "react-router-dom";
 import { getClothingDetail } from "../../redux/actions/actions";
 import { Loading } from "../Loading/Loading";
 import { getClothing, clearState } from "../../redux/actions/actions";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
  
 export const ProductsDetails = () => {
   const detail = useSelector((state) => state.detail);
   const allProducts = useSelector(state => state.allClothing)
   const dispatch = useDispatch();
   const { id,name } = useParams();
+
+  const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
 
   useEffect(() => {
     dispatch(getClothingDetail(id));
@@ -31,6 +53,9 @@ export const ProductsDetails = () => {
   const [pricee, setPrice] = useState(detail.price);
 
   const recomended = Object.values(allProducts).filter((e) => e.category === detail.category);
+  /* const stockAvaible = Object.values(detail.stock[0]).filter((e) => e > 0) */
+
+  /* console.log(Object.values(detail[5])) */
 
  const arr = [{
   comments: [{
@@ -64,14 +89,14 @@ export const ProductsDetails = () => {
   
  }]
 
-
+console.log(detail.name);
   let printStock = [detail.stock];
 
-  console.log(detail);
- 
+  /* let xd = Object.values(printStock[0]) */
+  
+ /* console.log(xd); */
 
   const selectSize = (e) => {
-    
     if(printStock[0][e.target.value] === 0){
       setCount(0)
       setPrice(0, "No contamos con stock :(")
@@ -81,6 +106,7 @@ export const ProductsDetails = () => {
       setPrice(detail.price);
     }
     setSize(e.target.value);
+    console.log(detail.stock)
   };
 
   const sumStock = (e) => {
@@ -221,16 +247,17 @@ export const ProductsDetails = () => {
       <div className="columns is-centered">
         <div className="column is-11 background-a is-centered">
       <div className="columns is-centered">
-        <div className="column is-11 border-bottom">
+        <div className="column is-11 border-bottom background-c">
           <div className="filee is-centered border-bottom">
             <h3 className="pt-1 pl-6 p title  mb-4 has-text-left">
               RECOMMENDED PRODUCTS
             </h3>
           </div>
-          <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold">
-            {recomended.slice(0, 4).map((e) => (
-             <a href={"http://127.0.0.1:5173/products/" + e.name}>
-            <div>
+          <div className="">
+            <Carousel responsive={responsive}>
+            {recomended.map((e) => (
+              <div className="fileee pt-6 has-text-centered has-text-weight-bold is-flex-direction-column">
+              <a href={"http://127.0.0.1:5173/products/" + e.name}>
               <img
                 className=" image "
                 width="200"
@@ -240,9 +267,12 @@ export const ProductsDetails = () => {
               />
               <p>{e.name}</p>
               <p className="pt-3">{e.price}</p>
-            </div>
             </a>
+            </div>
 ))}
+</Carousel>
+
+
             
           </div>
         </div>
