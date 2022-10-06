@@ -149,6 +149,15 @@ router.put('/addcart', async (req, res) => {
     return res.json(newcart);
 });
 
+router.put('/newadmin', async (req, res) => {
+  console.log(req.query)
+  console.log(req.query.isAdmin)
+  var newadmin = await UserModel.findOneAndUpdate(
+    {username:req.query.username},
+    {isAdmin:req.query.isAdmin}
+    );
+    return res.json(newadmin);
+});
 
 
 module.exports = router;

@@ -124,15 +124,6 @@ router.get('/oferts', async(req, res) => {
   }
 });
 
-router.get('/:name', async(req, res) => {
-  const { name } = req.params;
-  try {
-    const response = await ClothingModel.find({name: name});
-    res.send(response);
-  } catch(error) {
-    console.log('Cannot GET /clothing/:name', error);
-  }
-});
 
 router.post('/add', async (req, res) => {
   try {
@@ -167,13 +158,44 @@ router.post('/add', async (req, res) => {
 });
 
 router.put('/restock/:name', async (req, res) => {
-
   const newstock = await ClothingModel.findOneAndUpdate(
     {name:req.params.name},
     {stock:req.body}
     );
-
     return res.json(newstock);
+});
 
+router.put('/rating', async (req, res) => {
+  try{
+    const rating=req.query.rating
+    var newrating=[]
+    if(req.query.name) {
+      const foundcloth = await ClothingModel.find({name:req.query.name});
+      if(foundcloth.length > 0) {
+        const oldrating=foundcloth[0].rating
+       newrating=[...oldrating]
+       newrating.push(parseInt(rating))
+        varfinrating=await ClothingModel.findOneAndUpdate(
+          {name:req.query.name},
+          {rating:newrating}
+          );
+        return res.json(varfinrating);
+      } else {
+        return res.status(404).send("No hay coincidencias")
+      }
+    } 
+  } catch (error) {
+    res.status(404).send("No hay coincidencias");
+  }
+});
+
+router.get('/items/:name', async(req, res) => {
+  const { name } = req.params;
+  try {
+    const response = await ClothingModel.find({name: name});
+    res.send(response);
+  } catch(error) {
+    console.log('Cannot GET /clothing/:name', error);
+  }
 });
 module.exports = router;
