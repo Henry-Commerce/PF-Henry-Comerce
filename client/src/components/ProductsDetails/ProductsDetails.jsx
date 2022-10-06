@@ -11,7 +11,9 @@ import { Loading } from "../Loading/Loading";
 import { getClothing, clearState } from "../../redux/actions/actions";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
- 
+
+/* const ls = JSON.parse(ls.getItem("cart") || "[]"); */
+
 export const ProductsDetails = () => {
   const detail = useSelector((state) => state.detail);
   const allProducts = useSelector(state => state.allClothing)
@@ -48,11 +50,86 @@ export const ProductsDetails = () => {
 
   const [stockk, setStock] = useState(1);
 
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState();
 
   const [pricee, setPrice] = useState(detail.price);
 
+   
+  const [product,setProduct] = useState([])
+  
   const recomended = Object.values(allProducts).filter((e) => e.category === detail.category);
+  /* const [carting, setCarting] = useState({
+    name: detail.name,
+    size: size,
+    stock: count,
+    price: pricee,
+  }); */
+  const onClick = () => {
+    json.push(santi)
+  }
+  /* const santi = {
+    nombre: detail.name,
+    talle: size,
+    cantidad: count,
+    precio :detail.price,
+    imagen: detail.image
+   }
+  
+  const json = []
+ useEffect(() => {
+ localStorage.setItem("cart",JSON.stringify(santi))
+ }, [json]) */
+ 
+
+ const [cart, setCart] = useState(false);
+
+ let ls = JSON.parse(localStorage.getItem("lsFavorites")) || [];
+
+ let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
+
+ let handleAddToCart = (e) => {
+  if(count > 0 && size){
+    let prodToCart = {
+      cartId:`${detail.name}-${size}` ,
+      id: detail._id,
+      name:detail.name,
+      image: detail.image,
+      price: detail.price,
+      pricee,
+      size,
+      count,
+      categoria: detail.category
+    }
+    e.preventDefault();
+    console.log(lsCart);
+    lsCart.push(prodToCart);
+    localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart));
+  }
+ }
+
+ console.log(detail);
+  
+
+
+  /* const json = [santi()] */
+
+  /* localStorage.setItem("cart",json) */
+/* const json = []
+json.push(santi)
+
+  const mujer = [(localStorage.getItem("cart",))]
+  mujer.push(json)
+  */
+
+ /* json.push(localStorage.setItem("cart",santi)) */
+
+  
+
+
+  
+
+  
+
   /* const stockAvaible = Object.values(detail.stock[0]).filter((e) => e > 0) */
 
   /* console.log(Object.values(detail[5])) */
@@ -89,7 +166,7 @@ export const ProductsDetails = () => {
   
  }]
 
-console.log(detail.name);
+
   let printStock = [detail.stock];
 
   /* let xd = Object.values(printStock[0]) */
@@ -104,9 +181,10 @@ console.log(detail.name);
       setStock(printStock[0][e.target.value])
       setCount(1);
       setPrice(detail.price);
+     
+      
     }
     setSize(e.target.value);
-    console.log(detail.stock)
   };
 
   const sumStock = (e) => {
@@ -234,7 +312,7 @@ console.log(detail.name);
                   <span className="icon">
                     <FaShoppingCart className="fas" />
                   </span>
-                  <span>Add to cart</span>
+                  <span onClick={(e) => handleAddToCart(e) } >Add to cart</span>
                 </Link>
               </p>
             </div>
