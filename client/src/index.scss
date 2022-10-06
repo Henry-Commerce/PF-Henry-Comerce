@@ -53,3 +53,15 @@ body::-webkit-scrollbar-thumb {
   justify-content: center;
   height: min-content;
 }
+
+.start {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: auto;
+}
+
+div.sticky {
+  background-color: rgba(238, 255, 6, 0.212);
+  border: 2px solid #edfd04;
+}
