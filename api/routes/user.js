@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const UserModel = require('../models/User');
+const ClothingModel = require('../models/Clothing');
 
 
 router.get('/login', async (req, res) => {
@@ -82,6 +83,29 @@ router.get('/info/:username', async(req, res) => {
       cart:resultUN[0].cart
     }
     res.send(User);
+  } catch(error) {
+    console.log('Cannot GET /user/:username', error);
+  }
+});
+
+router.get('/cartdetail/:username', async(req, res) => {
+  const { username } = req.params;
+  let arr=[]
+  try {
+    const resultUN = await UserModel.find({username: username});
+    const User={
+      cart:resultUN[0].cart
+    }
+
+  for(let x=0;x<User.cart.length;x++){
+    try {
+      const response = await ClothingModel.find({name:User.cart[x].name})
+      arr.push(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+    res.send(arr);
   } catch(error) {
     console.log('Cannot GET /user/:username', error);
   }
