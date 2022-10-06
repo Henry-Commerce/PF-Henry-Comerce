@@ -17,6 +17,10 @@ const UserSchema = new Schema(
       required: true,
      // select: false
     },
+    country: {
+      type: String,
+      required: true
+    },
     boughtitems: {
         type: Array(Types.String),
         default:[]
