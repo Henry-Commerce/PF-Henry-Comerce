@@ -15,10 +15,9 @@ export const Checkout = () => {
     fetch("http://localhost:3001/api/checkout/create_preference", {
       method: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(localStorage.getItem("lsCartProducts")),
+      body: localStorage.getItem("lsCartProducts"),
     })
       .then((response) => {
         return response.json();

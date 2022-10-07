@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+const mercadopago = require('mercadopago');
 
 router.get('/create_preference', (req, res) => {
   res.sendStatus(200);
@@ -8,13 +9,16 @@ router.get('/create_preference', (req, res) => {
 router.post("/create_preference", (req, res) => {
 
   let preference = {
-    items: [
-      {
-        title: req.body.description,
-        unit_price: Number(req.body.price),
-        quantity: Number(req.body.quantity),
-      }
-    ],
+    items: req.body.map(element => {
+      return (
+        {
+          title: element.name,
+          description: element.size,
+          unit_price: Number(element.price),
+          quantity: Number(element.count)
+        }
+      )
+    }),
     back_urls: {
       "success": "http://localhost:3001/api/feedback",
       "failure": "http://localhost:3001/api/feedback",
