@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@redux-devtools/extension": "^3.2.3",
+    "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
     "bulma": "^0.9.4",
+    "bulma-social": "^2.1.0",
     "firebase": "^9.10.0",
     "formik": "^2.2.9",
     "react": "^18.2.0",

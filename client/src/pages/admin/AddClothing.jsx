@@ -9,15 +9,12 @@ import { addClothing } from '../../redux/actions'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import { uploadFile } from '../../firebase/config.js'
 import { FaDollarSign } from 'react-icons/fa'
 import { BiRename } from 'react-icons/bi'
-import axios from 'axios'
 import { v4 } from 'uuid'
 
 export const AddClothing = () => {
     const dispatch = useDispatch()
-    const [file, setFile] = useState(null)
     const [image, setImage] = useState('')
 
     const handleaddImage = async (e) => {
@@ -117,6 +114,7 @@ export const AddClothing = () => {
                                 className='input'
                                 type='text'
                                 name='name'
+
                                 autoComplete='off'
                                 placeholder='Enter product name'
                                 onChange={handleChange}
