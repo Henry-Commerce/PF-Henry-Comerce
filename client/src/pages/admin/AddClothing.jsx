@@ -9,15 +9,12 @@ import { addClothing } from '../../redux/actions'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import { uploadFile } from '../../firebase/config.js'
 import { FaDollarSign } from 'react-icons/fa'
 import { BiRename } from 'react-icons/bi'
-import axios from 'axios'
 import { v4 } from 'uuid'
 
 export const AddClothing = () => {
     const dispatch = useDispatch()
-    const [file, setFile] = useState(null)
     const [image, setImage] = useState('')
 
     const handleaddImage = async (e) => {
@@ -29,23 +26,20 @@ export const AddClothing = () => {
         data.append('cloud_name', 'dg50vvzpm')
         data.append('public_id', v4())
 
-        await fetch(
-            'https://api.cloudinary.com/v1_1/dg50vvzpm/image/upload',
-            {
-                method: 'post',
-                body: data,
-            }
-        )
+        await fetch('https://api.cloudinary.com/v1_1/dg50vvzpm/image/upload', {
+            method: 'post',
+            body: data,
+        })
             .then((resp) => resp.json())
             .then((data) => {
                 console.log(data)
                 setImage(data.url)
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
     }
-    
+
     useEffect(() => {
-        values.image = image;
+        values.image = image
     }, [image])
 
     const notify = () =>
@@ -120,7 +114,7 @@ export const AddClothing = () => {
                                 className='input'
                                 type='text'
                                 name='name'
-                                autocomplete="off"
+                                autocomplete='off'
                                 placeholder='Enter product name'
                                 onChange={handleChange}
                                 onBlur={handleBlur}
