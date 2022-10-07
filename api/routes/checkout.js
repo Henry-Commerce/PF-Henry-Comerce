@@ -1,6 +1,10 @@
 const { Router } = require('express');
 const router = Router();
 
+router.get('/create_preference', (req, res) => {
+  res.sendStatus(200);
+})
+
 router.post("/create_preference", (req, res) => {
 
   let preference = {
