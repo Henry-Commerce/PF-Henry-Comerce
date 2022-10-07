@@ -10,7 +10,6 @@ export const Filter = ({ setCurrentPage }) => {
   // To open dropdown
   const [isActive, setisActive] = useState(false);
   const [isActive1, setisActive1] = useState(false);
-  const [isActive2, setisActive2] = useState(false);
   const [isActive3, setisActive3] = useState(false);
 
   // To uncheck
@@ -85,7 +84,7 @@ export const Filter = ({ setCurrentPage }) => {
         onClick={() => {
           setisActive(!isActive);
           setisActive1(false);
-          setisActive2(false);
+
           setisActive3(false);
         }}
         className={`dropdown dropdown ${isActive ? "is-active" : ""}`}
@@ -160,7 +159,7 @@ export const Filter = ({ setCurrentPage }) => {
         onClick={() => {
           setisActive(false);
           setisActive1(!isActive1);
-          setisActive2(false);
+
           setisActive3(false);
         }}
         className={`dropdown dropdown ${isActive1 ? "is-active" : ""}`}
@@ -231,42 +230,11 @@ export const Filter = ({ setCurrentPage }) => {
         </div>
       </div>
 
-      {/* <div
-        onClick={() => {
-          setisActive(false);
-          setisActive1(false);
-          setisActive2(!isActive2);
-          setisActive3(false);
-        }}
-        className={`dropdown dropdown ${isActive2 ? "is-active" : ""}`}
-      >
-        <div className="dropdown-trigger">
-          <button
-            className="button m-1"
-            aria-haspopup="true"
-            aria-controls="dropdown-menu"
-          >
-            <span>Colors</span>
-            <span className="icon is-small">
-              <AiOutlineDown />
-            </span>
-          </button>
-        </div>
-        <div className="dropdown-menu" id="dropdown-menu" role="menu">
-          <div className="dropdown-content">
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span className="ml-1"></span>
-            </label>
-          </div>
-        </div>
-      </div> */}
-
       <div
         onClick={() => {
           setisActive(false);
           setisActive1(false);
-          setisActive2(false);
+
           setisActive3(!isActive3);
         }}
         className={`dropdown dropdown ${isActive3 ? "is-active" : ""}`}

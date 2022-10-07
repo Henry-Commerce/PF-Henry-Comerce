@@ -1,20 +1,20 @@
 /** @format */
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { Notify } from '../../components';
-import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Notify } from "../../components";
+import { toast } from "react-toastify";
 
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
-import './Login.scss';
+import "./Login.scss";
 
 export const Login = () => {
   const [checked, setChecked] = useState(true);
 
   const notify = () =>
-    toast.success('🦄 Logeado Correctamente', {
-      position: 'bottom-center',
+    toast.success("🦄 Logeado Correctamente", {
+      position: "bottom-center",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -25,20 +25,19 @@ export const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
-        .email('Email must be a valid email')
-        .required('Email is a required field'),
-      password: Yup.string().min(6).required('Password is a required field'),
+        .email("Email must be a valid email")
+        .required("Email is a required field"),
+      password: Yup.string().min(6).required("Password is a required field"),
     }),
     onSubmit: (formData) => {
-      // console.log(formData);
       if (checked === true) {
         localStorage.setItem(
-          'auth',
+          "auth",
           JSON.stringify({
             email: formData.email,
             password: formData.password,
@@ -65,61 +64,61 @@ export const Login = () => {
     <>
       <Notify />
 
-      <section className='hero is-success is-fullheight'>
-        <div className='hero-body'>
-          <div className='container has-text-centered'>
-            <div className='column is-4 is-offset-4'>
-              <h3 className='title has-text-black'>Login</h3>
-              <hr className='login-hr' />
-              <p className='subtitle has-text-black'>
+      <section className="hero is-success is-fullheight">
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            <div className="column is-4 is-offset-4">
+              <h3 className="title has-text-black">Login</h3>
+              <hr className="login-hr" />
+              <p className="subtitle has-text-black">
                 Please login to proceed.
               </p>
-              <div className='box'>
-                <figure className='avatar'>
-                  <img src='https://via.placeholder.com/150' />
+              <div className="box">
+                <figure className="avatar">
+                  <img src="https://via.placeholder.com/150" />
                 </figure>
                 <form onSubmit={handleSubmit}>
-                  <div className='field'>
-                    <div className='control'>
+                  <div className="field">
+                    <div className="control">
                       <input
-                        className='input is-large'
-                        type='email'
-                        name='email'
-                        placeholder='Email'
+                        className="input is-large"
+                        type="email"
+                        name="email"
+                        placeholder="Email"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.email}
                       />
                       {errors.email && touched.email && (
-                        <div className='has-text-danger pt-2'>
+                        <div className="has-text-danger pt-2">
                           {errors.email}
                         </div>
                       )}
                     </div>
                   </div>
 
-                  <div className='field'>
-                    <div className='control'>
+                  <div className="field">
+                    <div className="control">
                       <input
-                        className='input is-large'
-                        type='password'
-                        name='password'
-                        placeholder='Password'
+                        className="input is-large"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.password}
                       />
                       {errors.password && touched.password && (
-                        <div className='has-text-danger pt-2'>
+                        <div className="has-text-danger pt-2">
                           {errors.password}
                         </div>
                       )}
                     </div>
                   </div>
-                  <div className='pb-5 pt-2'>
-                    <label className='checkbox'>
+                  <div className="pb-5 pt-2">
+                    <label className="checkbox">
                       <input
-                        type='checkbox'
+                        type="checkbox"
                         defaultChecked={checked}
                         onChange={() => setChecked(!checked)}
                       />
@@ -127,16 +126,17 @@ export const Login = () => {
                     </label>
                   </div>
                   <button
-                    type='submit'
-                    className='button is-block is-primary is-large is-fullwidth'>
-                    Login <i className='fa fa-sign-in' aria-hidden='true'></i>
+                    type="submit"
+                    className="button is-block is-primary is-large is-fullwidth"
+                  >
+                    Login <i className="fa fa-sign-in" aria-hidden="true"></i>
                   </button>
                 </form>
               </div>
-              <p className='has-text-grey s'>
-                <Link to='/register'>Sign Up</Link> &nbsp;·&nbsp;
-                <a href='#forgot'>Forgot Password</a> &nbsp;·&nbsp;
-                <Link to='/faq'>Need Help?</Link>
+              <p className="has-text-grey s">
+                <Link to="/register">Sign Up</Link> &nbsp;·&nbsp;
+                <a href="#forgot">Forgot Password</a> &nbsp;·&nbsp;
+                <Link to="/faq">Need Help?</Link>
               </p>
             </div>
           </div>

@@ -7,7 +7,7 @@ const initialState = {
   filtered: [],
   added: [],
   notFound: "",
-  cart:[]
+  cart: [],
 };
 
 function rootReducer(state = initialState, action) {

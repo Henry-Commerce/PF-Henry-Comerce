@@ -25,30 +25,6 @@ export function getClothing(allFilters) {
         payload: errorMessage,
       });
     }
-    // try {
-    //   axios
-    //     .get(`https://data.mongodb-api.com/app/data-oovux/endpoint/clothes`, {
-    //       headers: {
-    //         'api-key': `NXL8cE2iVb8gFma3cGU2JZbWrkTnHL9P0xegtO0RPKz7mfmh9Yptejsl1oVoZNBd`,
-    //       },
-    //     })
-    //     .then((response) => {
-    //       return dispatch({ type: 'GET_CLOTHING', payload: response.data });
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // } catch (error) {
-    //   const errorMessage = { error: error.message };
-    //   console.log(
-    //     'Se a detectado un error en actions.js -- Linea 20 --',
-    //     errorMessage
-    //   );
-    //   return dispatch({
-    //     type: 'GET_CLOTHING',
-    //     payload: errorMessage,
-    //   });
-    // }
   };
 }
 
