@@ -20,9 +20,9 @@ router.post("/create_preference", (req, res) => {
       )
     }),
     back_urls: {
-      "success": "http://localhost:3001/api/feedback",
-      "failure": "http://localhost:3001/api/feedback",
-      "pending": "http://localhost:3001/api/feedback"
+      "success": "http://localhost:3001/api/checkout/feedback",
+      "failure": "http://localhost:3001/api/checkout/feedback",
+      "pending": "http://localhost:3001/api/checkout/feedback"
     },
     auto_return: "approved",
   };

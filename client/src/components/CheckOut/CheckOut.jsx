@@ -47,7 +47,7 @@ export const Checkout = () => {
 
   return (
     <>
-      <section>
+      <section >
         <a
           onClick={() => handleClick()}
           className="button is-primary is-fullwidth"
@@ -57,11 +57,7 @@ export const Checkout = () => {
         </a>
       </section>
       <section>
-        <div>
-          <div>
-            <button></button>
-          </div>
-        </div>
+        <div id="button-checkout" />
       </section>
     </>
   );
@@ -118,7 +114,7 @@ export const Checkout = () => {
 }
 
 {
-  /* <section class="payment-form dark">
+/*   <section class="payment-form dark">
 <div class="container_payment">
   <div class="block-heading">
     <h2>Checkout Payment</h2>
