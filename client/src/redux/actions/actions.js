@@ -77,7 +77,7 @@ export function addClothing(payload) {
 export function getClothingDetail(name) {
     return async function (dispatch) {
         try {
-            const cloth = await axios.get(`${LOCAL_HOST}/api/clothing/${name}`)
+            const cloth = await axios.get(`${LOCAL_HOST}/api/clothing/items/${name}`)
             return dispatch({
                 type: 'GET_CLOTHING_DETAIL',
                 payload: cloth.data,
