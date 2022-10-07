@@ -45,13 +45,15 @@ export const Inicio = () => {
     <>
       {clothing.length > 0 && !notFound && (
         <section className="section has-background-light is-clipped">
-          <h2 className="title mb-16 mb-24-tablet">Discover our products</h2>
-          <div className="columns">
-            <div className="column is-2 center is-justify-content-center">
+          <div>
+          <Order handleOrderByPrice={handleOrderByPrice} />
+          </div>
+          <div className="columns ">
+            <div className="column center is-2">
               <Filter setCurrentPage={setCurrentPage}/>
             </div>
             <div className="column is-10">
-              <Order handleOrderByPrice={handleOrderByPrice} />
+              
               <div className="mb-20 columns is-multiline">
                 {currentProducts.map((product, index) => {
                   return (

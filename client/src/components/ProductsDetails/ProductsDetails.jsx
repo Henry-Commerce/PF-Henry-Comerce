@@ -9,12 +9,35 @@ import { useParams } from "react-router-dom";
 import { getClothingDetail } from "../../redux/actions/actions";
 import { Loading } from "../Loading/Loading";
 import { getClothing, clearState } from "../../redux/actions/actions";
- 
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
+/* const ls = JSON.parse(ls.getItem("cart") || "[]"); */
+
 export const ProductsDetails = () => {
   const detail = useSelector((state) => state.detail);
   const allProducts = useSelector(state => state.allClothing)
   const dispatch = useDispatch();
   const { id,name } = useParams();
+
+  const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
 
   useEffect(() => {
     dispatch(getClothingDetail(id));
@@ -26,11 +49,48 @@ export const ProductsDetails = () => {
 
   const [stockk, setStock] = useState(1);
 
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState();
 
   const [pricee, setPrice] = useState(detail.price);
 
+   
+  const [product,setProduct] = useState([])
+  
   const recomended = Object.values(allProducts).filter((e) => e.category === detail.category);
+ 
+  
+  
+  
+ const [cart, setCart] = useState(false);
+
+ let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
+
+ const mezcla = `${detail.name}-${size}`
+
+ let handleAddToCart = (e) => {
+  if(count > 0 && size && lsCart.filter(element => element.cartId === mezcla).length === 0){
+    let prodToCart = {
+      cartId:`${detail.name}-${size}` ,
+      id: detail._id,
+      name:detail.name,
+      image: detail.image,
+      price: detail.price,
+      pricee,
+      count,
+      size,
+      stockk,
+      categoria: detail.category
+    }
+    e.preventDefault();
+    lsCart.push(prodToCart);
+    localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart));
+    alert("Producto añadido con exito")
+  } else {
+    alert("Ya contiene este producto en su talle, porfavor modifiquelo desde el carrito")
+  }
+ }
+
+console.log(lsCart);
 
  const arr = [{
   comments: [{
@@ -67,18 +127,20 @@ export const ProductsDetails = () => {
 
   let printStock = [detail.stock];
 
-  console.log(arr[0].comments);
- 
+
+  
 
   const selectSize = (e) => {
-    
     if(printStock[0][e.target.value] === 0){
       setCount(0)
-      setPrice(0, "No contamos con stock :(")
+      setPrice(0)
     } else {
       setStock(printStock[0][e.target.value])
+      console.log(detail.stock);
       setCount(1);
       setPrice(detail.price);
+     
+      
     }
     setSize(e.target.value);
   };
@@ -127,12 +189,6 @@ export const ProductsDetails = () => {
           </div>
 
           <div class="column is-two-fifths pl-6">
-            <div className="filee">
-              <p className="pt-6 pl-6 has-text-weight-bold mb-6">Rating:</p>
-              <p className="pt-6 pl-6 has-text-weight-bold mb-6">
-                {detail.rating}
-              </p>
-            </div>
             <h1 class="pt-1 pl-6 title has-text-weight-bold mb-5 has-text-left">
               {detail.name}
             </h1>
@@ -159,7 +215,7 @@ export const ProductsDetails = () => {
                   })
                 : null}
             </div>
-            <div className="pt-6 pl-6  has-text-weight-bold  has-text-left  mb-6"></div>
+            <div className="pt-1 pl-6  has-text-weight-bold  has-text-left  mb-6"></div>
 
             <h3 className="pt-1 pl-6 title has-text-weight-bold mb-4 has-text-left">
               Quantity products
@@ -200,7 +256,10 @@ export const ProductsDetails = () => {
                 </button>
               </div>
             </div>
-            <div className="pt-6 pl-6 pb-6 border-bottom"></div>
+            <div className="pl-6 pt-4">
+                <p>{detail.description}</p>
+              </div>
+            <div className="pt-2 pl-6 pb-6 border-bottom"></div>
             <section className="pt-6"></section>
             <div className="pl-6 pr-6 card-header-title ">
               <p className="pr-6 title has-text-weight-bold mb-0 is-inline-block">
@@ -211,7 +270,7 @@ export const ProductsDetails = () => {
                   <span className="icon">
                     <FaShoppingCart className="fas" />
                   </span>
-                  <span>Add to cart</span>
+                  <span onClick={(e) => handleAddToCart(e) } >Add to cart</span>
                 </Link>
               </p>
             </div>
@@ -224,16 +283,17 @@ export const ProductsDetails = () => {
       <div className="columns is-centered">
         <div className="column is-11 background-a is-centered">
       <div className="columns is-centered">
-        <div className="column is-11 border-bottom">
+        <div className="column is-11 border-bottom background-c">
           <div className="filee is-centered border-bottom">
             <h3 className="pt-1 pl-6 p title  mb-4 has-text-left">
               RECOMMENDED PRODUCTS
             </h3>
           </div>
-          <div className="filee is-justify-content-space-around pt-6 has-text-centered has-text-weight-bold">
-            {recomended.slice(0, 4).map((e) => (
-             <a href={"http://127.0.0.1:5173/products/" + e.name}>
-            <div>
+          <div className="">
+            <Carousel responsive={responsive}>
+            {recomended.map((e) => (
+              <div className="fileee pt-6 has-text-centered has-text-weight-bold is-flex-direction-column">
+              <a href={"http://127.0.0.1:5173/products/" + e.name}>
               <img
                 className=" image "
                 width="200"
@@ -243,9 +303,12 @@ export const ProductsDetails = () => {
               />
               <p>{e.name}</p>
               <p className="pt-3">{e.price}</p>
-            </div>
             </a>
+            </div>
 ))}
+</Carousel>
+
+
             
           </div>
         </div>
@@ -315,7 +378,7 @@ export const ProductsDetails = () => {
           <section className="pt-6"></section>
           <div className="background-e">
           <div className="fileee is-centered border-bottom pb-4">
-            <h3 className="pt-6 pl-6 title is-size-3  mb-2 has-text-centered ">
+            <h3 className="pt-6 filee pl-6 title is-size-3  mb-2 has-text-centered ">
               QUESTIONS
             </h3>
           </div>

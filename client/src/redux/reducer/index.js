@@ -2,11 +2,14 @@
 
 //Estado global inicial
 const initialState = {
-    allClothing: [],
-    detail: [],
-    filtered: [],
-    added: [],
-    notFound: '',
+
+  allClothing: [],
+  detail: [],
+  filtered: [],
+  added: [],
+  notFound: "",
+  cart:[]
+
 
     /* AUTH */
     status: 'not-authenticated', // 'checking', 'not-authenticated', 'authenticated'
