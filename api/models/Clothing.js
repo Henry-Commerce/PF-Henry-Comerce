@@ -47,7 +47,7 @@ const ClothingSchema = new Schema(
     comments: {
       type:Array(new Schema({
        user: String,
-      comment: Number
+      comment: String
       }, {_id: false}))
       ,
       default:[]

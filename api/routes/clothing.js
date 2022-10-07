@@ -189,6 +189,36 @@ router.put('/rating', async (req, res) => {
   }
 });
 
+router.put('/review', async (req, res) => {
+  try{
+    const review=req.query.review
+    const user=req.query.user
+    var newreview=[]
+    if(req.query.name) {
+      const foundcloth = await ClothingModel.find({name:req.query.name});
+      if(foundcloth.length > 0) {
+        const oldreview=foundcloth[0].comments
+        console.log(foundcloth[0].comments)
+       newreview=[...oldreview]
+        var actreview={
+          user:user,
+          comment:review
+        }
+        newreview.push(actreview)
+        var finreview=await ClothingModel.findOneAndUpdate(
+          {name:req.query.name},
+          {comments:newreview}
+          );
+        return res.json(finreview);
+      } else {
+        return res.status(404).send("No hay coincidencias")
+      }
+    } 
+  } catch (error) {
+    res.status(404).send("No hay coincidencias");
+  }
+});
+
 router.get('/items/:name', async(req, res) => {
   const { name } = req.params;
   try {
