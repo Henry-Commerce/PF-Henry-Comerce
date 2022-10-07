@@ -28,7 +28,7 @@ export const Shop = (product) => {
 
     function totalPrice() {
       let suma = 0;
-      JSON.parse(localStorage.getItem("lsCartProducts")).forEach((e) => {
+      JSON.parse(localStorage.getItem("lsCartProducts"))?.forEach((e) => {
         suma += e.count * e.price;
       });
       return suma;
