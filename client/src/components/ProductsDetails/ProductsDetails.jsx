@@ -22,7 +22,6 @@ export const ProductsDetails = () => {
 
   const responsive = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
     items: 5
   },
@@ -58,37 +57,18 @@ export const ProductsDetails = () => {
   const [product,setProduct] = useState([])
   
   const recomended = Object.values(allProducts).filter((e) => e.category === detail.category);
-  /* const [carting, setCarting] = useState({
-    name: detail.name,
-    size: size,
-    stock: count,
-    price: pricee,
-  }); */
-  const onClick = () => {
-    json.push(santi)
-  }
-  /* const santi = {
-    nombre: detail.name,
-    talle: size,
-    cantidad: count,
-    precio :detail.price,
-    imagen: detail.image
-   }
-  
-  const json = []
- useEffect(() => {
- localStorage.setItem("cart",JSON.stringify(santi))
- }, [json]) */
  
-
+  
+  
+  
  const [cart, setCart] = useState(false);
-
- let ls = JSON.parse(localStorage.getItem("lsFavorites")) || [];
 
  let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
 
+ const mezcla = `${detail.name}-${size}`
+
  let handleAddToCart = (e) => {
-  if(count > 0 && size){
+  if(count > 0 && size && lsCart.filter(element => element.cartId === mezcla).length === 0){
     let prodToCart = {
       cartId:`${detail.name}-${size}` ,
       id: detail._id,
@@ -96,43 +76,21 @@ export const ProductsDetails = () => {
       image: detail.image,
       price: detail.price,
       pricee,
-      size,
       count,
+      size,
+      stockk,
       categoria: detail.category
     }
     e.preventDefault();
-    console.log(lsCart);
     lsCart.push(prodToCart);
     localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart));
+    alert("Producto añadido con exito")
+  } else {
+    alert("Ya contiene este producto en su talle, porfavor modifiquelo desde el carrito")
   }
  }
 
- console.log(detail);
-  
-
-
-  /* const json = [santi()] */
-
-  /* localStorage.setItem("cart",json) */
-/* const json = []
-json.push(santi)
-
-  const mujer = [(localStorage.getItem("cart",))]
-  mujer.push(json)
-  */
-
- /* json.push(localStorage.setItem("cart",santi)) */
-
-  
-
-
-  
-
-  
-
-  /* const stockAvaible = Object.values(detail.stock[0]).filter((e) => e > 0) */
-
-  /* console.log(Object.values(detail[5])) */
+console.log(lsCart);
 
  const arr = [{
   comments: [{
@@ -169,16 +127,16 @@ json.push(santi)
 
   let printStock = [detail.stock];
 
-  /* let xd = Object.values(printStock[0]) */
+
   
- /* console.log(xd); */
 
   const selectSize = (e) => {
     if(printStock[0][e.target.value] === 0){
       setCount(0)
-      setPrice(0, "No contamos con stock :(")
+      setPrice(0)
     } else {
       setStock(printStock[0][e.target.value])
+      console.log(detail.stock);
       setCount(1);
       setPrice(detail.price);
      

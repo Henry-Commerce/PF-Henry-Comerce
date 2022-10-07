@@ -1,29 +1,49 @@
 /** @format */
 
 import { ShopItem } from '../components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MdRemove, MdAdd } from "react-icons/md";
+import { useSelector } from 'react-redux';
 
 
 
-export const Shop = () => {
+export const Shop = (product) => {
+  const [lsCartProducts, setLsCartProducts] = useState([]);
+  const cartProducts  = useSelector((state) => state.cartProducts);
+  const [totalAmount, setTotalAmount] = useState(totalPrice());
+
+  useEffect(() => {
+    setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
+      });
   
-  
-  const marto = () => {
+ /*  const marto = () => {
     const santi = localStorage.getItem("lsCartProducts")
-    
-    
     return (
       santi
       )
     }
     const arr = JSON.parse(marto())
-    
-    
-    const pricesgral = arr.pricee
-    console.log(arr);
-    
+    console.log();
+     */
 
+    function totalPrice() {
+      let suma = 0;
+      JSON.parse(localStorage.getItem("lsCartProducts")).forEach((e) => {
+        suma += e.count * e.price;
+      });
+      return suma;
+    }  
+
+    const handleAmount = async () => {
+      var total = totalAmount;
+      const ls = await JSON.parse(localStorage.getItem("lsCartProducts"));
+      for (let index = 0; index < ls.length; index++) {
+        total = total + ls[index].price * ls[index].count;
+      }
+      setTotalAmount(total);
+    };
+
+    
   return (
     <section className='section is-clipped '>
       <div className='container'>
@@ -74,70 +94,19 @@ export const Shop = () => {
                 </div>
               </div>
               <div className='mb-auto'>
-              {arr ? arr.map((e) => (
-      <div className='mb-3-tablet mb-auto columns is-vcentered is-multiline' style={{
-        borderBottom: '1px solid grey',
-      }}>
-        <div className='column is-6-desktop is-7-tablet mb-0-tablet'>
-          <div className='columns is-vcentered is-multiline'>
-            <div className='column is-4 mb-3'>
-              <div
-                className='is-flex has-background-light is-justify-content-center is-align-items-center'
-                style={{
-                  width: '96px',
-                  height: '128px',
-                }}>
-                  
-                    <div>
-                <img
-                  className='image is-fullwidth'
-                  style={{
-                    objectFit: 'cover',
-                  }}
-                  src={e.image}
-                  alt=''
-                />
-                </div>
-                
-              </div>
+              {lsCartProducts.length ? (
+          lsCartProducts.map((e, i) => (
+            <div key={i}>
+              <ShopItem
+                product={e}
+                lsCartProducts={lsCartProducts}
+                setLsCartProducts={setLsCartProducts}
+                totalPrice={totalPrice}
+                handleAmount={handleAmount}
+              />
             </div>
-            <div className='column is-8'>
-              <h3 className='subtitle  has-text-weight-bold'>
-                {e.name}
-              </h3>
-              <p className='mb-0 has-text-grey has-text-left'>{e.categoria}</p>
-              <p className='mb-0 has-text-grey has-text-left'>{e.size}</p>
-            </div>
-          </div>
-        </div>
-        <div className='column is-2 is-hidden-touch'>
-          <p className='subtitle has-text-info mb-2 has-text-weight-bold'>
-           ${e.price}
-          </p>
-        
-        </div>
-        <div className='column is-2-desktop is-3-tablet pl-0'>
-          <div
-            className='is-inline-flex is-align-items-center has-text-weight-bold pl-1'
-            style={{
-              border: '1px solid #DBDDE1',
-              borderRadius: '8px',
-            }}>
-            <button className='button has-text-black is-ghost '>
-              <MdRemove />
-            </button>
-            <button  className='input has-text-centered'>{e.count}</button>
-              
-            <button className='button has-text-black is-ghost'>
-              <MdAdd />
-            </button>
-          </div>
-        </div>
-        <div className='column is-2'>
-          <p className='subtitle has-text-info has-text-weight-bold pl-4 pb-2'>${e.pricee}</p>
-        </div>
-      </div>
-    )) : null}
+          ))
+        ) : null}
     </div>
               {/* <div className='columns is-vcentered'>
                 <div className='column is-4'>
@@ -160,14 +129,14 @@ export const Shop = () => {
 
             <div className='column pl-6 pt-6' >
               <div className='has-background-white p-6 p-16-desktop '>
-                <h3 className='title is-size-3 mb-6'>Cart totals</h3>
+                <h3 className='title is-size-3 mb-6 has-text-centered'>Cart totals</h3>
                 
                 <div className='mb-6 pt-6 is-flex is-justify-content-space-between is-align-items-center'>
                   <span className='title is-size-5 mb-3 has-text-weight-bold'>
-                    Order total
+                    Precio total
                   </span>
                   <span className='title is-size-5 mb-0 has-text-weight-bold'>
-                    $100.67
+                  ${totalPrice()}
                   </span>
                 </div>
                 <a className='button is-primary is-fullwidth' href='#'>
