@@ -114,7 +114,8 @@ export const AddClothing = () => {
                                 className='input'
                                 type='text'
                                 name='name'
-                                autocomplete='off'
+
+                                autoComplete='off'
                                 placeholder='Enter product name'
                                 onChange={handleChange}
                                 onBlur={handleBlur}

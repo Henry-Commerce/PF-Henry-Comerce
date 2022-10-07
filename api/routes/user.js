@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 const UserModel = require('../models/User');
+const ClothingModel = require('../models/Clothing');
 
-//-----Created-----//
+
 router.get('/login', async (req, res) => {
   try {
     const username=req.query.username;
@@ -79,13 +80,37 @@ router.get('/info/:username', async(req, res) => {
       boughtitems: resultUN[0].boughtitems,
       reviews: resultUN[0].reviews,
       isAdmin: resultUN[0].isAdmin,
+      cart:resultUN[0].cart
     }
     res.send(User);
   } catch(error) {
     console.log('Cannot GET /user/:username', error);
   }
 });
-//-----Created-----//
+
+router.get('/cartdetail/:username', async(req, res) => {
+  const { username } = req.params;
+  let arr=[]
+  try {
+    const resultUN = await UserModel.find({username: username});
+    const User={
+      cart:resultUN[0].cart
+    }
+
+  for(let x=0;x<User.cart.length;x++){
+    try {
+      const response = await ClothingModel.find({name:User.cart[x].name})
+      arr.push(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+    res.send(arr);
+  } catch(error) {
+    console.log('Cannot GET /user/:username', error);
+  }
+});
+
 router.post('/register', async (req, res) => {
   try {
     const { 
@@ -114,5 +139,25 @@ router.post('/register', async (req, res) => {
     console.log('GET /', error);
   }
 });
+
+router.put('/addcart', async (req, res) => {
+  console.log(req.query)
+  var newcart = await UserModel.findOneAndUpdate(
+    {username:req.query.username},
+    {cart:req.body}
+    );
+    return res.json(newcart);
+});
+
+router.put('/newadmin', async (req, res) => {
+  console.log(req.query)
+  console.log(req.query.isAdmin)
+  var newadmin = await UserModel.findOneAndUpdate(
+    {username:req.query.username},
+    {isAdmin:req.query.isAdmin}
+    );
+    return res.json(newadmin);
+});
+
 
 module.exports = router;
