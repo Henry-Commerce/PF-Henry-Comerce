@@ -82,6 +82,7 @@ export const ProductsDetails = () => {
                 size,
                 stockk,
                 categoria: detail.category,
+                idRemove:`${detail.name}-${size}`,
             }
             e.preventDefault()
             lsCart.push(prodToCart)
@@ -93,9 +94,6 @@ export const ProductsDetails = () => {
             )
         }
     }
-
-    console.log(lsCart)
-
     const arr = [
         {
             comments: [
@@ -144,7 +142,6 @@ export const ProductsDetails = () => {
             setPrice(0)
         } else {
             setStock(printStock[0][e.target.value])
-            console.log(detail.stock)
             setCount(1)
             setPrice(detail.price)
         }
@@ -295,8 +292,8 @@ export const ProductsDetails = () => {
                             </div>
                             <div className=''>
                                 <Carousel responsive={responsive}>
-                                    {recomended.map((e) => (
-                                        <div className='fileee pt-6 has-text-centered has-text-weight-bold is-flex-direction-column'>
+                                    {recomended.map((e, index) => (
+                                        <div key={index} className='fileee pt-6 has-text-centered has-text-weight-bold is-flex-direction-column'>
                                             <a
                                                 href={
                                                     'http://127.0.0.1:5173/products/' +
@@ -352,8 +349,8 @@ export const ProductsDetails = () => {
                                 {Object.values(arr[0].reviews) ? (
                                     Object.values(arr[0].reviews)
                                         .slice(0, 2)
-                                        .map((e) => (
-                                            <div className=' pt-2 pb-2 border-bottom'>
+                                        .map((e, index) => (
+                                            <div key={index} className=' pt-2 pb-2 border-bottom'>
                                                 <div className='columns pt-3 pb-4'>
                                                     <div className='column is-one-quarter '>
                                                         <h1 className='title is-size-5'>
@@ -403,10 +400,9 @@ export const ProductsDetails = () => {
                                         {Object.values(arr[0].comments) &&
                                             Object.values(arr[0].comments)
                                                 .slice(0, 2)
-                                                .map((e) => (
-                                                    <div>
+                                                .map((e, index) => (
+                                                    <div key={index}>
                                                         <div
-                                                            key={e.user}
                                                             className='columns my-0 pl-6 pt-2'>
                                                             <div className='column'>
                                                                 <h1 className='is-size-4 '>
@@ -435,7 +431,7 @@ export const ProductsDetails = () => {
                                     <div className='columns is-centered'>
                                         <div className='column is-6 filee'>
                                             <input
-                                                class='input'
+                                                className='input'
                                                 type='text'
                                                 placeholder='Text input'></input>
                                             <button className='button is-warning'>
