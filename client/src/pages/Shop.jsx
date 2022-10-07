@@ -14,10 +14,10 @@ export const Shop = (product) => {
 
   useEffect(() => {
     setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
-      });
+      }, []);
   
  /*  const marto = () => {
-    const santi = localStorage.getItem("lsCartProducts")
+    const santi = localStoragea.getItem("lsCartProducts")
     return (
       santi
       )
@@ -43,12 +43,19 @@ export const Shop = (product) => {
       setTotalAmount(total);
     };
 
+    function deleteAllCart(e){
+      localStorage.clear();
+    }
+
     
   return (
     <section className='section is-clipped '>
       <div className='container'>
         <div className='has-background-light p-8 p-20-desktop '>
           <h2 className='title mb-8 mb-20-tablet'>Your cart</h2>
+          {/* <button onClick={deleteAllCart}>
+            Borra todo
+          </button> */}
           <div className='columns is-multiline '>
             <div className='column is-12 is-8-widescreen mb-8 mb-0-widescreen'>
               <div

@@ -82,6 +82,7 @@ export const ProductsDetails = () => {
                 size,
                 stockk,
                 categoria: detail.category,
+                idRemove:`${detail.name}-${size}`,
             }
             e.preventDefault()
             lsCart.push(prodToCart)
@@ -93,9 +94,6 @@ export const ProductsDetails = () => {
             )
         }
     }
-
-    console.log(lsCart)
-
     const arr = [
         {
             comments: [
@@ -144,7 +142,6 @@ export const ProductsDetails = () => {
             setPrice(0)
         } else {
             setStock(printStock[0][e.target.value])
-            console.log(detail.stock)
             setCount(1)
             setPrice(detail.price)
         }

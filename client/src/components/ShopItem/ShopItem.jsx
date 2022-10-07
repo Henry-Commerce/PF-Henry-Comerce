@@ -20,10 +20,16 @@ export const ShopItem = ({product, lsCartProducts,setLsCartProducts,handleAmount
     localStorage.setItem("lsCartProducts", JSON.stringify([...cartFilter, prodFind]));
   }, [ product.cartId, lsCartProducts]);
 
+  const handleClose = (idRemove) => {
+    const newCart = lsCartProducts.filter((prod) => prod.idRemove !== product.idRemove);
+    localStorage.removeItem(idRemove);
+    localStorage.setItem("lsCartProducts", JSON.stringify(newCart));
+    setLsCartProducts(newCart);
+  };
+
     const handlePlus =  () => {
       if (count === stock) return;
       setCount(count + 1);
-      console.log(count);
       handleAmount()
     };
 
@@ -40,6 +46,7 @@ export const ShopItem = ({product, lsCartProducts,setLsCartProducts,handleAmount
         borderBottom: '1px solid grey',
       }}>
         <div className='column is-6-desktop is-7-tablet mb-0-tablet'>
+          
           <div className='columns is-vcentered is-multiline'>
             <div className='column is-4 mb-3'>
               <div
@@ -94,9 +101,21 @@ export const ShopItem = ({product, lsCartProducts,setLsCartProducts,handleAmount
             </button>
           </div>
         </div>
-        <div className='column is-2'>
+        <div className='column '>
           <p className='subtitle has-text-info has-text-weight-bold pl-4 pb-2'>${product.price * count}</p>
         </div>
+        <div className='columns pb-6'>
+          <section className='column pb-6 pr-5'>
+          <section className='column pb-4 '>
+        <button className='button is-danger' onClick={handleClose}>
+            X
+          </button>
+          </section>
+          </section>
+        </div>
+        
+        
+          
       </div>
     </div>
   );
