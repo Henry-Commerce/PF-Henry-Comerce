@@ -144,7 +144,13 @@ export const Shop = (product) => {
                     ${totalPrice()}
                   </span>
                 </div>
-                <Checkout />
+                <Checkout
+                  product={lsCartProducts}
+                  lsCartProducts={lsCartProducts}
+                  setLsCartProducts={setLsCartProducts}
+                  totalPrice={totalPrice}
+                  handleAmount={handleAmount}
+                />
               </div>
             </div>
           </div>
