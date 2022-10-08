@@ -1,4 +1,7 @@
+import React from "react";
 import Popup from "reactjs-popup";
+3;
+import "./CheckOut.scss";
 
 export const Checkout = ({ product }) => {
   const mercadopago = new MercadoPago(
@@ -55,26 +58,21 @@ export const Checkout = ({ product }) => {
       modal
       nested
     >
-      {(close) => (
+      {() => (
         <div className="box">
-          <button onClick={close} className="button">
-            X
-          </button>
-          <div id="hola">
+          <table className="table is-striped">
+            <tbody>
             {product?.map((item, index) => (
-              <div key={index}>
-                <h1>{item.name}</h1>
-                <h1>${item.price}</h1>
-                <h1>X{item.count}</h1>
-                <h1>{item.size}</h1>
-              </div>
+              <tr key={index}>
+                <th>{item.name}</th>
+                <td>{item.size}</td>
+                <td>x{item.count}</td>
+                <td>${item.price}</td>
+              </tr>
             ))}
-          </div>
-          <div>
-            <section>
-              <div id="button-checkout" />
-            </section>
-          </div>
+            </tbody>
+            <tfoot id="button-checkout" />
+          </table>
         </div>
       )}
     </Popup>
