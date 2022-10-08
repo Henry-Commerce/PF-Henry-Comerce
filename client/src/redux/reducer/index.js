@@ -8,7 +8,7 @@ const initialState = {
   filtered: [],
   added: [],
   notFound: "",
-  cart:[]
+  cart:[],
 
 
     /* AUTH */

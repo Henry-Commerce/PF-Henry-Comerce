@@ -131,3 +131,4 @@ dist
 
 # package-lock
 package-lock.json
+serviceAccount.json

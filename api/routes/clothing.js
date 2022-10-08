@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const ClothingModel = require('../models/Clothing');
+const middlewares = require('../middlewares')
 
 router.get('/', async (req, res) => {
   try {
@@ -125,7 +126,7 @@ router.get('/oferts', async(req, res) => {
 });
 
 
-router.post('/add', async (req, res) => {
+router.post('/add', middlewares.decodeToken, async (req, res) => {
   try {
     const { 
       name,
