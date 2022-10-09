@@ -15,32 +15,40 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
-     // select: false
+      // select: false
     },
     country: {
       type: String,
       required: true
     },
     boughtitems: {
-        type: Array(Types.String),
-        default:[]
-      },
+      type: Array(new Schema({
+        orderid: String,
+        items: Array(new Schema({
+          name: String,
+          image: String,
+          price:Number,
+          count: Number
+        }, { _id: false })),
+      }, { _id: false })),
+      default: []
+    },
     reviews: {
-        type: Array(Types.String),
-        default:[]
-      },
-      cart:{
-        type:Array(new Schema({
-         name: String,
+      type: Array(Types.String),
+      default: []
+    },
+    cart: {
+      type: Array(new Schema({
+        name: String,
         count: Number
-        }, {_id: false}))
-        ,
-        default:[]
-      },
-    isAdmin:{
-        type: Boolean,
-        required: true
-      }
+      }, { _id: false }))
+      ,
+      default: []
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true
+    }
   },
   {
     timestamps: true,
