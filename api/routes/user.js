@@ -6,10 +6,9 @@ const ClothingModel = require('../models/Clothing');
 
 router.get('/login', async (req, res) => {
   try {
-    const username=req.body.username;
+    const email=req.body.email;
     const password=req.body.password;
-    console.log(req.query)
-    const resultUN= await UserModel.findOne({username: username})
+    const resultUN= await UserModel.findOne({email: email})
     if(!resultUN) return res.status(400).json({message: "User not found"});
     const matchPassword = await UserModel.comparePassword(password, resultUN.password);
     if(!matchPassword) return res.status(401).json({message: "Invalid password"})
@@ -31,7 +30,6 @@ router.get('/login', async (req, res) => {
 })
 
 router.get('/info', async(req, res) => {
-
   try {
     const resultUN = await UserModel.find();
     var filt= resultUN
@@ -50,18 +48,16 @@ router.get('/info', async(req, res) => {
 });
 
 router.get('/adminsinfo',async(req, res) => {
-
   try {
     const resultUN = await UserModel.find();
     var filt= resultUN
-.filter(el=>el.isAdmin==true)
-.map(el=>({
-  username:el.username,
-  email:el.email,
-  country:el.country,
-  boughtitems:el.boughtitems,
-  reviews:el.reviews,}))
-
+    .filter(el=>el.isAdmin==true)
+    .map(el=>({
+      username:el.username,
+      email:el.email,
+      country:el.country,
+      boughtitems:el.boughtitems,
+      reviews:el.reviews,}))
     res.send(filt);
   } catch(error) {
     console.log('Cannot GET /adminsinfo', error);
@@ -70,7 +66,6 @@ router.get('/adminsinfo',async(req, res) => {
 
 router.get('/info/:username', async (req, res) => {
   const { username } = req.params;
-  console.log(username)
   try {
     const resultUN = await UserModel.findOne({username: username});
     if(resultUN) {
@@ -85,12 +80,44 @@ router.get('/info/:username', async (req, res) => {
       }
       return res.json(User);
     } else {
-      return res.send("User not found")
+      return res.status(404).json({message:"User not found"})
     }
   } catch(error) {
     console.log('Cannot GET /user/:username', error);
+    res.status(404).json({message: "Internal error"});
   }
 });
+
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const {username, country} = req.body;
+  try {
+    if(id) {
+      const foundUser = await UserModel.findById(id);
+      if(!foundUser) return res.json({message: "User not found"});
+      await UserModel.findByIdAndUpdate(id, {username, country});
+      return res.json({message: "Updated User"});
+    } else {
+      return res.json({message: "ID isn't provided"})
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({message: "Internal error", error});
+  }
+})
+
+router.put("/:id/login_methods", async (req, res) => {
+  const { id } = req.params;
+  const { email, password } = req.body;
+  if(!email && !password) return res.json({message: "Expected info isn't provided"})
+  const foundUser = await UserModel.findById(id);
+  if(!foundUser) return res.json({message: "User not found"});
+  if(email === foundUser.email) return res.json({message: "Email should be difrent from the last one"})
+  const matchPassword = await UserModel.comparePassword(password, foundUser.password) 
+  if(matchPassword) return res.json({message: "Password should be difrent from the last one"})
+  await UserModel.findByIdAndUpdate(id, {email, password: await UserModel.encyptPassword(password)});
+  res.json({message: "Updated login methods"})
+}) 
 
 router.get('/cartdetail/:username', async(req, res) => {
   const { username } = req.params;
@@ -152,8 +179,6 @@ router.put('/addcart', async (req, res) => {
 });
 
 router.put('/newadmin', async (req, res) => {
-  console.log(req.query)
-  console.log(req.query.isAdmin)
   var newadmin = await UserModel.findOneAndUpdate(
     {username:req.query.username},
     {isAdmin:req.query.isAdmin}
