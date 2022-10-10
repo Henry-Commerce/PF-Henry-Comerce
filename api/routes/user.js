@@ -96,7 +96,6 @@ router.get('/cartdetail/:username', async(req, res) => {
     const User={
       cart:resultUN[0].cart
     }
-
   for(let x=0;x<User.cart.length;x++){
     try {
       const response = await ClothingModel.find({name:User.cart[x].name})
@@ -110,6 +109,32 @@ router.get('/cartdetail/:username', async(req, res) => {
     console.log('Cannot GET /user/:username', error);
   }
 });
+
+router.put('/shopitems', async (req, res) => {
+const {username}=req.query
+var newhistorial=[]
+//const {orderid,name,image,count}=req.body
+const {items,orderid}=req.body
+var historial=[]
+try {
+  const resultUN = await UserModel.find({username: username});
+  historial=resultUN[0].boughtitems
+  newhistorial={
+    orderid:orderid,
+    items:items
+  }
+  historial.push(newhistorial)
+  const newcompra = await UserModel.findOneAndUpdate(
+    {username:username},
+    {boughtitems:historial}
+    );
+
+
+  res.send(newcompra)
+} catch (error) {
+  console.log(error)
+}
+})
 
 router.post('/register', async (req, res) => {
   try {
