@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const mongooseDelete = require("mongoose-delete");
 
 const ClothingSchema = new Schema(
@@ -45,12 +45,11 @@ const ClothingSchema = new Schema(
       default: []
     },
     comments: {
-      type:Array(new Schema({
-       user: String,
-      comment: String
-      }, {_id: false}))
-      ,
-      default:[]
+      type: Array(new Schema({
+        user: String,
+        comment: String
+      }, {_id: false})),
+      default: []
     }
   },
   {

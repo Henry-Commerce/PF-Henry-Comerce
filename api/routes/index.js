@@ -5,11 +5,13 @@ const router = Router();
 
 const categoriesRouter = require('./clothing');
 const userRouter = require('./user');
+const checkoutRouter = require('./checkout');
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
 router.use('/clothing', categoriesRouter);
-router.use('/user', userRouter); 
+router.use('/user', userRouter);
+router.use('/checkout', checkoutRouter)
 
 module.exports = router;
