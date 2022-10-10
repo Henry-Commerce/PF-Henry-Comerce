@@ -15,16 +15,6 @@ export const Shop = (product) => {
     setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
   }, []);
 
-  /*  const marto = () => {
-    const santi = localStorage.getItem("lsCartProducts")
-    return (
-      santi
-      )
-    }
-    const arr = JSON.parse(marto())
-    console.log();
-     */
-
   function totalPrice() {
     let suma = 0;
     JSON.parse(localStorage.getItem("lsCartProducts"))?.forEach((e) => {
