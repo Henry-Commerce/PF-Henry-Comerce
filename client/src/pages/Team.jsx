@@ -44,6 +44,14 @@ export const Team = () => {
                                                 CEO & Founder
                                             </p>
                                             <p>Descripcion</p>
+                                            <a
+                                                className='button is-medium is-facebook'
+                                                href='#'
+                                                target='_blank'>
+                                                <span className='icon'>
+                                                    <BsLinkedin />
+                                                </span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
