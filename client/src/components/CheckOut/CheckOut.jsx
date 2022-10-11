@@ -93,8 +93,8 @@ export const Checkout = ({ product }) => {
             </div>
           </div>
           {product?.map((item, index) => (
-            <div className="columns fileee is-centered bt">
-              <div className="column is-3 fileeee bb" key={index}>
+            <div className="columns fileee is-centered bt" key={index}>
+              <div className="column is-3 fileeee bb">
                 <img
                   className=""
                   src={item.image}
