@@ -164,7 +164,20 @@ export const startGoogleSignIn = () => {
             })
         }
 
-        sessionStorage.setItem('authenticated', true)
+        // sessionStorage.setItem('authenticated', true)
+
+        sessionStorage.setItem(
+            'authenticated',
+            JSON.stringify({
+                authenticated: true,
+                username: result.displayName,
+                email: result.email,
+                password: result.uid,
+                country: 'argentina',
+                isAdmin: false,
+            })
+        )
+
         dispatch({
             type: 'LOGIN',
             payload: result,
@@ -203,7 +216,18 @@ export const startCreatingUserWithEmailPassword = ({
             isAdmin: false,
         })
 
-        sessionStorage.setItem('authenticated', true)
+        // sessionStorage.setItem('authenticated', true)
+
+        sessionStorage.setItem(
+            'authenticated',
+            JSON.stringify({
+                authenticated: true,
+                username: email,
+                email: email,
+                country: 'argentina',
+                isAdmin: false,
+            })
+        )
         dispatch({
             type: 'LOGIN',
             payload: result,
@@ -231,7 +255,19 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
                     payload: result.errorMessage,
                 })
             }
-            sessionStorage.setItem('authenticated', true)
+            // sessionStorage.setItem('authenticated', true)
+
+            sessionStorage.setItem(
+                'authenticated',
+                JSON.stringify({
+                    authenticated: true,
+                    username: email,
+                    email: email,
+                    country: 'argentina',
+                    isAdmin: false,
+                })
+            )
+
             dispatch({
                 type: 'LOGIN',
                 payload: result,

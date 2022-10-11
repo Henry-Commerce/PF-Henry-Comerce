@@ -43,6 +43,7 @@ export const Login = () => {
 
     const loginGoogle = () => {
         dispatch(startGoogleSignIn())
+        navigate('/')
     }
 
     const formik = useFormik({
