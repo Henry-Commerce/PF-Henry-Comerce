@@ -62,14 +62,14 @@ export const Checkout = ({ product }) => {
         <div className="box">
           <table className="table is-striped">
             <tbody>
-            {product?.map((item, index) => (
-              <tr key={index}>
-                <th>{item.name}</th>
-                <td>{item.size}</td>
-                <td>x{item.count}</td>
-                <td>${item.price}</td>
-              </tr>
-            ))}
+              {product?.map((item, index) => (
+                <tr key={index}>
+                  <th>{item.name}</th>
+                  <td>{item.size}</td>
+                  <td>x{item.count}</td>
+                  <td>${item.price}</td>
+                </tr>
+              ))}
             </tbody>
             <tfoot id="button-checkout" />
           </table>

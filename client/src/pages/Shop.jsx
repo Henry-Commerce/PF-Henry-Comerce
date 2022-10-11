@@ -4,6 +4,7 @@ import { ShopItem } from "../components";
 import { useEffect, useState } from "react";
 import { MdRemove, MdAdd } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { Checkout } from "../components/CheckOut/CheckOut";
 
 export const Shop = (product) => {
   const [lsCartProducts, setLsCartProducts] = useState([]);
@@ -49,6 +50,8 @@ export const Shop = (product) => {
   function deleteAllCart(e) {
     localStorage.clear();
   }
+
+  console.log(lsCartProducts);
 
   return (
     <section className="section is-clipped ">
@@ -155,9 +158,8 @@ export const Shop = (product) => {
                     ${totalPrice()}
                   </span>
                 </div>
-                <a className="button is-primary is-fullwidth" href="#">
-                  Go to Checkout
-                </a>
+
+                <Checkout product={lsCartProducts} />
               </div>
             </div>
           </div>
