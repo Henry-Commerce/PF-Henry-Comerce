@@ -25,7 +25,7 @@ export const ShopItem = ({
       "lsCartProducts",
       JSON.stringify([...cartFilter, prodFind])
     );
-  }, [product.cartId, lsCartProducts]);
+  }, [product.cartId, lsCartProducts, count]);
 
   const handleClose = (idRemove) => {
     const newCart = lsCartProducts.filter(

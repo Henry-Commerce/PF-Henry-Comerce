@@ -44,14 +44,14 @@ export const Shop = (product) => {
     for (let index = 0; index < ls.length; index++) {
       total = total + ls[index].price * ls[index].count;
     }
+    /* const lsProducts = await JSON.parse(localStorage.getItem("lsCartProducts"));
+const newCount = lsProducts.find(item => item.count === a) */
     setTotalAmount(total);
   };
 
-  function deleteAllCart(e) {
+  /* function deleteAllCart(e) {
     localStorage.clear();
-  }
-
-  console.log(lsCartProducts);
+  } */
 
   return (
     <section className="section is-clipped ">
