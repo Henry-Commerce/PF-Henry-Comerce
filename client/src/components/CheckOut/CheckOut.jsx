@@ -109,7 +109,7 @@ export const Checkout = ({ product }) => {
               </div>
               <div className="column is-2 fileeee">
                 <h1 className="has-text-weight-bold  ml-6 mr-6 has-text-centered">
-                  ${item.price}
+                  ${item.price * item.count}
                 </h1>
               </div>
               <div className="column is-2 fileeee">
