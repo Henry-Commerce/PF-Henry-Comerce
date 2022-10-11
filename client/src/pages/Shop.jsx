@@ -16,9 +16,24 @@ export const Shop = (product) => {
 
   function totalPrice() {
     let suma = 0;
-    JSON.parse(localStorage.getItem("lsCartProducts"))?.forEach((e) => {
-      suma += e.count * e.price;
+    const documentQuery = [
+      ...document.querySelectorAll(
+        "p.subtitle.has-text-info.has-text-weight-bold.pl-4.pb-2"
+      ),
+    ];
+    const documentQueryText = documentQuery.map((element) =>
+      Number(element.textContent.slice(1))
+    );
+    documentQueryText?.forEach((element) => {
+      suma += element;
     });
+    if (suma === 0) {
+      let suma = 0;
+      JSON.parse(localStorage.getItem("lsCartProducts"))?.forEach((e) => {
+        suma += e.count * e.price;
+      });
+      return suma;
+    }
     return suma;
   }
 
