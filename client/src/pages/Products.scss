@@ -11,3 +11,20 @@
     justify-content: center;
     align-items: center;
   }
+
+  .imag{
+    transition: all 0.5s ease-in-out;
+  }
+
+  .imag:hover{
+    transform: scale(1.1);
+  }
+
+  .max{
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .maxx{
+    height: 1000px;
+  }

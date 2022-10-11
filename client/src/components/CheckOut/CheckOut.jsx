@@ -45,6 +45,7 @@ export const Checkout = ({ product }) => {
 
   return (
     <Popup
+      className="epa is-marginless"
       trigger={
         <section>
           <button
@@ -58,21 +59,75 @@ export const Checkout = ({ product }) => {
       modal
       nested
     >
-      {() => (
-        <div className="box">
-          <table className="table is-striped">
-            <tbody>
-            {product?.map((item, index) => (
-              <tr key={index}>
-                <th>{item.name}</th>
-                <td>{item.size}</td>
-                <td>x{item.count}</td>
-                <td>${item.price}</td>
-              </tr>
-            ))}
-            </tbody>
-            <tfoot id="button-checkout" />
-          </table>
+      {(close) => (
+        <div className="box width">
+          {/* <button onClick={close} className="button">
+            X
+          </button> */}
+
+          <div className="columns fileee is-centered bt">
+            <div className="column is-3 fileeee bb">
+              <h1 className="has-text-weight-bold mt-4 mb-4 ml-6 mr-6 has-text-centered ">
+                Producto
+              </h1>
+            </div>
+            <div className="column is-3 fileeee">
+              <h1 className="has-text-weight-bold mt-4 mb-4 ml-6 mr-6 has-text-centered">
+                Nombre{" "}
+              </h1>
+            </div>
+            <div className="column is-2 fileeee">
+              <h1 className="has-text-weight-bold  mt-4 mb-4 ml-6 mr-6 has-text-centered">
+                Precio
+              </h1>
+            </div>
+            <div className="column is-2 fileeee">
+              <h1 className="has-text-weight-bold  mt-4 mb-4 ml-6 mr-6 has-text-centered">
+                Cantidad
+              </h1>
+            </div>
+            <div className="column is-2 fileeee">
+              <h1 className="has-text-weight-bold  mt-4 mb-4 ml-6 mr-6 has-text-centered">
+                Talla
+              </h1>
+            </div>
+          </div>
+          {product?.map((item, index) => (
+            <div className="columns fileee is-centered bt" key={index}>
+              <div className="column is-3 fileeee bb">
+                <img
+                  className=""
+                  src={item.image}
+                  alt=""
+                  style={{ width: "88px " }}
+                />
+              </div>
+              <div className="column is-3 fileeee">
+                <h1 className="has-text-weight-bold ml-6 mr-6 has-text-centered">
+                  {item.name}
+                </h1>
+              </div>
+              <div className="column is-2 fileeee">
+                <h1 className="has-text-weight-bold  ml-6 mr-6 has-text-centered">
+                  ${item.price * item.count}
+                </h1>
+              </div>
+              <div className="column is-2 fileeee">
+                <h1 className="has-text-weight-bold  ml-6 mr-6 has-text-centered">
+                  {item.count}
+                </h1>
+              </div>
+              <div className="column is-2 fileeee">
+                <h1 className="has-text-weight-bold  ml-6 mr-6 has-text-centered">
+                  {item.size}
+                </h1>
+              </div>
+            </div>
+          ))}
+
+          <div className="">
+            <div id="button-checkout" className="fileee pt-5 pb-3" />
+          </div>
         </div>
       )}
     </Popup>
