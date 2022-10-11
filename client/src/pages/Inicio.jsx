@@ -49,7 +49,7 @@ export const Inicio = () => {
           <Order handleOrderByPrice={handleOrderByPrice} />
           </div>
           <div className="columns ">
-            <div className="column center is-2">
+            <div className="column center is-2 has-text-centered">
               <Filter setCurrentPage={setCurrentPage}/>
             </div>
             <div className="column is-10">
