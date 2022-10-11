@@ -292,3 +292,12 @@ export const startLogout = () => {
         })
     }
 }
+
+export const checkAuth = (result) => {
+    return async (dispatch) => {
+        dispatch({
+            type: 'CHECKING_AUTH',
+            payload: result,
+        })
+    }
+}

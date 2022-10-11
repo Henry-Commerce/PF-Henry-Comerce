@@ -96,6 +96,14 @@ function rootReducer(state = initialState, action) {
                 detail: [],
             }
 
+        case 'CHECKING_AUTH':
+            return {
+                ...state,
+                status: 'authenticated',
+                email: action.payload.email,
+                displayName: action.payload.username,
+                errorMessage: null,
+            }
         default:
             return state
     }
