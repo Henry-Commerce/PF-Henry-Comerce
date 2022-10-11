@@ -77,7 +77,9 @@ export function addClothing(payload) {
 export function getClothingDetail(name) {
     return async function (dispatch) {
         try {
-            const cloth = await axios.get(`${LOCAL_HOST}/api/clothing/items/${name}`)
+            const cloth = await axios.get(
+                `${LOCAL_HOST}/api/clothing/items/${name}`
+            )
             return dispatch({
                 type: 'GET_CLOTHING_DETAIL',
                 payload: cloth.data,
@@ -129,7 +131,7 @@ import {
 
 export const checkingAuthentication = () => {
     return async (dispatch) => {
-        sessionStorage.setItem('authenticated', false)
+        localStorage.setItem('authenticated', false)
         dispatch({
             type: 'CHECKING_CREDENTIALS',
         })
@@ -144,7 +146,7 @@ export const startGoogleSignIn = () => {
 
         const result = await singInWithGoogle()
         if (!result.ok) {
-            sessionStorage.setItem('authenticated', false)
+            localStorage.setItem('authenticated', false)
             return dispatch({
                 type: 'LOGOUT',
                 payload: result.errorMessage,
@@ -162,7 +164,7 @@ export const startGoogleSignIn = () => {
             })
         }
 
-        sessionStorage.setItem('authenticated', true)
+        localStorage.setItem('authenticated', true)
         dispatch({
             type: 'LOGIN',
             payload: result,
@@ -186,7 +188,7 @@ export const startCreatingUserWithEmailPassword = ({
             displayName,
         })
         if (!result.ok) {
-            sessionStorage.setItem('authenticated', false)
+            localStorage.setItem('authenticated', false)
             return dispatch({
                 type: 'LOGOUT',
                 payload: result.errorMessage,
@@ -201,7 +203,7 @@ export const startCreatingUserWithEmailPassword = ({
             isAdmin: false,
         })
 
-        sessionStorage.setItem('authenticated', true)
+        localStorage.setItem('authenticated', true)
         dispatch({
             type: 'LOGIN',
             payload: result,
@@ -216,20 +218,20 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
         })
         try {
             const user = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`)
-            sessionStorage.setItem('authenticated', false)
+            localStorage.setItem('authenticated', false)
 
             console.log('user', user)
 
             const result = await loginWithEmailPassword({ email, password })
 
             if (!result.ok) {
-                sessionStorage.setItem('authenticated', false)
+                localStorage.setItem('authenticated', false)
                 return dispatch({
                     type: 'LOGOUT',
                     payload: result.errorMessage,
                 })
             }
-            sessionStorage.setItem('authenticated', true)
+            localStorage.setItem('authenticated', true)
             dispatch({
                 type: 'LOGIN',
                 payload: result,
