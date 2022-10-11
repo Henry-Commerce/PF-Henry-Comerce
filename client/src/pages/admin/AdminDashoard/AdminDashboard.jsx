@@ -4,7 +4,7 @@ import { TbWorld } from 'react-icons/tb'
 export const AdminDashboard = () => {
     return (
         <section>
-            <nav className='navbar has-background-dark is-hidden-desktop'>
+            <nav className='navbar has-background-white is-hidden-desktop'>
                 <div className='navbar-brand is-align-items-center'>
                     <a className='navbar-item' href='#'>
                         <img

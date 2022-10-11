@@ -1,4 +1,5 @@
 /** @format */
+import { useSelector } from 'react-redux'
 import './Nav.scss'
 import logo from '../../assets/logo.png'
 import { Link } from 'react-router-dom'
@@ -14,6 +15,8 @@ export const Nav = () => {
     const dispatch = useDispatch()
     const [isActive, setisActive] = useState(false)
     const [name, setName] = useState('')
+
+    const status = useSelector((state) => state.status)
 
     const handleInput = (event) => {
         event.preventDefault()
@@ -126,12 +129,26 @@ export const Nav = () => {
                         <div className='navbar-item'>
                             <div className='field is-grouped'>
                                 <p className='control'>
-                                    <Link className='button log-s' to='/login'>
-                                        <span className='icon'>
-                                            <RiLoginBoxFill className='fab' />
-                                        </span>
-                                        <span>Log In</span>
-                                    </Link>
+                                    {status === 'not-authenticated' && (
+                                        <Link
+                                            className='button log-s'
+                                            to='/login'>
+                                            <span className='icon'>
+                                                <RiLoginBoxFill className='fab' />
+                                            </span>
+                                            <span>Log In</span>
+                                        </Link>
+                                    )}
+                                    {status === 'authenticated' && (
+                                        <Link
+                                            className='button log-s'
+                                            to='/login'>
+                                            <span className='icon'>
+                                                <RiLoginBoxFill className='fab' />
+                                            </span>
+                                            <span>User</span>
+                                        </Link>
+                                    )}
                                 </p>
                                 <p className='control'>
                                     <Link

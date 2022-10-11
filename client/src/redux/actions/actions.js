@@ -131,7 +131,7 @@ import {
 
 export const checkingAuthentication = () => {
     return async (dispatch) => {
-        localStorage.setItem('authenticated', false)
+        sessionStorage.setItem('authenticated', false)
         dispatch({
             type: 'CHECKING_CREDENTIALS',
         })
@@ -146,7 +146,7 @@ export const startGoogleSignIn = () => {
 
         const result = await singInWithGoogle()
         if (!result.ok) {
-            localStorage.setItem('authenticated', false)
+            sessionStorage.setItem('authenticated', false)
             return dispatch({
                 type: 'LOGOUT',
                 payload: result.errorMessage,
@@ -164,7 +164,7 @@ export const startGoogleSignIn = () => {
             })
         }
 
-        localStorage.setItem('authenticated', true)
+        sessionStorage.setItem('authenticated', true)
         dispatch({
             type: 'LOGIN',
             payload: result,
@@ -188,7 +188,7 @@ export const startCreatingUserWithEmailPassword = ({
             displayName,
         })
         if (!result.ok) {
-            localStorage.setItem('authenticated', false)
+            sessionStorage.setItem('authenticated', false)
             return dispatch({
                 type: 'LOGOUT',
                 payload: result.errorMessage,
@@ -203,7 +203,7 @@ export const startCreatingUserWithEmailPassword = ({
             isAdmin: false,
         })
 
-        localStorage.setItem('authenticated', true)
+        sessionStorage.setItem('authenticated', true)
         dispatch({
             type: 'LOGIN',
             payload: result,
@@ -218,20 +218,20 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
         })
         try {
             const user = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`)
-            localStorage.setItem('authenticated', false)
+            sessionStorage.setItem('authenticated', false)
 
             console.log('user', user)
 
             const result = await loginWithEmailPassword({ email, password })
 
             if (!result.ok) {
-                localStorage.setItem('authenticated', false)
+                sessionStorage.setItem('authenticated', false)
                 return dispatch({
                     type: 'LOGOUT',
                     payload: result.errorMessage,
                 })
             }
-            localStorage.setItem('authenticated', true)
+            sessionStorage.setItem('authenticated', true)
             dispatch({
                 type: 'LOGIN',
                 payload: result,
