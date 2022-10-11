@@ -7,7 +7,6 @@ export const App = () => {
         <>
             <Nav />
             <Rutas />
-            {/* prueba */}
         </>
     )
 }
