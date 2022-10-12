@@ -1,6 +1,22 @@
 const { Router } = require("express");
 const router = Router();
 const ClothingModel = require("../models/Clothing");
+const UserModel = require('../models/User');
+const nodeMailer = require('nodemailer');
+const {
+  Mail_USER,
+  Mail_PASSWORD2
+} = process.env;
+
+const transporter = nodeMailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+      user: Mail_USER,
+      pass: Mail_PASSWORD2
+  }
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -295,5 +311,40 @@ router.get("/items/:name", async (req, res) => {
     console.log("Cannot GET /clothing/:name", error);
   }
 });
+
+router.put('/send-email', async (req, res)=> {
+const {name,offer}=req.body
+try {
+  const response = await ClothingModel.findOne({ name: name });
+  const change= await ClothingModel.findOneAndUpdate(
+    {name: name},
+    {discount:offer}
+    );
+  const oldoffer=response.discount;
+  const users=await UserModel.find({});
+  if(offer>oldoffer){
+  const filtuser=users.filter(el=>
+    el.cart.find(le=>le.name==="SudaderaCeleste"))
+  var correos=[]
+  filtuser.forEach(el=>correos.push(el.email))
+    const int=correos.join(",")
+      let info= transporter.sendMail({
+        from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>', // sender address
+        to: `${int}`,    //req.body.to, // list of receivers
+        subject:`hubo un cambio en el precio de ${name}`,  // Subject line
+        text:"aaaaaaaaaaa", //req.body.body, // plain text body // a modificar con front
+        html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body // a modificar con front
+      });
+      res.status(200).send(change+info)
+  }else{
+    res.status(200).send(change)
+  }   
+
+
+} catch (error) {
+  console.log("error"+error)
+}
+  });
+
 
 module.exports = router;
