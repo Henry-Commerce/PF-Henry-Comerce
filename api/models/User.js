@@ -34,7 +34,11 @@ const UserSchema = new Schema(
       default: []
     },
     reviews: {
-      type: Array(Types.String),
+      type: Array(new Schema({
+        clothe: String,
+        review: String
+      }, { _id: false }))
+      ,
       default: []
     },
     cart: {

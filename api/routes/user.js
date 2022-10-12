@@ -21,7 +21,6 @@ router.get('/login', async (req, res) => {
       return res.status(200).send(User);
     }
     else{
-      console.log("aaa")
       return res.status(200).send("Usuario no encontrado")
     }
 

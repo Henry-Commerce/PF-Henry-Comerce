@@ -248,20 +248,20 @@ router.put("/restock/:name", async (req, res) => {
   return res.json(newstock);
 });
 
-router.put("/rating", async (req, res) => {
+/*router.put("/rating", async (req, res) => {
   try {
-    const rating = req.query.rating;
-    var newrating = [];
-    if (req.query.name) {
-      const foundcloth = await ClothingModel.find({ name: req.query.name });
+    const rating = req.query.rating;//
+    var newrating = [];//
+    if (req.query.name) {//
+      const foundcloth = await ClothingModel.find({ name: req.query.name });//
       if (foundcloth.length > 0) {
-        const oldrating = foundcloth[0].rating;
-        newrating = [...oldrating];
-        newrating.push(parseInt(rating));
+        const oldrating = foundcloth[0].rating;//
+        newrating = [...oldrating];//
+        newrating.push(parseInt(rating));//
         varfinrating = await ClothingModel.findOneAndUpdate(
-          { name: req.query.name },
-          { rating: newrating }
-        );
+          { name: req.query.name },//
+          { rating: newrating }//
+        );//
         return res.json(varfinrating);
       } else {
         return res.status(404).send("No hay coincidencias");
@@ -274,24 +274,23 @@ router.put("/rating", async (req, res) => {
 
 router.put("/review", async (req, res) => {
   try {
-    const review = req.query.review;
-    const user = req.query.user;
-    var newreview = [];
-    if (req.query.name) {
-      const foundcloth = await ClothingModel.find({ name: req.query.name });
+    const review = req.query.review;//
+    const user = req.query.user;//
+    var newreview = [];//
+    if (req.query.name) {//
+      const foundcloth = await ClothingModel.find({ name: req.query.name });//
       if (foundcloth.length > 0) {
-        const oldreview = foundcloth[0].comments;
-        console.log(foundcloth[0].comments);
+        const oldreview = foundcloth[0].comments;//
         newreview = [...oldreview];
         var actreview = {
-          user: user,
-          comment: review,
-        };
-        newreview.push(actreview);
+          user: user,//
+          comment: review,//
+        };//
+        newreview.push(actreview);//
         var finreview = await ClothingModel.findOneAndUpdate(
-          { name: req.query.name },
-          { comments: newreview }
-        );
+          { name: req.query.name },//
+          { comments: newreview }//
+        );//
         return res.json(finreview);
       } else {
         return res.status(404).send("No hay coincidencias");
@@ -299,6 +298,66 @@ router.put("/review", async (req, res) => {
     }
   } catch (error) {
     res.status(404).send("No hay coincidencias");
+  }
+});
+*/
+router.put("/reviewupdate", async (req, res) => {
+  try {
+
+    const { name, review,user,rating }= req.body
+    var newrating = [];
+    var newreview = [];
+    var userreview=[];
+    var resstatus=[]
+    if(name){
+      const foundcloth = await ClothingModel.find({ name: name });
+      const founduser = await UserModel.find({ username: user });
+      if (foundcloth.length > 0) {
+        /* ACT RATING */
+        const oldrating = foundcloth[0].rating;
+        newrating = [...oldrating];
+        newrating.push(rating);
+        var finrating = await ClothingModel.findOneAndUpdate(
+          { name: name },
+          { rating: newrating }
+        );
+
+        /* ACT REVIEW */
+        const oldreview = foundcloth[0].comments;
+        newreview = [...oldreview];
+        var actreview = {
+          user: user,
+          comment: review,
+        };
+        newreview.push(actreview);
+        var finreview = await ClothingModel.findOneAndUpdate(
+          { name: name },
+          { comments: newreview }
+        );
+
+        /* ACT REVIEW USUARIO */
+        const olduserreview= founduser[0].reviews
+        userreview=[...olduserreview]
+        var actuserreview={
+          clothe:name,
+          review:review
+        }
+        userreview.unshift(actuserreview)
+        var finuserreview = await UserModel.findOneAndUpdate(
+          { username: user },
+          { reviews: userreview }
+        );
+        resstatus.push(finrating) 
+        resstatus.push(finreview) 
+        resstatus.push(finuserreview)
+        
+        return res.status(200).send(resstatus)
+      }else{
+        return res.status(404).send("no hay conincidencias")
+      }
+    }
+  } catch (error) {
+    console.log("Cannot GET /clothing/:name", error);
   }
 });
 
@@ -312,7 +371,7 @@ router.get("/items/:name", async (req, res) => {
   }
 });
 
-router.put('/send-email', async (req, res)=> {
+router.put('/send-email', async (req, res)=> {// actualizar descuentos
   const {name,offer}=req.body
   try {
     const response = await ClothingModel.findOne({ name: name });
