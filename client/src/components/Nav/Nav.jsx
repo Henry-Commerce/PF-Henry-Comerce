@@ -145,7 +145,7 @@ export const Nav = () => {
                                         session.isAdmin === false && (
                                             <Link
                                                 className='button log-s'
-                                                to='/login'>
+                                                to='/user'>
                                                 <span className='icon'>
                                                     <RiLoginBoxFill className='fab' />
                                                 </span>
@@ -156,7 +156,7 @@ export const Nav = () => {
                                         session.isAdmin === true && (
                                             <Link
                                                 className='button log-s'
-                                                to='/login'>
+                                                to='/admin'>
                                                 <span className='icon'>
                                                     <RiLoginBoxFill className='fab' />
                                                 </span>
