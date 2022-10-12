@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { FcGoogle } from 'react-icons/fc'
+import { BsGithub } from 'react-icons/bs'
 
 import './Login.scss'
 import {
@@ -190,7 +191,7 @@ export const Login = () => {
                                             to=''
                                             onClick={loginGithub}>
                                             <span className='icon'>
-                                                <FcGoogle className='fas' />
+                                                <BsGithub className='fas' />
                                             </span>
                                             <span>Login With Github</span>
                                         </Link>
