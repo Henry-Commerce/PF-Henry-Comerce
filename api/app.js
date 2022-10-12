@@ -4,7 +4,8 @@ const cors = require('cors');
 const {
   DB_USER,
   DB_PASSWORD,
-  ACCESS_TOKEN
+  ACCESS_TOKEN,
+  PORT
 } = process.env;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -40,4 +41,6 @@ const mongoose = require('mongoose');
 mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.r2l18gh.mongodb.net/test`, console.log('%s connected to Db'));
 
 // Listen on port
-app.listen(3001, () => console.log('%s listening at 3001'));
+app.listen(process.env.PORT, () => {
+  console.log('%s listening at 3001')
+});
