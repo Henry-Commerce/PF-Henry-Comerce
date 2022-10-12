@@ -40,14 +40,11 @@ const ClothingSchema = new Schema(
       type: Boolean,
       default: false
     },
-    rating: {
-      type: Array,
-      default: []
-    },
     comments: {
       type: Array(new Schema({
         user: String,
-        comment: String
+        comment: String,
+        rating: Number
       }, {_id: false})),
       default: []
     }
