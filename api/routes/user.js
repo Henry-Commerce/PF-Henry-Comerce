@@ -1,7 +1,13 @@
+require('dotenv').config();
 const { Router } = require('express');
 const router = Router();
 const UserModel = require('../models/User');
 const ClothingModel = require('../models/Clothing');
+const nodeMailer = require('nodemailer');
+const {
+  Mail_USER,
+  Mail_PASSWORD2
+} = process.env;
 
 
 router.get('/login', async (req, res) => {
@@ -184,5 +190,27 @@ router.put('/newadmin', async (req, res) => {
     return res.json(newadmin);
 });
 
+router.post('/send-email', function (req, res) {
+  let transporter = nodeMailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+          user: Mail_USER,
+          pass: Mail_PASSWORD2
+      }
+  });
+const int=req.body.to.join(",")
+  let info= transporter.sendMail({
+    from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>', // sender address
+    to: `${int}`,    //req.body.to, // list of receivers
+    subject:`hubo un cambio en el precio de ${req.body.prenda}`, //req.body.subject, // Subject line
+    text:"aaaaaaaaaaa", //req.body.body, // plain text body
+    html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body
+  });
+  res.status(200).send({
+    message:info.messageId
+  })
+  });
 
 module.exports = router;

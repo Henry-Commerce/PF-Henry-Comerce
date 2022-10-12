@@ -12,6 +12,7 @@ const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const app = express();
 const mercadopago = require('mercadopago');
+const nodeMailer = require('nodemailer');
 
 mercadopago.configure({
 	access_token: `${ACCESS_TOKEN}`
