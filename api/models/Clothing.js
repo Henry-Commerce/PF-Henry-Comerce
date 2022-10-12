@@ -5,49 +5,58 @@ const ClothingSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     category: {
       type: String,
-      required: true
+      required: true,
     },
     price: {
       type: Number,
       min: 0,
-      required: true
+      required: true,
     },
-    stock: new Schema({
-      XS: Number,
-      S: Number,
-      M: Number,
-      L: Number,
-      XL: Number,
-      XXL: Number
-    }, {_id: false}),
+    stock: new Schema(
+      {
+        XS: Number,
+        S: Number,
+        M: Number,
+        L: Number,
+        XL: Number,
+        XXL: Number,
+      },
+      { _id: false }
+    ),
     image: {
-      type: String
+      type: String,
     },
     discount: {
       type: Number,
       default: 0,
       min: 0,
-      max: 99
+      max: 99,
     },
     description: {
-      type: String
+      type: String,
     },
     show: {
       type: Boolean,
-      default: false
+      default: false,
     },
     comments: {
-      type: Array(new Schema({
-        user: String,
-        comment: String,
-        rating: Number
-      }, {_id: false})),
-      default: []
-    }
+      type: Array(
+        new Schema(
+          {
+            user: String,
+            title: String,
+            description: String,
+            rating: Number,
+          },
+          { _id: false }
+        )
+      ),
+      default: [],
+    },
   },
   {
     timestamps: true,
