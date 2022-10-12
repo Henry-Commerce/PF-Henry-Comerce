@@ -64,10 +64,10 @@ router.get('/adminsinfo',async(req, res) => {
   }
 });
 
-router.get('/info/:username', async (req, res) => {
-  const { username } = req.params;
+router.get('/info/:email', async (req, res) => {
+  const { email } = req.params;
   try {
-    const resultUN = await UserModel.findOne({username: username});
+    const resultUN = await UserModel.findOne({email: email});
     if(resultUN) {
       const User={
         username: resultUN.username,
@@ -83,7 +83,7 @@ router.get('/info/:username', async (req, res) => {
       return res.status(404).json({message:"User not found"})
     }
   } catch(error) {
-    console.log('Cannot GET /user/:username', error);
+    console.log('Cannot GET /user/:email', error);
     res.status(404).json({message: "Internal error"});
   }
 });
