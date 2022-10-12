@@ -264,7 +264,7 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
                     username: email,
                     email: email,
                     country: 'argentina',
-                    isAdmin: false,
+                    isAdmin: user.data.isAdmin,
                 })
             )
 

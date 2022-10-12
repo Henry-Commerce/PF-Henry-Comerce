@@ -31,6 +31,8 @@ export const Nav = () => {
         }
     }
 
+    const session = JSON.parse(sessionStorage.getItem('authenticated'))
+
     return (
         <header>
             <nav className='navbar is-transparent'>
@@ -139,16 +141,28 @@ export const Nav = () => {
                                             <span>Log In</span>
                                         </Link>
                                     )}
-                                    {status === 'authenticated' && (
-                                        <Link
-                                            className='button log-s'
-                                            to='/login'>
-                                            <span className='icon'>
-                                                <RiLoginBoxFill className='fab' />
-                                            </span>
-                                            <span>User</span>
-                                        </Link>
-                                    )}
+                                    {status === 'authenticated' &&
+                                        session.isAdmin === false && (
+                                            <Link
+                                                className='button log-s'
+                                                to='/login'>
+                                                <span className='icon'>
+                                                    <RiLoginBoxFill className='fab' />
+                                                </span>
+                                                <span>User</span>
+                                            </Link>
+                                        )}
+                                    {status === 'authenticated' &&
+                                        session.isAdmin === true && (
+                                            <Link
+                                                className='button log-s'
+                                                to='/login'>
+                                                <span className='icon'>
+                                                    <RiLoginBoxFill className='fab' />
+                                                </span>
+                                                <span>Admin</span>
+                                            </Link>
+                                        )}
                                 </p>
                                 <p className='control'>
                                     <Link
