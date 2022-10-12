@@ -204,9 +204,9 @@ const int=req.body.to.join(",")
   let info= transporter.sendMail({
     from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>', // sender address
     to: `${int}`,    //req.body.to, // list of receivers
-    subject:`hubo un cambio en el precio de ${req.body.prenda}`, //req.body.subject, // Subject line
-    text:"aaaaaaaaaaa", //req.body.body, // plain text body
-    html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body
+    subject:`hubo un cambio en el precio de ${req.body.prenda}`,  // Subject line
+    text:"aaaaaaaaaaa", //req.body.body, // plain text body // a modificar con front
+    html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body // a modificar con front
   });
   res.status(200).send({
     message:info.messageId
