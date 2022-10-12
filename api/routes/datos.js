@@ -20,4 +20,18 @@ order id, id unico
   ],
   "orderid": "dasdadsa"
 }
+
+put/send-email
+body
+{
+  "name": "SudaderaCeleste",
+  "offer": 25
+}
+2 items, nombre del item y el cambio de la oferta del item
+
+
+
+
+
+
  */
