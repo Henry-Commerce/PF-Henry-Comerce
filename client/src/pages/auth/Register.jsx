@@ -30,7 +30,7 @@ export const Register = () => {
     const register = await dispatch(
       startCreatingUserWithEmailPassword(formData)
     );
-    if (register.type === 'LOGOUT') {
+    if (register?.type === 'LOGOUT') {
       errorUsuarioExistente();
       handleReset();
     } else {
