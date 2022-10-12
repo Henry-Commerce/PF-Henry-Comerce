@@ -4,8 +4,7 @@ const cors = require('cors');
 const {
   DB_USER,
   DB_PASSWORD,
-  ACCESS_TOKEN,
-  PORT
+  ACCESS_TOKEN
 } = process.env;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -13,7 +12,6 @@ const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const app = express();
 const mercadopago = require('mercadopago');
-const nodeMailer = require('nodemailer');
 
 mercadopago.configure({
 	access_token: `${ACCESS_TOKEN}`
@@ -41,6 +39,4 @@ const mongoose = require('mongoose');
 mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.r2l18gh.mongodb.net/test`, console.log('%s connected to Db'));
 
 // Listen on port
-app.listen(process.env.PORT, () => {
-  console.log('%s listening at 3001')
-});
+app.listen(3001, () => console.log('%s listening at 3001'));

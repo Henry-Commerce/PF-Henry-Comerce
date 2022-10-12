@@ -1,4 +1,4 @@
-
+/*
 put/shopitems
 objeto dos valores(items,orderid)
 items array de objetos con 4 valores, price es el total de la compra
@@ -20,14 +20,4 @@ order id, id unico
   ],
   "orderid": "dasdadsa"
 }
-
-
-post email
-objeto con dos valores
-{
-  "to": [
-    "correo1@gmail.com",
-    "correo2@gmail.com"
-  ],
-  "prenda": "camiseta"
-}
+ */
