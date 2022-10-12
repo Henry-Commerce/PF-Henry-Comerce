@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const router = Router();
-const mercadopago = require("mercadopago");
-const OrderModel = require("../models/Order");
+const BranchModel = require("../models/Branch");
 
-router.get("/create", function (req, res) {});
+router.post("/create", function (req, res) {
+  
+});
 
 module.exports = router;
