@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { getClothing } from '../redux/actions'
+import { checkAuth, getClothing } from '../redux/actions'
 
 import { Loading, Pagination, Product } from '../components'
 import { Order } from '../components/Order/Order'
@@ -35,6 +35,13 @@ export const Inicio = () => {
     useEffect(() => {
         dispatch(getClothing())
     }, [dispatch])
+
+    useEffect(() => {
+        if (sessionStorage.getItem('authenticated')) {
+            const session = JSON.parse(sessionStorage.getItem('authenticated'))
+            dispatch(checkAuth(session))
+        }
+    }, [])
 
     const handleOrderByPrice = (event) => {
         dispatch(setOrderByPrice(event.target.value))

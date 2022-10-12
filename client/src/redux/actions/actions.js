@@ -127,6 +127,7 @@ import {
     registerUserWithEmailPassword,
     singInWithGoogle,
     logoutFirebase,
+    singInWithGithub,
 } from '../../firebase/providers'
 
 export const checkingAuthentication = () => {
@@ -134,6 +135,44 @@ export const checkingAuthentication = () => {
         sessionStorage.setItem('authenticated', false)
         dispatch({
             type: 'CHECKING_CREDENTIALS',
+        })
+    }
+}
+export const startGithubSignIn = () => {
+    return async (dispatch) => {
+        dispatch({
+            type: 'CHECKING_CREDENTIALS',
+        })
+
+        const result = await singInWithGithub()
+        if (result.ok === false) {
+            sessionStorage.setItem('authenticated', false)
+            return dispatch({
+                type: 'LOGOUT',
+                payload: result.errorMessage,
+            })
+        }
+
+        sessionStorage.setItem(
+            'authenticated',
+            JSON.stringify({
+                authenticated: true,
+                username: result.displayName,
+                email: result.email,
+                password: result.uid,
+                country: 'argentina',
+                isAdmin: false,
+            })
+        )
+
+        // const use = await axios.get(
+        //     `${LOCAL_HOST}/api/user/info/${result.displayName}`
+        // )
+        // console.log(use)
+
+        dispatch({
+            type: 'LOGIN',
+            payload: result,
         })
     }
 }
@@ -152,17 +191,17 @@ export const startGoogleSignIn = () => {
                 payload: result.errorMessage,
             })
         }
-        try {
-            await axios.get(`${LOCAL_HOST}/api/user/info/${result.displayName}`)
-        } catch {
-            await axios.post(`${LOCAL_HOST}/api/user/register`, {
-                username: result.displayName,
-                email: result.email,
-                password: result.uid,
-                country: 'argentina',
-                isAdmin: false,
-            })
-        }
+        // try {
+        //     await axios.get(`${LOCAL_HOST}/api/user/info/${result.displayName}`)
+        // } catch {
+        //     await axios.post(`${LOCAL_HOST}/api/user/register`, {
+        //         username: result.displayName,
+        //         email: result.email,
+        //         password: result.uid,
+        //         country: 'argentina',
+        //         isAdmin: false,
+        //     })
+        // }
 
         // sessionStorage.setItem('authenticated', true)
 
@@ -264,7 +303,7 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
                     username: email,
                     email: email,
                     country: 'argentina',
-                    isAdmin: false,
+                    isAdmin: user.data.isAdmin,
                 })
             )
 
@@ -289,6 +328,15 @@ export const startLogout = () => {
         dispatch({
             type: 'LOGOUT',
             payload: result.errorMessage,
+        })
+    }
+}
+
+export const checkAuth = (result) => {
+    return async (dispatch) => {
+        dispatch({
+            type: 'CHECKING_AUTH',
+            payload: result,
         })
     }
 }

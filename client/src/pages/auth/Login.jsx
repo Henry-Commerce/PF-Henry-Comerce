@@ -8,11 +8,13 @@ import { toast } from 'react-toastify'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { FcGoogle } from 'react-icons/fc'
+import { BsGithub } from 'react-icons/bs'
 
 import './Login.scss'
 import {
     checkingAuthentication,
     startGoogleSignIn,
+    startGithubSignIn,
     startLoginWithEmailPassword,
 } from '../../redux/actions/actions'
 
@@ -41,8 +43,13 @@ export const Login = () => {
             progress: undefined,
         })
 
-    const loginGoogle = () => {
-        dispatch(startGoogleSignIn())
+    const loginGoogle = async () => {
+        await dispatch(startGoogleSignIn())
+        navigate('/')
+    }
+
+    const loginGithub = async () => {
+        await dispatch(startGithubSignIn())
         navigate('/')
     }
 
@@ -166,15 +173,6 @@ export const Login = () => {
                                             aria-hidden='true'></i>
                                     </button>
                                     <br />
-                                    {/* <button
-                                        type='button'
-                                        className='button is-block is-primary is-large is-fullwidth'
-                                        onClick={loginGoogle}>
-                                        <span className='icon'>
-                                            <FcGoogle className='' />
-                                        </span>
-                                        Login With Google
-                                    </button> */}
                                     <p className='control'>
                                         <Link
                                             className='button is-primary is-large is-fullwidth'
@@ -184,6 +182,18 @@ export const Login = () => {
                                                 <FcGoogle className='fas' />
                                             </span>
                                             <span>Login With Google</span>
+                                        </Link>
+                                    </p>
+                                    <br />
+                                    <p className='control'>
+                                        <Link
+                                            className='button is-primary is-large is-fullwidth'
+                                            to=''
+                                            onClick={loginGithub}>
+                                            <span className='icon'>
+                                                <BsGithub className='fas' />
+                                            </span>
+                                            <span>Login With Github</span>
                                         </Link>
                                     </p>
                                 </form>
