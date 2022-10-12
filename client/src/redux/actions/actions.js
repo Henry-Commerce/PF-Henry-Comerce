@@ -151,11 +151,12 @@ export const startGithubSignIn = () => {
 
     const { email } = result;
 
-    console.log(result);
+    let admin = false;
 
     try {
       const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
       const { data } = existe;
+      admin = data.isAdmin;
       console.log('existe', existe);
 
       if (email === data.email) {
@@ -179,7 +180,7 @@ export const startGithubSignIn = () => {
       'authenticated',
       JSON.stringify({
         authenticated: true,
-        isAdmin: false,
+        isAdmin: admin,
       })
     );
 
@@ -208,10 +209,12 @@ export const startGoogleSignIn = () => {
     const { email } = result;
 
     console.log(result);
+    let admin = false;
 
     try {
       const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
       const { data } = existe;
+      admin = data.isAdmin;
       console.log('existe', existe);
 
       if (email === data.email) {
@@ -235,7 +238,7 @@ export const startGoogleSignIn = () => {
       'authenticated',
       JSON.stringify({
         authenticated: true,
-        isAdmin: false,
+        isAdmin: admin,
       })
     );
 
@@ -330,11 +333,12 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
 
     console.log('existe', existe);
     if (existe.status === 200) {
+      const admin = existe.data.isAdmin;
       sessionStorage.setItem(
         'authenticated',
         JSON.stringify({
           authenticated: true,
-          isAdmin: false,
+          isAdmin: admin,
         })
       );
       return dispatch({
