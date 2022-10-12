@@ -69,24 +69,25 @@ router.get('/adminsinfo', async(req, res) => {
   }
 });
 
-router.get('/info/:username', async(req, res) => {
-  const { username } = req.params;
-  try {
-    const resultUN = await UserModel.find({username: username});
-    const User={
-      username: resultUN[0].username,
-      email: resultUN[0].email,
-      country:resultUN[0].country,
-      boughtitems: resultUN[0].boughtitems,
-      reviews: resultUN[0].reviews,
-      isAdmin: resultUN[0].isAdmin,
-      cart:resultUN[0].cart
+router.get('/info/:email', async (req, res) => {
+    const { email } = req.params
+    try {
+        const resultUN = await UserModel.find({ email: email })
+        const User = {
+            username: resultUN[0].username,
+            email: resultUN[0].email,
+            country: resultUN[0].country,
+            boughtitems: resultUN[0].boughtitems,
+            reviews: resultUN[0].reviews,
+            isAdmin: resultUN[0].isAdmin,
+            cart: resultUN[0].cart,
+        }
+        res.send(User)
+    } catch (error) {
+        console.log('Cannot GET /user/:email', error)
+        res.send('error')
     }
-    res.send(User);
-  } catch(error) {
-    console.log('Cannot GET /user/:username', error);
-  }
-});
+})
 
 router.get('/cartdetail/:username', async(req, res) => {
   const { username } = req.params;
