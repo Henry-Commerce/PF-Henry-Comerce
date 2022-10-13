@@ -4,6 +4,19 @@ const UserModel = require('../models/User');
 const ClothingModel = require('../models/Clothing');
 
 
+
+/************************************************************************************************
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                          GET                                                 *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ ************************************************************************************************/
+
+
 router.get('/login', async (req, res) => {
   try {
     const username=req.query.username;
@@ -110,31 +123,16 @@ router.get('/cartdetail/:username', async(req, res) => {
   }
 });
 
-router.put('/shopitems', async (req, res) => {
-const {username}=req.query
-var newhistorial=[]
-//const {orderid,name,image,count}=req.body
-const {items,orderid}=req.body
-var historial=[]
-try {
-  const resultUN = await UserModel.find({username: username});
-  historial=resultUN[0].boughtitems
-  newhistorial={
-    orderid:orderid,
-    items:items
-  }
-  historial.push(newhistorial)
-  const newcompra = await UserModel.findOneAndUpdate(
-    {username:username},
-    {boughtitems:historial}
-    );
-
-
-  res.send(newcompra)
-} catch (error) {
-  console.log(error)
-}
-})
+/************************************************************************************************
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                          POST                                                *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ ************************************************************************************************/
 
 router.post('/register', async (req, res) => {
   try {
@@ -164,9 +162,42 @@ router.post('/register', async (req, res) => {
     console.log('GET /', error);
   }
 });
+/************************************************************************************************
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                          PUT                                                 *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ ************************************************************************************************/
+router.put('/shopitems', async (req, res) => {
+const {username}=req.query
+var newhistorial=[]
+const {items,orderid}=req.body
+var historial=[]
+try {
+  const resultUN = await UserModel.find({username: username});
+  historial=resultUN[0].boughtitems
+  newhistorial={
+    orderid:orderid,
+    items:items
+  }
+  historial.push(newhistorial)
+  const newcompra = await UserModel.findOneAndUpdate(
+    {username:username},
+    {boughtitems:historial}
+    );
+
+
+  res.send(newcompra)
+} catch (error) {
+  console.log(error)
+}
+})
 
 router.put('/addcart', async (req, res) => {
-  console.log(req.query)
   var newcart = await UserModel.findOneAndUpdate(
     {username:req.query.username},
     {cart:req.body}
@@ -175,8 +206,6 @@ router.put('/addcart', async (req, res) => {
 });
 
 router.put('/newadmin', async (req, res) => {
-  console.log(req.query)
-  console.log(req.query.isAdmin)
   var newadmin = await UserModel.findOneAndUpdate(
     {username:req.query.username},
     {isAdmin:req.query.isAdmin}
