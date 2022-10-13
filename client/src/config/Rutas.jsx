@@ -2,6 +2,7 @@
 
 import { Route, Routes } from 'react-router-dom'
 import { ProductsDetails } from '../components'
+import { Map } from '../components/Map/Map'
 import {
     Page404,
     Login,
@@ -48,6 +49,8 @@ export const Rutas = () => {
             <Route path='/success' element={<CheckOutSuccess />} />
             <Route path='/failure' element={<CheckOutFailure />} />
             <Route path='/pending' element={<CheckOutPending />} />
+
+            <Route path='/map' element={<Map />} />
         </Routes>
     )
 }
