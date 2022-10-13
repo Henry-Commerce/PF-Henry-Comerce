@@ -292,9 +292,9 @@ router.put("/restock/:name", async (req, res) => {        //restock de la prenda
   return res.json(newstock);
 });
 
-router.put("/showable/:name", async (req, res) => {        //APARECERLA O DESAPARECERLA
+router.put("/showable", async (req, res) => {        //APARECERLA O DESAPARECERLA
   const show = await ClothingModel.findOneAndUpdate(
-    { name: req.params.name },
+    { name: req.body.name },
     { show: req.body.show }
   );
   const result= await ClothingModel.find({name: req.params.name})
