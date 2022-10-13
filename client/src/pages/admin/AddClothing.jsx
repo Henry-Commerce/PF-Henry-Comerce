@@ -1,5 +1,5 @@
 /** @format */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AdminNav, Notify } from '../../components';
 import { toast } from 'react-toastify';
@@ -41,6 +41,24 @@ export const AddClothing = () => {
   useEffect(() => {
     values.image = image;
   }, [image]);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('authenticated')) {
+      const { authenticated, isAdmin } = JSON.parse(
+        localStorage.getItem('authenticated')
+      );
+      if (authenticated) {
+        if (isAdmin === false) {
+          navigate('/');
+        }
+      } else {
+        navigate('/');
+      }
+    } else {
+      navigate('/');
+    }
+  }, []);
 
   const notify = () =>
     toast.success('🦄 Prenda añadida correctamente', {

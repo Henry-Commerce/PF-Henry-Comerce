@@ -2,8 +2,11 @@ const { Router } = require("express");
 const router = Router();
 const mercadopago = require("mercadopago");
 const OrderModel = require("../models/Order");
+const jwt = require('jsonwebtoken');
+const { SECRET } = process.env;
+const { verifyToken, isAdmin } = require('../middlewares/utils');
 
-router.post("/create_preference", (req, res) => {
+router.post("/create_preference", verifyToken, (req, res) => {
   const preference = {
     items: req.body.map((element) => {
       return {

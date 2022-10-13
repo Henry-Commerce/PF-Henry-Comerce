@@ -1,13 +1,13 @@
 /** @format */
 import './Nav.scss';
 import logo from '../../assets/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { RiLoginBoxFill } from 'react-icons/ri';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaSearch } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import { getClothingByName } from '../../redux/actions/actions';
+import { getClothingByName, startLogout } from '../../redux/actions/actions';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -31,11 +31,18 @@ export const Nav = () => {
   };
 
   useEffect(() => {
-    setSession(JSON.parse(sessionStorage.getItem('authenticated')));
-  }, [sessionStorage.getItem('authenticated')]);
+    setSession(JSON.parse(localStorage.getItem('authenticated')));
+  }, [localStorage.getItem('authenticated')]);
 
-  const status = useSelector((state) => state.allClothing);
+  const status = useSelector((state) => state.status);
   useEffect(() => {}, [status]);
+
+  const navigate = useNavigate();
+  const meow = () => {
+    localStorage.removeItem('authenticated');
+    dispatch(startLogout());
+    navigate('/');
+  };
 
   return (
     <header>
@@ -130,6 +137,16 @@ export const Nav = () => {
           <div className='navbar-end'>
             <div className='navbar-item'>
               <div className='field is-grouped'>
+                {status === 'authenticated' && (
+                  <p className='control'>
+                    <a className='button log-s' onClick={meow}>
+                      <span className='icon'>
+                        <RiLoginBoxFill className='fab' />
+                      </span>
+                      <span>Log Out</span>
+                    </a>
+                  </p>
+                )}
                 <p className='control'>
                   {session === null && (
                     <Link className='button log-s' to='/login'>
