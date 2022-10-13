@@ -18,6 +18,17 @@ const transporter = nodeMailer.createTransport({
   }
 }); 
 
+/************************************************************************************************
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                          GET                                                 *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ ************************************************************************************************/
+
 router.get("/", async (req, res) => {
   try {
     const response = await ClothingModel.find({});
@@ -214,6 +225,29 @@ router.get("/oferts", async (req, res) => {
   }
 });
 
+
+
+
+router.get("/items/:name", async (req, res) => {
+  const { name } = req.params;
+  try {
+    const response = await ClothingModel.find({ name: name });
+    res.send(response);
+  } catch (error) {
+    console.log("Cannot GET /clothing/:name", error);
+  }
+});
+/************************************************************************************************
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                          POST                                                *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ ************************************************************************************************/
+
 router.post("/add", async (req, res) => {
   try {
     const { name, category, price, stock, image, description } = req.body;
@@ -239,8 +273,18 @@ router.post("/add", async (req, res) => {
     console.log("POST /add", error);
   }
 });
+/************************************************************************************************
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                          PUT                                                 *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ ************************************************************************************************/
 
-router.put("/restock/:name", async (req, res) => {
+router.put("/restock/:name", async (req, res) => {        //restock de la prenda
   const newstock = await ClothingModel.findOneAndUpdate(
     { name: req.params.name },
     { stock: req.body }
@@ -248,60 +292,16 @@ router.put("/restock/:name", async (req, res) => {
   return res.json(newstock);
 });
 
-/*router.put("/rating", async (req, res) => {
-  try {
-    const rating = req.query.rating;//
-    var newrating = [];//
-    if (req.query.name) {//
-      const foundcloth = await ClothingModel.find({ name: req.query.name });//
-      if (foundcloth.length > 0) {
-        const oldrating = foundcloth[0].rating;//
-        newrating = [...oldrating];//
-        newrating.push(parseInt(rating));//
-        varfinrating = await ClothingModel.findOneAndUpdate(
-          { name: req.query.name },//
-          { rating: newrating }//
-        );//
-        return res.json(varfinrating);
-      } else {
-        return res.status(404).send("No hay coincidencias");
-      }
-    }
-  } catch (error) {
-    res.status(404).send("No hay coincidencias");
-  }
+router.put("/showable/:name", async (req, res) => {        //APARECERLA O DESAPARECERLA
+  const show = await ClothingModel.findOneAndUpdate(
+    { name: req.params.name },
+    { show: req.body.show }
+  );
+  const result= await ClothingModel.find({name: req.params.name})
+  return res.json(result);
 });
 
-router.put("/review", async (req, res) => {
-  try {
-    const review = req.query.review;//
-    const user = req.query.user;//
-    var newreview = [];//
-    if (req.query.name) {//
-      const foundcloth = await ClothingModel.find({ name: req.query.name });//
-      if (foundcloth.length > 0) {
-        const oldreview = foundcloth[0].comments;//
-        newreview = [...oldreview];
-        var actreview = {
-          user: user,//
-          comment: review,//
-        };//
-        newreview.push(actreview);//
-        var finreview = await ClothingModel.findOneAndUpdate(
-          { name: req.query.name },//
-          { comments: newreview }//
-        );//
-        return res.json(finreview);
-      } else {
-        return res.status(404).send("No hay coincidencias");
-      }
-    }
-  } catch (error) {
-    res.status(404).send("No hay coincidencias");
-  }
-});
-*/
-router.put("/reviewupdate", async (req, res) => {
+router.put("/reviewupdate", async (req, res) => {         //Actualizar las reviews de la prenda
   try {
 
     const { name, review,user,rating }= req.body
@@ -361,17 +361,7 @@ router.put("/reviewupdate", async (req, res) => {
   }
 });
 
-router.get("/items/:name", async (req, res) => {
-  const { name } = req.params;
-  try {
-    const response = await ClothingModel.find({ name: name });
-    res.send(response);
-  } catch (error) {
-    console.log("Cannot GET /clothing/:name", error);
-  }
-});
-
-router.put('/send-email', async (req, res)=> {// actualizar descuentos
+router.put('/updateoffer', async (req, res)=> {     // actualizar descuentos
   const {name,offer}=req.body
   try {
     const response = await ClothingModel.findOne({ name: name });
@@ -397,8 +387,7 @@ router.put('/send-email', async (req, res)=> {// actualizar descuentos
         res.status(200).send(change+info)
     }else{
       res.status(200).send(change)
-    }   
-  
+    }    
   } catch (error) {
     console.log("error"+error)
   }
