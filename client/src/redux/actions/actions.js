@@ -368,3 +368,18 @@ export const checkAuth = (result) => {
     });
   };
 };
+
+
+export function getUser(username) {
+  return async function (dispatch) {
+    try {
+      const user = await axios.get(`${LOCAL_HOST}/api/user/info/${username}`);
+      return dispatch({
+        type: 'GET_USER',
+        payload: user.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}

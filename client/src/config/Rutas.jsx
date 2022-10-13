@@ -19,6 +19,7 @@ import {
     CheckOutFailure,
     CheckOutPending,
     UserDashboard,
+    UserConfig
 } from '../pages'
 
 export const Rutas = () => {
@@ -43,7 +44,8 @@ export const Rutas = () => {
             <Route path='/admin' element={<AdminDashboard />} />
             <Route path='/admin/add' element={<AddClothing />} />
 
-            <Route path='/user' element={<UserDashboard />} />
+            <Route path="/user/:username" element={<UserDashboard />} />
+            <Route path="/user/config/:username" element={<UserConfig />} />
 
             <Route path='/success' element={<CheckOutSuccess />} />
             <Route path='/failure' element={<CheckOutFailure />} />
