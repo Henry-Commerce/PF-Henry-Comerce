@@ -98,6 +98,19 @@ router.get('/cartdetail/:username', verifyToken, async (req, res) => {
   }
 });
 
+router.get('/isadmin/:token', async (req, res) => {
+
+  const { token } = req.params;
+  const decoded = jwt.verify(token, SECRET);
+  req.userId = decoded.id;
+
+  const user = await UserModel.findById(req.userId, {password: 0});
+  if (!user) return res.status(404).json({ mesagge: 'User not found' });
+  if(user.isAdmin === false) return res.status(401).json({ isAdmin: false});
+  res.status(200).json({isAdmin: true});
+
+})
+
 /************************************************************************************************
  *                                                                                              *
  *                                                                                              *
@@ -111,7 +124,7 @@ router.get('/cartdetail/:username', verifyToken, async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    let email = req.body.email;
+    const email = req.body.email;
     const password = req.body.password;
     const resultUN = await UserModel.findOne({ email: email });
     if (!resultUN) return res.status(400).json({ message: 'User not found' });
