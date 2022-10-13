@@ -9,6 +9,7 @@ import { FaSearch } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { getClothingByName } from '../../redux/actions/actions';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export const Nav = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ export const Nav = () => {
   useEffect(() => {
     setSession(JSON.parse(sessionStorage.getItem('authenticated')));
   }, [sessionStorage.getItem('authenticated')]);
+
+  const status = useSelector((state) => state.allClothing);
+  useEffect(() => {}, [status]);
 
   return (
     <header>
@@ -88,9 +92,7 @@ export const Nav = () => {
                 </a>
               </div>
             </div>
-            <Link className='navbar-item jsi' to='/admin/add'>
-              Add new Products
-            </Link>
+
             <Link className='navbar-item jsi' to='/news'>
               News
             </Link>
