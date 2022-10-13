@@ -28,5 +28,3 @@ export const CheckOutPending = () => {
     </section>
   );
 };
-
-/*   http://localhost:5173/pending?collection_id=1308842303&collection_status=pending&payment_id=1308842303&status=pending&external_reference=null&payment_type=ticket&merchant_order_id=6106623140&preference_id=128332427-8da5aa42-691a-4f7e-abab-9717748a6a84&site_id=MLA&processing_mode=aggregator&merchant_account_id=null */

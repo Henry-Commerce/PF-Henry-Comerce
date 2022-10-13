@@ -1,16 +1,19 @@
-const { Schema, model, Types } = require("mongoose");
-const mongooseDelete = require("mongoose-delete");
+/** @format */
+
+const { Schema, model, Types } = require('mongoose');
+const mongooseDelete = require('mongoose-delete');
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new Schema(
   {
     username: {
       type: String,
-      required: true
+      required: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
@@ -19,19 +22,29 @@ const UserSchema = new Schema(
     },
     country: {
       type: String,
-      required: true
+      required: true,
     },
     boughtitems: {
-      type: Array(new Schema({
-        orderid: String,
-        items: Array(new Schema({
-          name: String,
-          image: String,
-          price:Number,
-          count: Number
-        }, { _id: false })),
-      }, { _id: false })),
-      default: []
+      type: Array(
+        new Schema(
+          {
+            orderid: String,
+            items: Array(
+              new Schema(
+                {
+                  name: String,
+                  image: String,
+                  price: Number,
+                  count: Number,
+                },
+                { _id: false }
+              )
+            ),
+          },
+          { _id: false }
+        )
+      ),
+      default: [],
     },
     reviews: {
       type: Array(new Schema({
@@ -40,19 +53,24 @@ const UserSchema = new Schema(
       }, { _id: false }))
       ,
       default: []
+
     },
     cart: {
-      type: Array(new Schema({
-        name: String,
-        count: Number
-      }, { _id: false }))
-      ,
-      default: []
+      type: Array(
+        new Schema(
+          {
+            name: String,
+            count: Number,
+          },
+          { _id: false }
+        )
+      ),
+      default: [],
     },
     isAdmin: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -60,8 +78,17 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.plugin(mongooseDelete, { overrideMethods: "all" });
+UserSchema.plugin(mongooseDelete, { overrideMethods: 'all' });
 
-const UserModel = model("User", UserSchema);
+UserSchema.statics.encyptPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
+};
+
+UserSchema.statics.comparePassword = async (password, recievedPassword) => {
+  return await bcrypt.compare(password, recievedPassword);
+};
+
+const UserModel = model('User', UserSchema);
 
 module.exports = UserModel;
