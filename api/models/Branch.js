@@ -3,13 +3,22 @@ const mongooseDelete = require("mongoose-delete");
 
 const BrachSchema = new Schema(
   {
-    name: {
-      type: String,
-    },
     street: {
       type: String,
       required: true,
+    },
+    coordinates: {
+      type: new Schema({
+        lat: Number,
+        lng: Number,
+      }),
+      required: true,
       unique: true,
+    },
+    icon: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dg50vvzpm/image/upload/v1665624920/Henry_marker_bgee17.ico",
     },
   },
   {
