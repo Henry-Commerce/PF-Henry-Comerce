@@ -14,9 +14,9 @@ router.post("/create_preference", (req, res) => {
       };
     }),
     back_urls: {
-      success: "http://localhost:5173/success",
-      failure: "http://localhost:5173/failure",
-      pending: "http://localhost:5173/pending",
+      success: "https://henry-commerce.github.io/success",
+      failure: "https://henry-commerce.github.io/failure",
+      pending: "https://henry-commerce.github.io/pending",
     },
     auto_return: "approved",
   };

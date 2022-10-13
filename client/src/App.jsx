@@ -1,12 +1,12 @@
 /** @format */
-import { Nav } from './components';
-import { Rutas } from './config/Rutas';
+import { Nav } from './components'
+import { Rutas } from './config/Rutas'
 
 export const App = () => {
-  return (
-    <>
-      <Nav />
-      <Rutas />
-    </>
-  );
-};
+    return (
+        <>
+            <Nav />
+            <Rutas />
+        </>
+    )
+}
