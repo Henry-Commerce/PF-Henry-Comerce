@@ -1,5 +1,7 @@
 /** @format */
 
+
+
 //Estado global inicial
 const initialState = {
     allClothing: [],
@@ -59,6 +61,12 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 detail: action.payload[0],
+            }
+
+        case 'POST_REVIEW':
+            return {
+                ...state,
+                review: action.payload
             }
 
         case 'SET_ORDER_PRICE':

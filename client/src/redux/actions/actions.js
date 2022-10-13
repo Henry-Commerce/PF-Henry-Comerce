@@ -1,5 +1,6 @@
 /** @format */
 
+
 import axios from 'axios';
 import { FaBullseye } from 'react-icons/fa';
 const LOCAL_HOST = 'http://localhost:3001';
@@ -83,6 +84,20 @@ export function getClothingDetail(name) {
       console.log(error);
     }
   };
+}
+
+export function postReview(name,payload){
+  return async function(dispatch){
+    try{
+      const review = await axios.put(`${LOCAL_HOST}/api/clothing/review/?name=${name}`,payload);
+      return dispatch({
+        type: 'POST_REVIEW',
+        payload: review,
+      });
+    }catch (error) {
+      console.log(error);
+    }
+  } 
 }
 
 export function getClothingByName(name) {

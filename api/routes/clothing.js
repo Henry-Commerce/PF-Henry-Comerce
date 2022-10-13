@@ -248,36 +248,34 @@ router.put("/restock/:name", async (req, res) => {
   return res.json(newstock);
 });
 
-router.put("/rating", async (req, res) => {
-  try {
-    const rating = req.query.rating;
-    var newrating = [];
-    if (req.query.name) {
-      const foundcloth = await ClothingModel.find({ name: req.query.name });
-      if (foundcloth.length > 0) {
-        const oldrating = foundcloth[0].rating;
-        newrating = [...oldrating];
-        newrating.push(parseInt(rating));
-        varfinrating = await ClothingModel.findOneAndUpdate(
-          { name: req.query.name },
-          { rating: newrating }
-        );
-        return res.json(varfinrating);
-      } else {
-        return res.status(404).send("No hay coincidencias");
-      }
-    }
-  } catch (error) {
-    res.status(404).send("No hay coincidencias");
-  }
-});
+
 
 router.put("/review", async (req, res) => {
   try {
-    const review = req.query.review;
-    const user = req.query.user;
-    var newreview = [];
-    if (req.query.name) {
+    const {name} = req.query
+    const {user, title,rating, description} = req.body
+    const foundCloth = await ClothingModel.findOne({
+      name,
+    })
+    const data = foundCloth.comments
+    console.log(foundCloth)
+    data.push({
+      user,
+      title,
+      rating,
+      description
+    })
+    await ClothingModel.findOneAndUpdate({name},{comments:data})
+    res.status(200).json(foundCloth)
+    if(user && title){
+      const foundUser = await ClothingModel.find({
+        comments:{
+          $elemMatch:{user,title} 
+        }
+      })
+      
+    }
+    /* if (req.query.name) {
       const foundcloth = await ClothingModel.find({ name: req.query.name });
       if (foundcloth.length > 0) {
         const oldreview = foundcloth[0].comments;
@@ -296,7 +294,8 @@ router.put("/review", async (req, res) => {
       } else {
         return res.status(404).send("No hay coincidencias");
       }
-    }
+    } */
+
   } catch (error) {
     res.status(404).send("No hay coincidencias");
   }
