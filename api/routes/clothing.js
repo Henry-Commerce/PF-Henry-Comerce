@@ -7,6 +7,9 @@ const {
   Mail_USER,
   Mail_PASSWORD2
 } = process.env;
+const jwt = require('jsonwebtoken');
+const { SECRET } = process.env;
+const { verifyToken, isAdmin } = require('../middlewares/utils');
 
 const transporter = nodeMailer.createTransport({
   host: 'smtp.gmail.com',
@@ -248,7 +251,7 @@ router.get("/items/:name", async (req, res) => {
  *                                                                                              *
  ************************************************************************************************/
 
-router.post("/add", async (req, res) => {
+router.post("/add", [verifyToken, isAdmin], async (req, res) => {
   try {
     const { name, category, price, stock, image, description } = req.body;
     const newCloth = new ClothingModel({
@@ -284,7 +287,7 @@ router.post("/add", async (req, res) => {
  *                                                                                              *
  ************************************************************************************************/
 
-router.put("/restock/:name", async (req, res) => {        //restock de la prenda
+router.put("/restock/:name", [verifyToken, isAdmin], async (req, res) => {        //restock de la prenda
   const newstock = await ClothingModel.findOneAndUpdate(
     { name: req.params.name },
     { stock: req.body }
@@ -292,7 +295,7 @@ router.put("/restock/:name", async (req, res) => {        //restock de la prenda
   return res.json(newstock);
 });
 
-router.put("/showable", async (req, res) => {        //APARECERLA O DESAPARECERLA
+router.put("/showable", [verifyToken, isAdmin], async (req, res) => {        //APARECERLA O DESAPARECERLA
   const show = await ClothingModel.findOneAndUpdate(
     { name: req.body.name },
     { show: req.body.show }
@@ -301,7 +304,7 @@ router.put("/showable", async (req, res) => {        //APARECERLA O DESAPARECERL
   return res.json(result);
 });
 
-router.put("/reviewupdate", async (req, res) => {         //Actualizar las reviews de la prenda
+router.put("/reviewupdate", verifyToken, async (req, res) => {         //Actualizar las reviews de la prenda
   try {
 
     const { name, review,user,rating }= req.body
@@ -361,7 +364,7 @@ router.put("/reviewupdate", async (req, res) => {         //Actualizar las revie
   }
 });
 
-router.put('/updateoffer', async (req, res)=> {     // actualizar descuentos
+router.put('/updateoffer', [verifyToken, isAdmin], async (req, res)=> {     // actualizar descuentos
   const {name,offer}=req.body
   try {
     const response = await ClothingModel.findOne({ name: name });
