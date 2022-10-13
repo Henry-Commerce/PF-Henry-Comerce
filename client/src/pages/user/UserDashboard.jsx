@@ -11,20 +11,20 @@ export const UserDashboard = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const { username } = useParams();
+  const { email } = useParams();
 
   console.log(user);
 
   useEffect(() => {
-    dispatch(getUser(username));
-  }, [dispatch, username]);
+    dispatch(getUser(email));
+  }, [dispatch, email]);
 
   return (
     <article className="panel">
       <p className="panel-heading title is-3">Mi cuenta</p>
       <p className="panel-tabs ">
         <Link
-          to={`/user/${username}`}
+          to={`/user/${email}`}
           onClick={() => {
             setisActive(!isActive);
             setisActive1(false);
@@ -34,7 +34,7 @@ export const UserDashboard = () => {
           MIS DATOS
         </Link>
         <Link
-          to={`/user/config/${username}`}
+          to={`/user/config/${email}`}
           onClick={() => {
             setisActive(false);
             setisActive1(!isActive1);
