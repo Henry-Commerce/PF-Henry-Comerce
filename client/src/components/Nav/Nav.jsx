@@ -1,8 +1,7 @@
 /** @format */
-import { useSelector } from 'react-redux';
 import './Nav.scss';
 import logo from '../../assets/logo.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { RiLoginBoxFill } from 'react-icons/ri';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -15,6 +14,7 @@ export const Nav = () => {
   const dispatch = useDispatch();
   const [isActive, setisActive] = useState(false);
   const [name, setName] = useState('');
+  const [session, setSession] = useState(false);
 
   const handleInput = (event) => {
     event.preventDefault();
@@ -29,18 +29,17 @@ export const Nav = () => {
     }
   };
 
-  const session = JSON.parse(sessionStorage.getItem('authenticated'));
-  const navigate = useNavigate();
-  useEffect(() => {}, [navigate]);
-  useEffect(() => {}, []); //re render cuando se recarga la pagina
+  useEffect(() => {
+    setSession(JSON.parse(sessionStorage.getItem('authenticated')));
+  }, [sessionStorage.getItem('authenticated')]);
 
   return (
     <header>
-      <nav className='navbar is-transparent'>
+      <nav className='navbar is-transparent navp'>
         <div className='navbar-brand'>
-          <a className='navbar-item' href='#'>
+          <Link className='navbar-item' to='/'>
             <img src={logo} alt='Logo' width='112' height='28' />
-          </a>
+          </Link>
           <a
             onClick={() => {
               setisActive(!isActive);

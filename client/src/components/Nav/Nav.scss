@@ -1,11 +1,14 @@
 /** @format */
 
 nav {
-  box-shadow: 0 5px 6px -2px rgba(128, 128, 128, 0.641);
   .button {
     color: black;
     -webkit-transition: all 1s;
   }
+}
+
+.navp {
+  box-shadow: 0 5px 6px -2px rgba(128, 128, 128, 0.641);
 }
 
 .log-s:hover {
