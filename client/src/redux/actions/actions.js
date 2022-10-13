@@ -370,10 +370,10 @@ export const checkAuth = (result) => {
 };
 
 
-export function getUser(username) {
+export function getUser(email) {
   return async function (dispatch) {
     try {
-      const user = await axios.get(`${LOCAL_HOST}/api/user/info/${username}`);
+      const user = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
       return dispatch({
         type: 'GET_USER',
         payload: user.data,
