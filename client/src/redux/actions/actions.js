@@ -331,6 +331,10 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
       `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`
     );
 
+    // const existe = await axios.get(
+    //   `${LOCAL_HOST}/api/user/login/${email.toLowerCase()}/${password}`
+    // );
+
     console.log('existe', existe);
     if (existe.status === 200) {
       const admin = existe.data.isAdmin;
@@ -368,7 +372,6 @@ export const checkAuth = (result) => {
     });
   };
 };
-
 
 export function getUser(email) {
   return async function (dispatch) {
