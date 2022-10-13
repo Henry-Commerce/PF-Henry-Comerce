@@ -19,7 +19,7 @@ const { verifyToken, isAdmin } = require('../middlewares/utils');
  *                                                                                              *
  ************************************************************************************************/
 
-router.get('/info', async (req, res) => {
+router.get('/info',[verifyToken, isAdmin], async (req, res) => {
   try {
     const resultUN = await UserModel.find();
     var filt = resultUN
@@ -37,7 +37,7 @@ router.get('/info', async (req, res) => {
   }
 });
 
-router.get('/adminsinfo', async (req, res) => {
+router.get('/adminsinfo',[verifyToken, isAdmin], async (req, res) => {
   try {
     const resultUN = await UserModel.find();
     var filt = resultUN
@@ -56,7 +56,7 @@ router.get('/adminsinfo', async (req, res) => {
   }
 });
 
-router.get('/info/:email', async (req, res) => {
+router.get('/info/:email', verifyToken, async (req, res) => {
   const { email } = req.params;
   try {
     const resultUN = await UserModel.findOne({ email: email });
@@ -76,7 +76,7 @@ router.get('/info/:email', async (req, res) => {
   }
 });
 
-router.get('/cartdetail/:username', async (req, res) => {
+router.get('/cartdetail/:username', verifyToken, async (req, res) => {
   const { username } = req.params;
   let arr = [];
   try {
@@ -135,19 +135,27 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password, country, isAdmin } = req.body;
-    const foundUser = await UserModel.findOne({ email });
-    if (foundUser)
-      return res.json({ message: `Email: ${email} is already in use` });
-    const newUser = new UserModel({
+    const { 
       username,
       email,
+      password,
+      country,
+      isAdmin
+    } = req.body;
+    const foundUser = await UserModel.findOne({email});
+    if(foundUser) return res.json({message: `Email: ${email} is already in use`})
+    const newUser = new UserModel({
+      username,
+      email: email.toLocaleLowerCase(),
       password: await UserModel.encyptPassword(password),
       country,
-      isAdmin,
+      isAdmin
     });
-    await newUser.save();
-    res.send('New user created');
+    await newUser.save()
+    const token = jwt.sign({id: newUser._id}, SECRET, {
+      expiresIn: 86400 // 24h
+    })
+    res.json({token})
   } catch (error) {
     console.log('GET /', error);
   }
@@ -162,7 +170,7 @@ router.post('/register', async (req, res) => {
  *                                                                                              *
  *                                                                                              *
  ************************************************************************************************/
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
   const { username, country } = req.body;
   try {
@@ -180,7 +188,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id/login_methods', async (req, res) => {
+router.put('/:id/login_methods', verifyToken, async (req, res) => {
   const { id } = req.params;
   const { email, password } = req.body;
   if (!email && !password)
@@ -204,7 +212,7 @@ router.put('/:id/login_methods', async (req, res) => {
   res.json({ message: 'Updated login methods' });
 });
 
-router.put('/shopitems', async (req, res) => {
+router.put('/shopitems', verifyToken, async (req, res) => {
   const { username } = req.query;
   var newhistorial = [];
   const { items, orderid } = req.body;
@@ -236,7 +244,7 @@ router.put('/addcart', async (req, res) => {
   return res.json(newcart);
 });
 
-router.put('/newadmin', async (req, res) => {
+router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
   var newadmin = await UserModel.findOneAndUpdate(
     { username: req.query.username },
     { isAdmin: req.query.isAdmin }
