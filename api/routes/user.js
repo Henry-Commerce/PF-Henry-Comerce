@@ -7,6 +7,20 @@ const ClothingModel = require('../models/Clothing');
 const jwt = require('jsonwebtoken');
 const { SECRET } = process.env;
 const { verifyToken, isAdmin } = require('../middlewares/utils');
+const nodeMailer = require('nodemailer');
+const {
+  Mail_USER,
+  Mail_PASSWORD2
+} = process.env;
+const transporter = nodeMailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+      user: Mail_USER,
+      pass: Mail_PASSWORD2
+  }
+}); 
 
 /************************************************************************************************
  *                                                                                              *
@@ -266,17 +280,18 @@ router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
 });
 
 
-router.put('/registerwellCum', async (req, res)=> {     // actualizar descuentos
+router.post('/registerwellCum', async (req, res)=> {     // actualizar descuentos
   const {name,email}=req.body
   try {
         let info= transporter.sendMail({
           from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>', // sender address
           to: `${email}`,    //req.body.to, // list of receivers
           subject:`Bienvenido a Henry e-comerce `,  // Subject line
-          text:`Le damos la bienvenida ${name} `, //req.body.body, // plain text body // a modificar con front
+          text:`Le damos la bienvenida ${name}`, //req.body.body, // plain text body // a modificar con front
           html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body // a modificar con front
         });
-        res.status(200).send(change+info)
+        console.log(name)
+        res.status(200).send(info)
   } catch (error) {
     console.log("error"+error)
   }
