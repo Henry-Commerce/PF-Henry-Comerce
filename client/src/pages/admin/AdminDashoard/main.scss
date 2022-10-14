@@ -18,3 +18,21 @@
 //   display: block;
 //   padding: 0.5rem 0;
 // }
+
+section.hero.is-hero-bar {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(24, 28, 33, 0.06);
+}
+
+.is-user-avatar img {
+  margin: 0 auto;
+  border-radius: 9999px;
+}
+
+div .image {
+  img {
+    display: block;
+    height: auto;
+    width: 30%;
+  }
+}

@@ -187,6 +187,7 @@ export const startGithubSignIn = () => {
       JSON.stringify({
         authenticated: true,
         isAdmin: admin,
+        email,
         token: token,
       })
     );
@@ -276,6 +277,7 @@ export const startGoogleSignIn = () => {
       JSON.stringify({
         authenticated: true,
         isAdmin: admin,
+        email,
         token: token,
       })
     );
@@ -376,6 +378,7 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
         JSON.stringify({
           authenticated: true,
           isAdmin: admin,
+          email,
           token: existe.data.token,
         })
       );

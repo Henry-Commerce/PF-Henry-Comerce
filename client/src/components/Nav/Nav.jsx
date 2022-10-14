@@ -32,6 +32,7 @@ export const Nav = () => {
 
   useEffect(() => {
     setSession(JSON.parse(localStorage.getItem('authenticated')));
+    console.log('session', session);
   }, [localStorage.getItem('authenticated')]);
 
   const status = useSelector((state) => state.status);
@@ -137,7 +138,7 @@ export const Nav = () => {
           <div className='navbar-end'>
             <div className='navbar-item'>
               <div className='field is-grouped'>
-                {status === 'authenticated' && (
+                {session?.authenticated === true && (
                   <p className='control'>
                     <a className='button log-s' onClick={meow}>
                       <span className='icon'>
