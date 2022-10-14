@@ -1,27 +1,62 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { getUser } from "../../../redux/actions/actions";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Notify } from "../../../components/Notify/Notify";
 import { toast } from "react-toastify";
 import "../UserDashboard/User.scss";
+import { useNavigate } from "react-router-dom";
+import { checkAuth } from "../../../redux/actions/actions";
 
 export const UserConfig = () => {
   const [isActive, setisActive] = useState(false);
   const [isActive1, setisActive1] = useState(false);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const { email } = useParams();
-
-  console.log(user);
+  let session = null;
+  const [data, setData] = useState("");
 
   useEffect(() => {
-    dispatch(getUser(email));
-  }, [dispatch, email]);
+    if (localStorage.getItem("authenticated")) {
+      const { authenticated, isAdmin } = JSON.parse(
+        localStorage.getItem("authenticated")
+      );
+      if (authenticated) {
+        if (isAdmin === false) {
+          navigate("/user/config");
+        }
+      } else {
+        navigate("/user/config");
+      }
+    } else {
+      navigate("/user/config");
+    }
+
+    if (localStorage.getItem("authenticated")) {
+      session = JSON.parse(localStorage.getItem("authenticated"));
+      dispatch(checkAuth(session));
+    }
+
+    const profile = async () => {
+      const { email, token } = session;
+      const user = await axios.get(
+        `http://localhost:3001/api/user/info/${email}`,
+        {
+          headers: { "x-access-token": `${token}` },
+        }
+      );
+
+      setData(user.data);
+      console.log("data", data);
+    };
+    profile();
+  }, []);
+
+  useEffect(() => {}, [data]);
 
   const success = () =>
     toast.success("Los cambios se han realizado con exito", {
@@ -79,7 +114,7 @@ export const UserConfig = () => {
       <p className="panel-heading title is-3">Mi cuenta</p>
       <p className="panel-tabs">
         <Link
-          to={`/user/${email}`}
+          to={`/user`}
           onClick={() => {
             setisActive(!isActive);
             setisActive1(false);
@@ -89,7 +124,7 @@ export const UserConfig = () => {
           MIS DATOS
         </Link>
         <Link
-          to={`/user/config/${email}`}
+          to={`/user/config`}
           onClick={() => {
             setisActive(false);
             setisActive1(!isActive1);
@@ -232,7 +267,7 @@ export const UserConfig = () => {
           </div>
 
           <div className="control">
-            <Link to={`/user/${email}`}>
+            <Link to={`/user`}>
               <button className="button is-link is-light m-3">Cancelar</button>
             </Link>
           </div>
