@@ -8,6 +8,7 @@ const initialState = {
   added: [],
   notFound: "",
   cart: [],
+  allBranches: [],
   user: [],
 
   /* AUTH */
@@ -102,6 +103,12 @@ function rootReducer(state = initialState, action) {
         allClothing: [],
         filtered: [],
         detail: [],
+      };
+
+    case "GET_BRANCHES":
+      return {
+        ...state,
+        allBranches: action.payload,
       };
 
     case "CHECKING_AUTH":
