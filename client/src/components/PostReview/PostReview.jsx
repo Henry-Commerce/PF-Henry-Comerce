@@ -50,6 +50,8 @@ const [form,setForm] = useState({
     rating: 0
 })
 
+console.log(form);
+
 function handleChange(e) {
     e.preventDefault();
     setForm({
