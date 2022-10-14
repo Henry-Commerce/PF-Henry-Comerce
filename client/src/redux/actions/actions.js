@@ -11,7 +11,7 @@ export function getClothing(allFilters) {
         .get(`${LOCAL_HOST}/api/clothing?${allFilters}`)
         .then((response) => {
           return dispatch({
-            type: 'GET_CLOTHING',
+            type: "GET_CLOTHING",
             payload: response.data,
           });
         })
@@ -21,11 +21,11 @@ export function getClothing(allFilters) {
     } catch (error) {
       const errorMessage = { error: error.message };
       console.log(
-        'Se a detectado un error en actions.js -- Linea 20 --',
+        "Se a detectado un error en actions.js -- Linea 20 --",
         errorMessage
       );
       return dispatch({
-        type: 'GET_CLOTHING',
+        type: "GET_CLOTHING",
         payload: errorMessage,
       });
     }
@@ -61,7 +61,7 @@ export function addClothing(payload) {
     try {
       var info = await axios.post(`${LOCAL_HOST}/api/clothing/add`, payload);
       return dispatch({
-        type: 'ADD_CLOTHING',
+        type: "ADD_CLOTHING",
         info,
       });
     } catch (error) {
@@ -97,7 +97,7 @@ export function getClothingDetail(name) {
     try {
       const cloth = await axios.get(`${LOCAL_HOST}/api/clothing/items/${name}`);
       return dispatch({
-        type: 'GET_CLOTHING_DETAIL',
+        type: "GET_CLOTHING_DETAIL",
         payload: cloth.data,
       });
     } catch (error) {
@@ -113,26 +113,54 @@ export function getClothingByName(name) {
         `${LOCAL_HOST}/api/clothing/search?name=${name}`
       );
       return dispatch({
-        type: 'SEARCH_CLOTHING_NAME',
+        type: "SEARCH_CLOTHING_NAME",
         payload: cloth.data,
       });
     } catch (error) {
       console.log(error);
-      return alert('Clothing was not found');
+      return alert("Clothing was not found");
     }
   };
 }
 
 export function setOrderByPrice(price) {
   return {
-    type: 'SET_ORDER_PRICE',
+    type: "SET_ORDER_PRICE",
     payload: price,
   };
 }
 
 export function clearState() {
   return (dispatch) => {
-    dispatch({ type: 'CLEAR_STATE' });
+    dispatch({ type: "CLEAR_STATE" });
+  };
+}
+
+export function getAllBranches() {
+  return async function (dispatch) {
+    try {
+      axios
+        .get(`${LOCAL_HOST}/api/branch`)
+        .then((response) => {
+          return dispatch({
+            type: "GET_BRANCHES",
+            payload: response.data,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      const errorMessage = { error: error.message };
+      console.log(
+        "Se a detectado un error en actions.js -- Linea 135 --",
+        errorMessage
+      );
+      return dispatch({
+        type: "GET_BRANCHES",
+        payload: errorMessage,
+      });
+    }
   };
 }
 
@@ -144,13 +172,13 @@ import {
   singInWithGoogle,
   logoutFirebase,
   singInWithGithub,
-} from '../../firebase/providers';
+} from "../../firebase/providers";
 
 export const checkingAuthentication = () => {
   return async (dispatch) => {
-    localStorage.setItem('authenticated', false);
+    sessionStorage.setItem("authenticated", false);
     dispatch({
-      type: 'CHECKING_CREDENTIALS',
+      type: "CHECKING_CREDENTIALS",
     });
   };
 };
@@ -158,7 +186,7 @@ export const checkingAuthentication = () => {
 export const startGithubSignIn = () => {
   return async (dispatch) => {
     dispatch({
-      type: 'CHECKING_CREDENTIALS',
+      type: "CHECKING_CREDENTIALS",
     });
 
     const result = await singInWithGithub();
@@ -302,7 +330,7 @@ export const startGoogleSignIn = () => {
     );
 
     dispatch({
-      type: 'LOGIN',
+      type: "LOGIN",
       payload: result,
     });
   };
@@ -315,7 +343,7 @@ export const startCreatingUserWithEmailPassword = ({
 }) => {
   return async (dispatch) => {
     dispatch({
-      type: 'CHECKING_CREDENTIALS',
+      type: "CHECKING_CREDENTIALS",
     });
 
     const result = await registerUserWithEmailPassword({
@@ -413,8 +441,8 @@ export const startLogout = (result) => {
     await logoutFirebase();
 
     dispatch({
-      type: 'LOGOUT',
-      payload: result,
+      type: "LOGOUT",
+      payload: result.errorMessage,
     });
   };
 };
@@ -422,7 +450,7 @@ export const startLogout = (result) => {
 export const checkAuth = (result) => {
   return async (dispatch) => {
     dispatch({
-      type: 'CHECKING_AUTH',
+      type: "CHECKING_AUTH",
       payload: result,
     });
   };
