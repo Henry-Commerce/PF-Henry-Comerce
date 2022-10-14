@@ -304,7 +304,14 @@ router.put("/reviewupdate", verifyToken, async (req, res) => {         //Actuali
       
     } else {
       const commentsArray = foundCloth.comments;
-      commentsArray.push()
+      const newReview = {
+        user,
+        title,
+        description,
+        rating
+      }
+      Object.keys(newReview).forEach(element => newReview[element] = typeof newReview[element] == 'string' ? newReview[element].trim() : newReview[element])
+      commentsArray.push(newReview)
       await ClothingModel.findOneAndUpdate({ name }, { comments: commentsArray })
       res.status(200).json(foundCloth);
     }
