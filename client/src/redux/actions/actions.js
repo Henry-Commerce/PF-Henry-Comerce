@@ -148,33 +148,29 @@ export const startGithubSignIn = () => {
         payload: result.errorMessage,
       });
     }
-
-    const { email } = result;
-
+    console.log(result);
+    const { email, displayName } = result;
     let admin = false;
 
-    try {
-      const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
-      const { data } = existe;
-      admin = data.isAdmin;
-      console.log('existe', existe);
+    const password = email.toLowerCase();
+    const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
+      username: displayName,
+      email: email.toLowerCase(),
+      password,
+      country: 'argentina',
+      isAdmin: admin,
+    });
 
-      if (email === data.email) {
-        console.log('el usuario ya existe');
-      } else {
-        const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
-          username: result.displayName,
-          email: result.email,
-          password: result.uid,
-          country: 'argentina',
-          isAdmin: false,
-        });
+    console.log('usuario creado', creado);
 
-        console.log('usuario creado', creado);
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
+    const token = creado.data.token;
+
+    const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
+      email: email.toLowerCase(),
+      password,
+    });
+
+    console.log('existe', existe);
 
     localStorage.setItem(
       'authenticated',
@@ -206,39 +202,59 @@ export const startGoogleSignIn = () => {
       });
     }
 
-    const { email } = result;
+    const { email, displayName } = result;
 
     console.log(result);
     let admin = false;
 
-    try {
-      const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
-      const { data } = existe;
-      admin = data.isAdmin;
-      console.log('existe', existe);
+    const password = email.toLowerCase();
+    const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
+      username: displayName,
+      email: email.toLowerCase(),
+      password,
+      country: 'argentina',
+      isAdmin: admin,
+    });
 
-      if (email === data.email) {
-        console.log('el usuario ya existe');
-      } else {
-        const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
-          username: result.displayName,
-          email: result.email,
-          password: result.uid,
-          country: 'argentina',
-          isAdmin: false,
-        });
+    console.log('usuario creado', creado);
 
-        console.log('usuario creado', creado);
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
+    const token = creado.data.token;
+
+    const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
+      email: email.toLowerCase(),
+      password,
+    });
+
+    console.log('existe', existe);
+    // try {
+    //   const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
+    //   const { data } = existe;
+    //   admin = data.isAdmin;
+    //   console.log('existe', existe);
+
+    //   if (email === data.email) {
+    //     console.log('el usuario ya existe');
+    //   } else {
+    //     const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
+    //       username: result.displayName,
+    //       email: result.email,
+    //       password: result.uid,
+    //       country: 'argentina',
+    //       isAdmin: false,
+    //     });
+
+    //     console.log('usuario creado', creado);
+    //   }
+    // } catch (error) {
+    //   console.log('error', error);
+    // }
 
     localStorage.setItem(
       'authenticated',
       JSON.stringify({
         authenticated: true,
         isAdmin: admin,
+        token: token,
       })
     );
 
@@ -274,23 +290,16 @@ export const startCreatingUserWithEmailPassword = ({
       });
     }
 
-    const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
-    const { data } = existe;
-    console.log('existe', existe);
+    const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
+      username: email.toLowerCase(),
+      email: email.toLowerCase(),
+      password,
+      country: 'argentina',
+      isAdmin: false,
+    });
+    console.log('usuario creado', creado);
 
-    if (email === data.email) {
-      console.log('el usuario ya existe');
-    } else {
-      const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
-        username: email.toLowerCase(),
-        email: email.toLowerCase(),
-        password,
-        country: 'argentina',
-        isAdmin: false,
-      });
-
-      console.log('usuario creado', creado);
-    }
+    // }
 
     localStorage.setItem(
       'authenticated',
