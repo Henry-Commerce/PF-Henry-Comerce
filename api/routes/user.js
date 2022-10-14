@@ -266,7 +266,7 @@ router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
 });
 
 
-router.put('/registerwelCum', async (req, res)=> {     // actualizar descuentos
+router.put('/registerwellCum', async (req, res)=> {     // actualizar descuentos
   const {name,email}=req.body
   try {
         let info= transporter.sendMail({
