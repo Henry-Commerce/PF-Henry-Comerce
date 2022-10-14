@@ -280,7 +280,7 @@ router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
 });
 
 
-router.post('/registerwellCum', async (req, res)=> {     // actualizar descuentos
+router.post('/welcome', async (req, res)=> {     
   const {name,email}=req.body
   try {
         let info= transporter.sendMail({
@@ -290,7 +290,6 @@ router.post('/registerwellCum', async (req, res)=> {     // actualizar descuento
           text:`Le damos la bienvenida ${name}`, //req.body.body, // plain text body // a modificar con front
           html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body // a modificar con front
         });
-        console.log(name)
         res.status(200).send(info)
   } catch (error) {
     console.log("error"+error)
