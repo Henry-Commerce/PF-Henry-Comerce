@@ -163,7 +163,7 @@ export const startGithubSignIn = () => {
 
     console.log('usuario creado', creado);
 
-    const token = creado.data.token;
+    let token = creado.data.token;
 
     const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
       email: email.toLowerCase(),
@@ -171,24 +171,25 @@ export const startGithubSignIn = () => {
     });
 
     console.log('existe', existe);
+    token = existe.data.token;
 
-    if (existe.status === 200) {
-      const add = await axios.get(
-        `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
-        {
-          headers: { 'x-access-token': `${existe.data.token}` },
-        }
-      );
-      admin = add.data.isAdmin;
-      localStorage.setItem(
-        'authenticated',
-        JSON.stringify({
-          authenticated: true,
-          isAdmin: admin,
-          token: token,
-        })
-      );
-    }
+    console.log('data', existe.data);
+    console.log('token', token);
+    const add = await axios.get(
+      `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
+      {
+        headers: { 'x-access-token': `${existe.data.token}` },
+      }
+    );
+    admin = add.data.isAdmin;
+    localStorage.setItem(
+      'authenticated',
+      JSON.stringify({
+        authenticated: true,
+        isAdmin: admin,
+        token: token,
+      })
+    );
 
     dispatch({
       type: 'LOGIN',
@@ -228,7 +229,7 @@ export const startGoogleSignIn = () => {
 
     console.log('usuario creado', creado);
 
-    const token = creado.data.token;
+    let token = creado.data.token;
 
     const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
       email: email.toLowerCase(),
@@ -236,6 +237,10 @@ export const startGoogleSignIn = () => {
     });
 
     console.log('existe', existe);
+    token = existe.data.token;
+
+    console.log('data', existe.data);
+    console.log('token', token);
     // try {
     //   const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
     //   const { data } = existe;
@@ -259,23 +264,21 @@ export const startGoogleSignIn = () => {
     //   console.log('error', error);
     // }
 
-    if (existe.status === 200) {
-      const add = await axios.get(
-        `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
-        {
-          headers: { 'x-access-token': `${existe.data.token}` },
-        }
-      );
-      admin = add.data.isAdmin;
-      localStorage.setItem(
-        'authenticated',
-        JSON.stringify({
-          authenticated: true,
-          isAdmin: admin,
-          token: token,
-        })
-      );
-    }
+    const add = await axios.get(
+      `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
+      {
+        headers: { 'x-access-token': `${existe.data.token}` },
+      }
+    );
+    admin = add.data.isAdmin;
+    localStorage.setItem(
+      'authenticated',
+      JSON.stringify({
+        authenticated: true,
+        isAdmin: admin,
+        token: token,
+      })
+    );
 
     dispatch({
       type: 'LOGIN',
