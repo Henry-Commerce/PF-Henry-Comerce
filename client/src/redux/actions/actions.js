@@ -322,12 +322,14 @@ export const startCreatingUserWithEmailPassword = ({
     console.log('usuario creado', creado);
 
     // }
+    const token = creado.data.token;
 
     localStorage.setItem(
       'authenticated',
       JSON.stringify({
         authenticated: true,
         isAdmin: false,
+        token: token,
       })
     );
 
