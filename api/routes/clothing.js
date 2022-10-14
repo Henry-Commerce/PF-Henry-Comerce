@@ -2,24 +2,13 @@ const { Router } = require("express");
 const router = Router();
 const ClothingModel = require("../models/Clothing");
 const UserModel = require('../models/User');
-const nodeMailer = require('nodemailer');
-const {
-  Mail_USER,
-  Mail_PASSWORD2
-} = process.env;
 const jwt = require('jsonwebtoken');
 const { SECRET } = process.env;
 const { verifyToken, isAdmin } = require('../middlewares/utils');
+const mail= require("./add-ons/nodemailer"); 
+const { mailOffer } = require("./add-ons/nodemailer");
 
-const transporter = nodeMailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-      user: Mail_USER,
-      pass: Mail_PASSWORD2
-  }
-}); 
+
 
 /************************************************************************************************
  *                                                                                              *
@@ -379,15 +368,17 @@ router.put('/updateoffer', [verifyToken, isAdmin], async (req, res)=> {     // a
       el.cart.find(le=>le.name==="SudaderaCeleste"))
     var correos=[]
     filtuser.forEach(el=>correos.push(el.email))
-      const int=correos.join(",")
-        let info= transporter.sendMail({
-          from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>', // sender address
-          to: `${int}`,    //req.body.to, // list of receivers
-          subject:`hubo un cambio en el precio de ${name}`,  // Subject line
-          text:"aaaaaaaaaaa", //req.body.body, // plain text body // a modificar con front
-          html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body // a modificar con front
-        });
-        res.status(200).send(change+info)
+      const email=correos.join(",")
+      const transporter=mail.transporter;
+      const mailOffer=mail.mailOffer(email,name)
+      transporter.sendMail(mailOffer, (error, info) => {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('Email enviado');
+        }
+      });
+      res.status(201).send("ok")
     }else{
       res.status(200).send(change)
     }    
