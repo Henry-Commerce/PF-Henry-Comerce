@@ -44,6 +44,7 @@ const [error, setError] = useState({});
 
 
 const [form,setForm] = useState({
+    isEditing: false,
     user: userPerson,
     title:"",
     description:"",
