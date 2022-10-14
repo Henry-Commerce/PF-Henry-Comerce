@@ -62,6 +62,13 @@ function rootReducer(state = initialState, action) {
         detail: action.payload[0],
       };
 
+      case 'POST_REVIEW':
+        return {
+            ...state,
+            review: action.payload
+        }
+
+
     case "SET_ORDER_PRICE":
       let orderByPrice = [...state.allClothing];
       orderByPrice = orderByPrice.sort((a, b) => {

@@ -13,7 +13,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { toast } from "react-toastify";
 import { Notify } from "../Notify/Notify";
-
+import { PostReview } from "../PostReview/PostReview";
+import Popup from "reactjs-popup";
 /* const ls = JSON.parse(ls.getItem("cart") || "[]"); */
 
 export const ProductsDetails = () => {
@@ -175,6 +176,8 @@ export const ProductsDetails = () => {
     setSize(e.target.value);
   };
 
+  
+
   const sumStock = (e) => {
     if (count === 0) {
       return;
@@ -206,9 +209,11 @@ export const ProductsDetails = () => {
       return true;
     }
   };
-
+ 
+  
   return (
     <div>
+      {detail.length === 0 && <Loading/>}
       <Notify />
       <section className="pt-6"></section>
       <div className="container has-text-left pt-6">
@@ -355,24 +360,18 @@ export const ProductsDetails = () => {
               <div className="filee is-centered  is-justify-content-flex-start"></div>
               <div className="is-flex-direction-row pt-6 has-text-centered background-e">
                 <div className="columns is-centered">
-                  <div className="column fileee">
-                    <h1 className="title is-size-1 mb-4">{detail.rating}</h1>
-                    <h1 className="title is-size-6 pl-3">out 5 stars</h1>
-                  </div>
-                  <div className="column has-text-left ">
-                    <div className="fileee has-text-left pl-6 ">
-                      <section className="pl-6 ">
-                        <h3 className="title is-size-3  border-bottom has-text-left">
-                          {" "}
+                 
+                  <div className="column has-text-left bt">
+                    <div className="has-text-left ">
+                      <section className=" ">
+                        <h3 className="title is-size-3 has-text-centered">
                           REVIEWS
                         </h3>
                       </section>
                     </div>
                   </div>
                 </div>
-                {Object.values(arr[0].reviews) ? (
-                  Object.values(arr[0].reviews)
-                    .slice(0, 2)
+                {detail.comments && (detail.comments)
                     .map((e, index) => (
                       <div key={index} className=" pt-2 pb-2 border-bottom">
                         <div className="columns pt-3 pb-4">
@@ -381,28 +380,25 @@ export const ProductsDetails = () => {
                           </div>
                           <div className="column ">
                             <h1 className="pt-0 title is-size-4 ">
-                              {e.nameReview}
+                              {e.title}
                             </h1>
                           </div>
                         </div>
-                        <div className="columns pt- pb-0">
+                        <div className="columns is-vcentered pt- pb-0">
                           <div className="column is-one-quarter ">
-                            <h1 className="title is-size-5">{e.rating}</h1>
+                            <h1 className="title is-size-5">Rating:{e.rating}/5</h1>
                           </div>
-                          <div className="column">
+                          <div className="column ">
                             <p className="is-size-6 has-text-centered">
-                              {e.review}
+                              {e.description}
                             </p>
                           </div>
                         </div>
                       </div>
                     ))
-                ) : (
-                  <h1>No hay reviews disponibles</h1>
-                )}
-
+                }
                 <div className="has-text-centered pt-6 pb-6">
-                  <button className="button is-warning ">Write review</button>
+                <PostReview />
                 </div>
               </div>
               <section className="pt-6"></section>

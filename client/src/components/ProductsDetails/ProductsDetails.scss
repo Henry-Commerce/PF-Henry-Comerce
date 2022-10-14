@@ -1,48 +1,52 @@
 
 .border-bottom{
-    border-bottom: 1px solid black;
-    width: 100%;
-}
-
-.border-rigth{
-  border-right: 1px solid rgba(12, 12, 12, 0.425);
+  border-bottom: 1px solid black;
   width: 100%;
 }
 
+.border-rigth{
+border-right: 1px solid rgba(12, 12, 12, 0.425);
+width: 100%;
+}
+
 .filee {
-  /* align-items: stretch; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* align-items: stretch; */
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 .fileee {
-  /* align-items: stretch; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* align-items: stretch; */
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 .fileeee {
-  /* align-items: stretch; */
-  display: flex;
-  justify-content: space-around;
-  align-items: space-around;
+/* align-items: stretch; */
+display: flex;
+justify-content: space-around;
+align-items: space-around;
 }
 
 
 
 .background-a{
-  background-color: rgba(182, 182, 182, 0.062);
-  border-radius: 1.2rem;
+background-color: rgba(182, 182, 182, 0.062);
+border-radius: 1.2rem;
 }
 
 .background-e{
-  background-color: rgba(199, 199, 199, 0.075);
-  border-radius: 1.2rem;
+background-color: rgba(199, 199, 199, 0.075);
+border-radius: 1.2rem;
 }
 
 /* .background-c{
-  background-color: rgba(102, 102, 102, 0.726);
-  border-radius: 0.2rem;
+background-color: rgba(102, 102, 102, 0.726);
+border-radius: 0.2rem;
 } */
+
+.red{
+color: red;
+}

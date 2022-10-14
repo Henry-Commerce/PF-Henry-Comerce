@@ -71,6 +71,27 @@ export function addClothing(payload) {
   };
 }
 
+export function postReview(name,payload){
+  
+  return async function(dispatch){
+    try{
+      const token = JSON.parse(localStorage.getItem("authenticated")).token
+      const review = await axios.put(`${LOCAL_HOST}/api/clothing/reviewupdate/?name=${name}`,payload,
+      {
+        headers: { 'x-access-token': `${token}` },
+      }
+      );
+      console.log(review);
+      return dispatch({
+        type: 'POST_REVIEW',
+        payload: review,
+      });
+    }catch (error) {
+      console.log(error);
+    }
+  } 
+}
+
 export function getClothingDetail(name) {
   return async function (dispatch) {
     try {
