@@ -7,20 +7,7 @@ const ClothingModel = require('../models/Clothing');
 const jwt = require('jsonwebtoken');
 const { SECRET } = process.env;
 const { verifyToken, isAdmin } = require('../middlewares/utils');
-const nodeMailer = require('nodemailer');
-const {
-  Mail_USER,
-  Mail_PASSWORD2
-} = process.env;
-const transporter = nodeMailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-      user: Mail_USER,
-      pass: Mail_PASSWORD2
-  }
-}); 
+const mail= require("./add-ons/nodemailer") 
 
 /************************************************************************************************
  *                                                                                              *
@@ -190,17 +177,20 @@ router.post('/register', async (req, res) => {
  *                                                                                              *
  *                                                                                              *
  ************************************************************************************************/
-router.put('/:id', verifyToken, async (req, res) => {
-  const { id } = req.params;
+router.put('/change/:email', verifyToken, async (req, res) => {
+  const { email } = req.params;
+  console.log(email);
   const { username, country } = req.body;
   try {
-    if (id) {
-      const foundUser = await UserModel.findById(id);
+    if (email) {
+      const foundUser = await UserModel.findOne({ email: email });
       if (!foundUser) return res.json({ message: 'User not found' });
-      await UserModel.findByIdAndUpdate(id, { username, country });
+      if (!username && !country)
+        return res.status(404).json({ mesagge: 'No data provided' });
+      await UserModel.findOneAndUpdate(email, { username, country });
       return res.json({ message: 'Updated User' });
     } else {
-      return res.json({ message: "ID isn't provided" });
+      return res.json({ message: "Email isn't provided" });
     }
   } catch (error) {
     console.log(error);
@@ -276,14 +266,16 @@ router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
 router.post('/welcome', async (req, res)=> {     
   const {name,email}=req.body
   try {
-        let info= transporter.sendMail({
-          from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>', // sender address
-          to: `${email}`,    //req.body.to, // list of receivers
-          subject:`Bienvenido a Henry e-comerce `,  // Subject line
-          text:`Le damos la bienvenida ${name}`, //req.body.body, // plain text body // a modificar con front
-          html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body // a modificar con front
-        });
-        res.status(200).send(info)
+    const transporter=mail.transporter;
+    const mailwelcome=mail.mailWelcome(email,name)
+    transporter.sendMail(mailwelcome, (error, info) => {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Email enviado');
+      }
+    });
+    res.status(201).send("ok")
   } catch (error) {
     console.log("error"+error)
   }

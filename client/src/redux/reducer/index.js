@@ -8,6 +8,7 @@ const initialState = {
   added: [],
   notFound: "",
   cart: [],
+  allBranches: [],
   user: [],
 
   /* AUTH */
@@ -62,6 +63,13 @@ function rootReducer(state = initialState, action) {
         detail: action.payload[0],
       };
 
+      case 'POST_REVIEW':
+        return {
+            ...state,
+            review: action.payload
+        }
+
+
     case "SET_ORDER_PRICE":
       let orderByPrice = [...state.allClothing];
       orderByPrice = orderByPrice.sort((a, b) => {
@@ -95,6 +103,12 @@ function rootReducer(state = initialState, action) {
         allClothing: [],
         filtered: [],
         detail: [],
+      };
+
+    case "GET_BRANCHES":
+      return {
+        ...state,
+        allBranches: action.payload,
       };
 
     case "CHECKING_AUTH":
