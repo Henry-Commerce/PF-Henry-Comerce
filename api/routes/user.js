@@ -265,4 +265,21 @@ router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
   return res.json(newadmin);
 });
 
+
+router.put('/registerwelCum', async (req, res)=> {     // actualizar descuentos
+  const {name,email}=req.body
+  try {
+        let info= transporter.sendMail({
+          from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>', // sender address
+          to: `${email}`,    //req.body.to, // list of receivers
+          subject:`Bienvenido a Henry e-comerce `,  // Subject line
+          text:`Le damos la bienvenida ${name} `, //req.body.body, // plain text body // a modificar con front
+          html: '<b>Esta wea se va a desconrtolaaaaaaaaaaaa</b><br/><h1>sebaaaas careeame en ow2</h1>' // html body // a modificar con front
+        });
+        res.status(200).send(change+info)
+  } catch (error) {
+    console.log("error"+error)
+  }
+    });
+
 module.exports = router;
