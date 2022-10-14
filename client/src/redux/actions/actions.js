@@ -172,13 +172,23 @@ export const startGithubSignIn = () => {
 
     console.log('existe', existe);
 
-    localStorage.setItem(
-      'authenticated',
-      JSON.stringify({
-        authenticated: true,
-        isAdmin: admin,
-      })
-    );
+    if (existe.status === 200) {
+      const add = await axios.get(
+        `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
+        {
+          headers: { 'x-access-token': `${existe.data.token}` },
+        }
+      );
+      admin = add.data.isAdmin;
+      localStorage.setItem(
+        'authenticated',
+        JSON.stringify({
+          authenticated: true,
+          isAdmin: admin,
+          token: token,
+        })
+      );
+    }
 
     dispatch({
       type: 'LOGIN',
@@ -249,14 +259,23 @@ export const startGoogleSignIn = () => {
     //   console.log('error', error);
     // }
 
-    localStorage.setItem(
-      'authenticated',
-      JSON.stringify({
-        authenticated: true,
-        isAdmin: admin,
-        token: token,
-      })
-    );
+    if (existe.status === 200) {
+      const add = await axios.get(
+        `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
+        {
+          headers: { 'x-access-token': `${existe.data.token}` },
+        }
+      );
+      admin = add.data.isAdmin;
+      localStorage.setItem(
+        'authenticated',
+        JSON.stringify({
+          authenticated: true,
+          isAdmin: admin,
+          token: token,
+        })
+      );
+    }
 
     dispatch({
       type: 'LOGIN',
