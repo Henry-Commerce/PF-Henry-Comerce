@@ -36,7 +36,7 @@ router.post("/add", (req, res) => {
 router.delete("/delete", async (req, res) => {
   const { _id } = req.body;
   try {
-    const 
+    
   } catch (error) {
     console.log("Cannot DELETE /branch/delete", error);
   }
