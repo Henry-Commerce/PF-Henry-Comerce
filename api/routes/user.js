@@ -19,7 +19,7 @@ const { verifyToken, isAdmin } = require('../middlewares/utils');
  *                                                                                              *
  ************************************************************************************************/
 
-router.get('/info',[verifyToken, isAdmin], async (req, res) => {
+router.get('/info', [verifyToken, isAdmin], async (req, res) => {
   try {
     const resultUN = await UserModel.find();
     var filt = resultUN
@@ -37,7 +37,7 @@ router.get('/info',[verifyToken, isAdmin], async (req, res) => {
   }
 });
 
-router.get('/adminsinfo',[verifyToken, isAdmin], async (req, res) => {
+router.get('/adminsinfo', [verifyToken, isAdmin], async (req, res) => {
   try {
     const resultUN = await UserModel.find();
     var filt = resultUN
@@ -99,17 +99,15 @@ router.get('/cartdetail/:username', verifyToken, async (req, res) => {
 });
 
 router.get('/isadmin/:token', async (req, res) => {
-
   const { token } = req.params;
   const decoded = jwt.verify(token, SECRET);
   req.userId = decoded.id;
 
-  const user = await UserModel.findById(req.userId, {password: 0});
+  const user = await UserModel.findById(req.userId, { password: 0 });
   if (!user) return res.status(404).json({ mesagge: 'User not found' });
-  if(user.isAdmin === false) return res.status(401).json({ isAdmin: false});
-  res.status(200).json({isAdmin: true});
-
-})
+  if (user.isAdmin === false) return res.status(401).json({ isAdmin: false });
+  res.status(200).json({ isAdmin: true });
+});
 
 /************************************************************************************************
  *                                                                                              *
@@ -148,27 +146,22 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { 
-      username,
-      email,
-      password,
-      country,
-      isAdmin
-    } = req.body;
-    const foundUser = await UserModel.findOne({email});
-    if(foundUser) return res.json({message: `Email: ${email} is already in use`})
+    const { username, email, password, country, isAdmin } = req.body;
+    const foundUser = await UserModel.findOne({ email });
+    if (foundUser)
+      return res.json({ message: `Email: ${email} is already in use` });
     const newUser = new UserModel({
       username,
       email: email.toLocaleLowerCase(),
       password: await UserModel.encyptPassword(password),
       country,
-      isAdmin
+      isAdmin,
     });
-    await newUser.save()
-    const token = jwt.sign({id: newUser._id}, SECRET, {
-      expiresIn: 86400 // 24h
-    })
-    res.json({token})
+    await newUser.save();
+    const token = jwt.sign({ id: newUser._id }, SECRET, {
+      expiresIn: 86400, // 24h
+    });
+    res.json({ token });
   } catch (error) {
     console.log('GET /', error);
   }
