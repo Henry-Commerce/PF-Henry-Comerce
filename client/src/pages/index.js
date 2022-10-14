@@ -17,5 +17,5 @@ export * from './admin/AdminProfile/AdminProfile';
 export * from './CheckOutSuccess';
 export * from './CheckOutFailure';
 export * from './CheckOutPending';
-export * from './user/UserDashboard';
-export * from './user/UserConfig';
+export * from './user/UserDashboard/UserDashboard';
+export * from './user/UserConfig/UserConfig';

@@ -3,11 +3,16 @@ import { useState } from "react";
 import { HiIdentification, HiMail, HiHome, HiPhone } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getUser } from "../../redux/actions/actions";
+import { getUser, checkAuth } from "../../../redux/actions/actions";
 
 export const UserDashboard = () => {
   const [isActive, setisActive] = useState(false);
   const [isActive1, setisActive1] = useState(false);
+
+  const [numberUsers, setNumberUsers] = useState(false);
+  const [numberAdmins, setNumberAdmins] = useState(false);
+  const [numberAccounts, setNumberAccounts] = useState(false);
+  const [day, setDay] = useState(false);
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);

@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getUser } from "../../redux/actions/actions";
+import { getUser } from "../../../redux/actions/actions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Notify } from "../../components/Notify/Notify";
+import { Notify } from "../../../components/Notify/Notify";
 import { toast } from "react-toastify";
-import "./User.scss";
+import "../UserDashboard/User.scss";
 
 export const UserConfig = () => {
   const [isActive, setisActive] = useState(false);
