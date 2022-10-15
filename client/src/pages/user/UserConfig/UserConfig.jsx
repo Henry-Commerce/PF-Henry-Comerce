@@ -91,10 +91,13 @@ export const UserConfig = () => {
       if (!values.username) values.username = data.username;
       if (!values.country) values.country = data.country;
       if (!values.email) values.email = data.email;
-      if (!values.newPassword) values.newPassword = data.password;
+      if (!values.oldPassword || !values.newPassword) {
+        delete values.oldPassword;
+        delete values.newPassword;
+      }
       /* console.log("formdata", formData); */
-      /* dispatch(editUser(formData)); */
-      console.log("holi", formik.values);
+      dispatch(editUser(formData));
+      /* console.log("holi", formik.values); */
       handleReset();
       success();
     },
