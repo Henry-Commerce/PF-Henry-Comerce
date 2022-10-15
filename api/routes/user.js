@@ -330,13 +330,13 @@ router.put('/edit/pass', verifyToken, async (req, res) => {
     return res.json({
       message: 'Password should be difrent from the last one',
     });
-  // await UserModel.findOneAndUpdate(
-  //   { email: email },
-  //   {
-  //     email,
-  //     password: await UserModel.encyptPassword(password),
-  //   }
-  // );
+  await UserModel.findOneAndUpdate(
+    { email: email },
+    {
+      email,
+      password: await UserModel.encyptPassword(password),
+    }
+  );
   res.json({ message: 'Updated password methods' });
 });
 
