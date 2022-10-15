@@ -4,6 +4,10 @@ import {FaStar} from "react-icons/fa"
 import { postReview } from "../../redux/actions/actions";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { checkAuth } from "../../redux/actions/actions";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 function validateInput(form) {
@@ -38,17 +42,69 @@ const stars = Array(5).fill(0)
 const [currentValue, setCurrentValue] = useState(0)
 const [hoverValue,setHoverValue] = useState(undefined)
 
+const authentication = localStorage.getItem("authenticated")
+
+/* MARTIN */
+const navigate = useNavigate();
+  let session = null;
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("authenticated")) {
+      const { authenticated, isAdmin } = JSON.parse(
+        localStorage.getItem("authenticated")
+      );
+      if (authenticated) {
+        if (isAdmin === false) {
+          navigate("/user");
+        }
+      } else {
+        navigate("/user");
+      }
+    } else {
+      navigate("/user");
+    }
+
+    if (localStorage.getItem("authenticated")) {
+      session = JSON.parse(localStorage.getItem("authenticated"));
+      dispatch(checkAuth(session));
+    }
+
+    const profile = async () => {
+      const { email, token } = session;
+      const user = await axios.get(
+        `http://localhost:3001/api/user/info/${email}`,
+        {
+          headers: { "x-access-token": `${token}` },
+        }
+      );
+
+      setData(user.data);
+      console.log("data", data);
+    };
+    profile();
+  }, []);
+
+  useEffect(() => {}, [data]);
+
+/*  */
+
+
 const userPerson = useSelector((e) => e.user);
+
+console.log(data);
 
 const [error, setError] = useState({});
 
 
 const [form,setForm] = useState({
-    user: userPerson,
+    isEditing: false,
+    user: data.username,
     title:"",
     description:"",
     rating: 0
 })
+
 
 function handleChange(e) {
     e.preventDefault();
