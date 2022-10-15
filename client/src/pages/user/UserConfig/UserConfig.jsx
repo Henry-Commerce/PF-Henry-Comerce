@@ -73,6 +73,7 @@ export const UserConfig = () => {
     initialValues: {
       username: "",
       country: "",
+      email: "",
       oldPassword: "",
       newPassword: "",
       confirm: false,
@@ -96,8 +97,7 @@ export const UserConfig = () => {
       success();
     },
   });
-
-  console.log(formik.values);
+  console.log("holi", formik.values);
 
   const {
     values,
@@ -240,6 +240,7 @@ export const UserConfig = () => {
                     name="confirm"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={(values.email = data.email)}
                   />
                   ¿Estas seguro que quieres realizar los cambios?
                 </label>
@@ -251,11 +252,9 @@ export const UserConfig = () => {
 
             <div className="field is-grouped m-3">
               <div className="control">
-                <Link to={`/user`}>
-                  <button className="button is-primary m-3" type="submit">
-                    Aceptar
-                  </button>
-                </Link>
+                <button className="button is-primary m-3" type="submit">
+                  Aceptar
+                </button>
               </div>
 
               <div className="control">
