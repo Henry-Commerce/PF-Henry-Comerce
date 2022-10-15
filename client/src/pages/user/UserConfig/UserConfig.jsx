@@ -49,14 +49,11 @@ export const UserConfig = () => {
         }
       );
       setData(user.data);
-      console.log("data", data);
     };
     profile();
   }, []);
 
   useEffect(() => {}, [data]);
-
-  console.log(data);
 
   const success = () =>
     toast.success("Los cambios se han realizado con exito", {
@@ -91,13 +88,17 @@ export const UserConfig = () => {
       confirm: Yup.boolean().oneOf([true], "XD"),
     }),
     onSubmit: (formData) => {
-      console.log("formdata", formData);
-      dispatch(editUser(formData));
+      if (!values.username) values.username = data.username;
+      if (!values.country) values.country = data.country;
+      if (!values.email) values.email = data.email;
+      if (!values.newPassword) values.newPassword = data.password;
+      /* console.log("formdata", formData); */
+      /* dispatch(editUser(formData)); */
+      console.log("holi", formik.values);
       handleReset();
       success();
     },
   });
-  console.log("holi", formik.values);
 
   const {
     values,
@@ -240,7 +241,6 @@ export const UserConfig = () => {
                     name="confirm"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={(values.email = data.email)}
                   />
                   ¿Estas seguro que quieres realizar los cambios?
                 </label>
