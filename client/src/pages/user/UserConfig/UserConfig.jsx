@@ -45,10 +45,9 @@ export const UserConfig = () => {
       const user = await axios.get(
         `http://localhost:3001/api/user/info/${email}`,
         {
-          headers: { "x-access-token": `${token}` },
+          headers: { "x-access-token": token },
         }
       );
-
       setData(user.data);
       console.log("data", data);
     };

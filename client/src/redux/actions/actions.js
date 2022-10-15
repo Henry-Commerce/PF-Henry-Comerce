@@ -476,8 +476,13 @@ export function getUser(email) {
 
 export function editUser(payload) {
   return async function (dispatch) {
+    const token = JSON.parse(localStorage.getItem('authenticated')).token
     try {
-      let putUser = await axios.put(`${LOCAL_HOST}/api/user/edituser`, payload);
+      let putUser = await axios.put(`${LOCAL_HOST}/api/user/edituser`, payload, {
+        headers: {
+          'x-access-token': token
+        }
+      });
       return dispatch({
         type: "EDIT_USER",
         putUser,

@@ -262,6 +262,22 @@ router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
   return res.json(newadmin);
 });
 
+router.put('/edituser', verifyToken, async (req, res) => {
+  const { username, country, oldPassword, newPassword } = req.body;
+  const body = req.body;
+  try {
+     if (!username) (delete body.username);
+     if (!country) (delete body.country);
+     if (!oldPassword || !newPassword) {
+      await UserModel.findOneAndUpdate({
+        
+      })
+     }
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 
 router.post('/welcome', async (req, res)=> {     
   const {name,email}=req.body
