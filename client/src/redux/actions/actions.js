@@ -82,7 +82,7 @@ export function postReview(name, payload) {
           headers: { "x-access-token": `${token}` },
         }
       );
-      console.log(review);
+      console.log(token);
       return dispatch({
         type: "POST_REVIEW",
         payload: review,

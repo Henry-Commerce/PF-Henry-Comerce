@@ -120,47 +120,9 @@ export const ProductsDetails = () => {
       error();
     }
   };
-  const arr = [
-    {
-      comments: [
-        {
-          user: "Santiago",
-          comment:
-            "Buenas, queria saber si tenian para la semana que viene talle XL? muchas gracias",
-          respuesta:
-            "Hola Santiago! la semana que viene tendriamos la recarga de stock, te esperamos!",
-        },
-        {
-          user: "Martin",
-          comment:
-            "Buenas, queria saber si tenian para la semana que viene talle S? muchas gracias",
-          respuesta:
-            "Hola Santiago! la semana que viene tendriamos la recarga de stock, te esperamos!",
-        },
-        {
-          user: "martin",
-          comment: "asfasfasfaskfkasf",
-          respuesta: "",
-        },
-      ],
-      reviews: [
-        {
-          user: "Santiago",
-          rating: 4,
-          review:
-            "La tela excelente calidad, sobrepaso totalmente mis expectativas",
-          nameReview: "Me encanto",
-        },
-        {
-          user: "Juan Martin",
-          rating: 4,
-          review:
-            "La tela excelente calidad, sobrepaso totalmente mis expectativas",
-          nameReview: "Me encanto",
-        },
-      ],
-    },
-  ];
+  
+
+
 
   let printStock = [detail.stock];
 
@@ -388,7 +350,7 @@ export const ProductsDetails = () => {
                           <div className="column is-one-quarter ">
                             <h1 className="title is-size-5">Rating:{e.rating}/5</h1>
                           </div>
-                          <div className="column ">
+                          <div className="column is-three-quarters ">
                             <p className="is-size-6 has-text-centered">
                               {e.description}
                             </p>
@@ -409,7 +371,7 @@ export const ProductsDetails = () => {
                     QUESTIONS
                   </h3>
                 </div>
-                <div className="columns pt-3 is-centered has-text-left">
+               {/*  <div className="columns pt-3 is-centered has-text-left">
                   <div className="column">
                     {Object.values(arr[0].comments) &&
                       Object.values(arr[0].comments)
@@ -433,7 +395,7 @@ export const ProductsDetails = () => {
                           </div>
                         ))}
                   </div>
-                </div>
+                </div> */}
                 <div className="has-text-centered pt-6 pb-6">
                   <div className="columns is-centered">
                     <div className="column is-6 filee">

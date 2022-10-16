@@ -7,13 +7,21 @@ import { RiAccountCircleFill, RiLockPasswordFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { checkAuth } from '../../../redux/actions';
 import axios from 'axios';
+import { dataCountrys } from './Countrys.js';
+import { v4 } from 'uuid';
+
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 export const AdminProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let session = null;
   const [data, setData] = useState('');
+  const [nameChange, setNameChange] = useState('');
   const [meow, setMeow] = useState(false);
+
+  let pais = '';
 
   useEffect(() => {
     if (localStorage.getItem('authenticated')) {
@@ -59,17 +67,123 @@ export const AdminProfile = () => {
 
     const res = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/user/change/${data.email}`,
+      url: `http://localhost:3001/api/user/edit/${data.email}`,
       headers: {
         'x-access-token': `${token}`,
       },
       data: {
-        username: 'AlyxZain',
-        country: 'Colombia',
+        username: `${nameChange}`,
+        country: `${pais}`,
       },
     });
     console.log('change', res);
   };
+
+  const country = async (e) => {
+    e.preventDefault();
+    if (e.target.value === 'DEFAULT') {
+      pais = '';
+    } else {
+      pais = e.target.value;
+    }
+    console.log('change', pais);
+  };
+
+  const nombresito = async (e) => {
+    e.preventDefault();
+    setNameChange(e.target.value);
+    // console.log('eeeee', e.target.value);
+    // if (e.target.value === 'DEFAULT') {
+    //   pais = '';
+    // } else {
+    //   pais = e.target.value;
+    // }
+    // console.log('change', pais);
+  };
+
+  const [image, setImage] = useState('');
+
+  const handleaddImage = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append('file', e.target.files[0]);
+    data.append('upload_preset', 'images');
+    data.append('cloud_name', 'dg50vvzpm');
+    data.append('public_id', v4());
+
+    await fetch('https://api.cloudinary.com/v1_1/dg50vvzpm/image/upload', {
+      method: 'post',
+      body: data,
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+        setImage(data.url);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      oldPassword: '',
+      newPassword: '',
+      newPasswordAgain: '',
+    },
+    validationSchema: Yup.object().shape({
+      oldPassword: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .max(20, 'Password must be no more than 20 characters')
+        .required('Your current password is required'),
+      newPassword: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .max(20, 'Password must be no more than 20 characters')
+        .required('New password is a required field')
+        .oneOf([Yup.ref('newPasswordAgain')], 'Passwords must be the same'),
+      newPasswordAgain: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .max(20, 'Password must be no more than 20 characters')
+        .required('New password is a required field one more time')
+        .oneOf([Yup.ref('newPassword')], 'Passwords must be the same'),
+    }),
+    onSubmit: (formData) => {
+      console.log('formdata', formData);
+      const { token, email } = JSON.parse(
+        localStorage.getItem('authenticated')
+      );
+
+      const change = async () => {
+        const res = await axios({
+          method: 'put',
+          url: `http://localhost:3001/api/user/edit/pass`,
+          headers: {
+            'x-access-token': `${token}`,
+          },
+          data: {
+            email: `${email}`,
+            password: `${formData.password}`,
+          },
+        });
+
+        console.log('change', res);
+      };
+
+      change();
+      /* dispatch(editUser(formData)); */
+      // handleReset();
+      // success();
+    },
+  });
+
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleReset,
+    handleSubmit,
+    errors,
+    touched,
+  } = formik;
 
   return (
     <div className='wrapper'>
@@ -124,7 +238,11 @@ export const AdminProfile = () => {
                                   </span>
                                   <span>Pick a file</span>
                                 </a> */}
-                                <input type='file' />
+                                <input
+                                  type='file'
+                                  name='image'
+                                  onChange={handleaddImage}
+                                />
                               </label>
                             </div>
                           </div>
@@ -143,11 +261,12 @@ export const AdminProfile = () => {
                                 autoComplete='on'
                                 name='name'
                                 // value='John Doe'
+                                onChange={nombresito}
                                 className='input'
                                 required=''
                               />
                             </div>
-                            <p className='help'>Required. Your name</p>
+                            {/* <p className='help'>Required. Your name</p> */}
                           </div>
                         </div>
                       </div>
@@ -158,14 +277,27 @@ export const AdminProfile = () => {
                         <div className='field-body'>
                           <div className='field'>
                             <div className='control'>
-                              <input
+                              <select
+                                name='lenguajes'
+                                id='lang'
+                                className='input'
+                                onChange={country}>
+                                <option value='DEFAULT'>No change</option>
+                                {dataCountrys.result.map((countrys, index) => (
+                                  <option key={index} value={countrys.name}>
+                                    {countrys.name}
+                                  </option>
+                                ))}
+                              </select>
+
+                              {/* <input
                                 type='email'
                                 autoComplete='on'
                                 name='email'
                                 // value='user@example.com'
                                 className='input'
                                 required=''
-                              />
+                              /> */}
                             </div>
                             {/* <p className='help'>Required. Your e-mail</p> */}
                           </div>
@@ -212,9 +344,9 @@ export const AdminProfile = () => {
                     <div className='field'>
                       <label className='label'>Name</label>
                       <div className='control is-clearfix'>
-                        <text className='input is-static'>
+                        <p className='input is-static'>
                           {data ? data.username : ''}
-                        </text>
+                        </p>
                         {/* <input
                           type='text'
                           readOnly=''
@@ -227,9 +359,9 @@ export const AdminProfile = () => {
                     <div className='field'>
                       <label className='label'>E-mail</label>
                       <div className='control is-clearfix'>
-                        <text className='input is-static'>
+                        <p className='input is-static'>
                           {data ? data.email : ''}
-                        </text>
+                        </p>
                         {/* <input
                           type='text'
                           readOnly=''
@@ -242,9 +374,9 @@ export const AdminProfile = () => {
                     <div className='field'>
                       <label className='label'>Country</label>
                       <div className='control is-clearfix'>
-                        <text className='input is-static'>
+                        <p className='input is-static'>
                           {data ? data.country : ''}
-                        </text>
+                        </p>
                         {/* <input
                           type='text'
                           readOnly=''
@@ -268,7 +400,7 @@ export const AdminProfile = () => {
                 </p>
               </header>
               <div className='card-content'>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className='field is-horizontal'>
                     <div className='field-label is-normal'>
                       <label className='label'>Current password</label>
@@ -277,14 +409,24 @@ export const AdminProfile = () => {
                       <div className='field'>
                         <div className='control'>
                           <input
-                            type='password'
-                            name='password_current'
-                            autoComplete='current-password'
                             className='input'
-                            required=''
+                            type='password'
+                            name='oldPassword'
+                            autoComplete='off'
+                            placeholder='Enter your current password'
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.oldPassword}
                           />
                         </div>
-                        <p className='help'>Required. Your current password</p>
+
+                        {errors.oldPassword && touched.oldPassword && (
+                          <div className='has-text-danger pt-2'>
+                            {errors.oldPassword}
+                          </div>
+                        )}
+
+                        {/* <p className='help'>Required. Your current password</p> */}
                       </div>
                     </div>
                   </div>
@@ -297,14 +439,24 @@ export const AdminProfile = () => {
                       <div className='field'>
                         <div className='control'>
                           <input
-                            type='password'
-                            autoComplete='new-password'
-                            name='password'
                             className='input'
-                            required=''
+                            type='password'
+                            name='newPassword'
+                            autoComplete='off'
+                            placeholder='Enter new password'
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.newPassword}
                           />
                         </div>
-                        <p className='help'>Required. New password</p>
+
+                        {errors.newPassword && touched.newPassword && (
+                          <div className='has-text-danger pt-2'>
+                            {errors.newPassword}
+                          </div>
+                        )}
+
+                        {/* <p className='help'>Required. New password</p> */}
                       </div>
                     </div>
                   </div>
@@ -316,16 +468,27 @@ export const AdminProfile = () => {
                       <div className='field'>
                         <div className='control'>
                           <input
-                            type='password'
-                            autoComplete='new-password'
-                            name='password_confirmation'
                             className='input'
-                            required=''
+                            type='password'
+                            name='newPasswordAgain'
+                            autoComplete='off'
+                            placeholder='Enter new password again'
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.newPasswordAgain}
                           />
                         </div>
-                        <p className='help'>
+
+                        {errors.newPasswordAgain &&
+                          touched.newPasswordAgain && (
+                            <div className='has-text-danger pt-2'>
+                              {errors.newPasswordAgain}
+                            </div>
+                          )}
+
+                        {/* <p className='help'>
                           Required. New password one more time
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                   </div>

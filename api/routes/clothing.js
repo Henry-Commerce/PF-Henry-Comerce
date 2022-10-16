@@ -295,62 +295,86 @@ router.put("/showable", [verifyToken, isAdmin], async (req, res) => {        //A
 
 router.put("/reviewupdate", verifyToken, async (req, res) => {         //Actualizar las reviews de la prenda
   try {
-
-    const { name, review,user,rating }= req.body
-    var newrating = [];
-    var newreview = [];
-    var userreview=[];
-    var resstatus=[]
-    if(name){
-      const foundcloth = await ClothingModel.find({ name: name });
-      const founduser = await UserModel.find({ username: user });
-      if (foundcloth.length > 0) {
-        /* ACT RATING */
-        const oldrating = foundcloth[0].rating;
-        newrating = [...oldrating];
-        newrating.push(rating);
-        var finrating = await ClothingModel.findOneAndUpdate(
-          { name: name },
-          { rating: newrating }
-        );
-
-        /* ACT REVIEW */
-        const oldreview = foundcloth[0].comments;
-        newreview = [...oldreview];
-        var actreview = {
-          user: user,
-          comment: review,
-        };
-        newreview.push(actreview);
-        var finreview = await ClothingModel.findOneAndUpdate(
-          { name: name },
-          { comments: newreview }
-        );
-
-        /* ACT REVIEW USUARIO */
-        const olduserreview= founduser[0].reviews
-        userreview=[...olduserreview]
-        var actuserreview={
-          clothe:name,
-          review:review
-        }
-        userreview.unshift(actuserreview)
-        var finuserreview = await UserModel.findOneAndUpdate(
-          { username: user },
-          { reviews: userreview }
-        );
-        resstatus.push(finrating) 
-        resstatus.push(finreview) 
-        resstatus.push(finuserreview)
-        
-        return res.status(200).send(resstatus)
-      }else{
-        return res.status(404).send("no hay conincidencias")
+    const { name } = req.query;
+    const { user, title, description, rating, isEditing } = req.body;
+    const foundCloth = await ClothingModel.findOne({
+      name,
+    })
+    if (isEditing) {
+      
+    } else {
+      const commentsArray = foundCloth.comments;
+      const newReview = {
+        user,
+        title,
+        description,
+        rating
       }
+      Object.keys(newReview).forEach(element => newReview[element] = typeof newReview[element] == 'string' ? newReview[element].trim() : newReview[element])
+      commentsArray.push(newReview)
+      await ClothingModel.findOneAndUpdate({ name }, { comments: commentsArray })
+      res.status(200).json(foundCloth);
     }
   } catch (error) {
-    console.log("Cannot GET /clothing/:name", error);
+    console.error(error)
   }
+  // try {
+
+  //   const { name, review,user,rating }= req.body
+  //   var newrating = [];
+  //   var newreview = [];
+  //   var userreview=[];
+  //   var resstatus=[]
+  //   if(name){
+  //     const foundcloth = await ClothingModel.find({ name: name });
+  //     const founduser = await UserModel.find({ username: user });
+  //     if (foundcloth.length > 0) {
+  //       /* ACT RATING */
+  //       const oldrating = foundcloth[0].rating;
+  //       newrating = [...oldrating];
+  //       newrating.push(rating);
+  //       var finrating = await ClothingModel.findOneAndUpdate(
+  //         { name: name },
+  //         { rating: newrating }
+  //       );
+
+  //       /* ACT REVIEW */
+  //       const oldreview = foundcloth[0].comments;
+  //       newreview = [...oldreview];
+  //       var actreview = {
+  //         user: user,
+  //         comment: review,
+  //       };
+  //       newreview.push(actreview);
+  //       var finreview = await ClothingModel.findOneAndUpdate(
+  //         { name: name },
+  //         { comments: newreview }
+  //       );
+
+  //       /* ACT REVIEW USUARIO */
+  //       const olduserreview= founduser[0].reviews
+  //       userreview=[...olduserreview]
+  //       var actuserreview={
+  //         clothe:name,
+  //         review:review
+  //       }
+  //       userreview.unshift(actuserreview)
+  //       var finuserreview = await UserModel.findOneAndUpdate(
+  //         { username: user },
+  //         { reviews: userreview }
+  //       );
+  //       resstatus.push(finrating) 
+  //       resstatus.push(finreview) 
+  //       resstatus.push(finuserreview)
+        
+  //       return res.status(200).send(resstatus)
+  //     }else{
+  //       return res.status(404).send("no hay conincidencias")
+  //     }
+  //   }
+  // } catch (error) {
+  //   console.log("Cannot GET /clothing/:name", error);
+  // }
 });
 
 router.put('/updateoffer', [verifyToken, isAdmin], async (req, res)=> {     // actualizar descuentos
