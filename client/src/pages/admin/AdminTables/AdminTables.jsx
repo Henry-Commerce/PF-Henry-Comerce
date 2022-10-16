@@ -363,6 +363,7 @@ export const AdminTables = () => {
                           </tr>
                         </thead>
                         <tbody>
+                          {console.log(user)}
                           {user.map((user, index) => (
                             <tr key={index}>
                               <td className='is-checkbox-cell'>
@@ -380,9 +381,10 @@ export const AdminTables = () => {
                                 </div>
                               </td>
                               <td data-label='Name'>{user.username}</td>
-                              <td data-label='Company'>{user.email}</td>
+                              <td data-label='Mail'>{user.email}</td>
                               <td data-label='City'>{user.country}</td>
-                              <td
+                              <td data-label='City'>{user.isAdmin}</td>
+                              {/* <td
                                 data-label='Progress'
                                 className='is-progress-cell'>
                                 <progress
@@ -391,7 +393,7 @@ export const AdminTables = () => {
                                   value='79'>
                                   79
                                 </progress>
-                              </td>
+                              </td> */}
                               <td data-label='Created'>
                                 <small
                                   className='has-text-grey is-abbr-like'
