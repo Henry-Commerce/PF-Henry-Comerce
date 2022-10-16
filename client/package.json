@@ -19,6 +19,7 @@
     "formik": "^2.2.9",
     "mercadopago": "^1.5.14",
     "react": "^18.2.0",
+    "react-country-region-selector": "^3.6.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-multi-carousel": "^2.8.2",
