@@ -88,6 +88,8 @@ export const PostReview = () => {
     });
   }, [data, detail]);
 
+
+  console.log(form)
   const userPerson = useSelector((e) => e.user);
 
   const [error, setError] = useState({});
@@ -114,8 +116,6 @@ export const PostReview = () => {
     } else {
       dispatch(postReview(id, form));
       e.preventDefault();
-      alert("Juanma gato");
-      navigate(-1);
       data.reviews.push(form);
     }
   };
@@ -133,7 +133,24 @@ export const PostReview = () => {
     >
       {(close) => (
         <div className="box widtht is-align-content-stretch">
-          <form onSubmit={(e) => handleSubmit(e)} autoComplete="off">
+          <form onSubmit={(e) => {
+             if (
+              form.title === "" ||
+              error.title ||
+              form.description === "" ||
+              error.description ||
+              form.rating === 0 ||
+              error.rating
+            ) {
+              setError(validateInput({ ...form, [e.target.name]: e.target.value }));
+              e.preventDefault();
+            } else {
+              dispatch(postReview(id, form));
+              e.preventDefault();
+              data.reviews.push(form);
+              navigate(0)
+            } 
+          }}  autoComplete="off">
             <div className="columns is-centered">
               <div className="column has-text-centered is-4 pt-5">
                 <h1>Titulo de la reseña</h1>
@@ -197,7 +214,7 @@ export const PostReview = () => {
 
             <div className="columns is-centered">
               <div className="column has-text-centered is-12 pt-5">
-                <button type="submit" className="button is-warning">
+                <button  type="submit" className="button is-warning">
                   Añadir reseña
                 </button>
               </div>

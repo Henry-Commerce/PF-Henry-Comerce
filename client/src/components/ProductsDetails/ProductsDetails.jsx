@@ -350,7 +350,7 @@ export const ProductsDetails = () => {
                           <div className="column is-one-quarter ">
                             <h1 className="title is-size-5">Rating:{e.rating}/5</h1>
                           </div>
-                          <div className="column ">
+                          <div className="column is-three-quarters ">
                             <p className="is-size-6 has-text-centered">
                               {e.description}
                             </p>

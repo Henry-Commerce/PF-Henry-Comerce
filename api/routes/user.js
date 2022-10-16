@@ -262,6 +262,35 @@ router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
   return res.json(newadmin);
 });
 
+
+router.put('/edituser', verifyToken, async (req, res) => {
+  const { email, username, country, oldPassword, newPassword } = req.body;
+  try {
+    const userChange = await UserModel.findOneAndUpdate({
+      email
+    },{
+      username,
+      country,
+    })
+     if (!oldPassword || !newPassword) {
+      res.status(200).send(userChange);
+     }
+     else {
+      const userComparePassword = await UserModel.comparePassword(oldPassword, userChange.password)
+      if (userComparePassword) {
+        const changedPassword = await UserModel.encyptPassword(newPassword);
+        userChange.password = changedPassword;
+        await userChange.save();
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(401);
+      }
+     }
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 router.post('/welcome', async (req, res) => {
   const { name, email } = req.body;
   try {

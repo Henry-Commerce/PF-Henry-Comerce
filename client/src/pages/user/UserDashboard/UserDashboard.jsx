@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { checkAuth } from "../../../redux/actions/actions";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "../../../components/Loading/Loading";
 
 export const UserDashboard = () => {
   const [isActive, setisActive] = useState(false);
@@ -54,49 +55,58 @@ export const UserDashboard = () => {
 
   useEffect(() => {}, [data]);
 
+  console.log(data);
+
   return (
     <>
-      <article className="panel">
-        <p className="panel-heading title is-3">Mi cuenta</p>
-        <p className="panel-tabs ">
-          <Link
-            to={`/user`}
-            onClick={() => {
-              setisActive(!isActive);
-              setisActive1(false);
-            }}
-            className={`${isActive ? "is-active" : ""}`}
-          >
-            MIS DATOS
-          </Link>
-          <Link
-            to={`/user/config`}
-            onClick={() => {
-              setisActive(false);
-              setisActive1(!isActive1);
-            }}
-            className={`${isActive1 ? "is-active" : ""}`}
-          >
-            EDITAR DATOS
-          </Link>
-        </p>
-        <span className="panel-block">
-          <HiIdentification className="title is-2 m-1" />
-          <p className="is-size-4">Nombre de usuario: {data.username}</p>
-        </span>
-        <span className="panel-block">
-          <HiHome className="title is-2 m-1" />
-          <p className="is-size-4">Pais: {data.country}</p>
-        </span>
-        <span className="panel-block">
-          <HiMail className="title is-2 m-1" />
-          <p className="is-size-4">Mail: {data.email}</p>
-        </span>
-        <span className="panel-block">
-          <HiPhone className="title is-2 m-1" />
-          <p className="is-size-4">Telefono: 12345678</p>
-        </span>
-      </article>
+      {!data.username && <Loading />}
+      {data.username && (
+        <div className="columns is-centered">
+          <div className="column is-7">
+            <article className="panel">
+              <p className="panel-heading title is-3">Mi cuenta</p>
+              <p className="panel-tabs ">
+                <Link
+                  to={`/user`}
+                  onClick={() => {
+                    setisActive(!isActive);
+                    setisActive1(false);
+                  }}
+                  className={`${isActive ? "is-active" : ""}`}
+                >
+                  MIS DATOS
+                </Link>
+                <Link
+                  to={`/user/config`}
+                  onClick={() => {
+                    setisActive(false);
+                    setisActive1(!isActive1);
+                  }}
+                  className={`${isActive1 ? "is-active" : ""}`}
+                >
+                  EDITAR DATOS
+                </Link>
+              </p>
+              <span className="panel-block">
+                <HiIdentification className="title is-2 m-1" />
+                <p className="is-size-4">Nombre de usuario: {data.username}</p>
+              </span>
+              <span className="panel-block">
+                <HiHome className="title is-2 m-1" />
+                <p className="is-size-4">Pais: {data.country}</p>
+              </span>
+              <span className="panel-block">
+                <HiMail className="title is-2 m-1" />
+                <p className="is-size-4">Mail: {data.email}</p>
+              </span>
+              <span className="panel-block">
+                <HiPhone className="title is-2 m-1" />
+                <p className="is-size-4">Telefono: 12345678</p>
+              </span>
+            </article>
+          </div>
+        </div>
+      )}
     </>
   );
 };
