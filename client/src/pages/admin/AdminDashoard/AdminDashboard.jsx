@@ -9,6 +9,7 @@ import { MdManageAccounts } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { checkAuth } from '../../../redux/actions';
 import { Map } from '../../../components/Map/Map';
+import { AdminMap } from '../../../components/AdminMap/AdminMap';
 
 export const AdminDashboard = () => {
   const [numberUsers, setNumberUsers] = useState(false);
@@ -22,6 +23,13 @@ export const AdminDashboard = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [selected, setSelected] = useState({
+    lat: 0,
+    lng: 0,
+  });
+  const [nameOfBranch, setNameOfBranch] = useState('');
+
   useEffect(() => {
     if (localStorage.getItem('authenticated')) {
       const { authenticated, isAdmin } = JSON.parse(
@@ -67,6 +75,35 @@ export const AdminDashboard = () => {
       dispatch(checkAuth(session));
     }
   }, []);
+
+  const nameBranch = (e) => {
+    setNameOfBranch(e.target.value);
+  };
+
+  const addBranch = async (e) => {
+    e.preventDefault();
+    setSelected(selected);
+    const { lat, lng } = selected;
+    const { token } = JSON.parse(localStorage.getItem('authenticated'));
+    const branch = await axios({
+      method: 'post',
+      url: `http://localhost:3001/api/branch/add`,
+      headers: {
+        'x-access-token': `${token}`,
+      },
+      data: {
+        street: `${nameOfBranch}`,
+        coordinates: {
+          lat,
+          lng,
+        },
+      },
+    });
+    if (branch.status === 200) {
+      window.location.reload();
+    }
+    console.log('Branch', branch);
+  };
 
   return (
     <>
@@ -125,7 +162,7 @@ export const AdminDashboard = () => {
                           <div className='level-item'>
                             <div className='is-widget-label'>
                               <h3 className='subtitle is-spaced'>Clients</h3>
-                              <h1 className='title'>512</h1>
+                              <h1 className='title'>{numberUsers}</h1>
                             </div>
                           </div>
                           <div className='level-item has-widget-icon'>
@@ -203,7 +240,7 @@ export const AdminDashboard = () => {
                   </header>
                   <div className='card-content'>
                     <div className='chart-area'>
-                      <Map />
+                      <AdminMap setSelected={setSelected} selected={selected} />
                       {/* <div
                         className=''
                         style={{
@@ -287,7 +324,7 @@ export const AdminDashboard = () => {
                                     autoComplete='on'
                                     name='name'
                                     // value='John Doe'
-                                    // onChange={nombresito}
+                                    onChange={nameBranch}
                                     className='input'
                                     required=''
                                   />
@@ -307,7 +344,7 @@ export const AdminDashboard = () => {
                                     type='text'
                                     autoComplete='on'
                                     name='name'
-                                    value='2222'
+                                    value={selected?.lat}
                                     // onChange={nombresito}
                                     className='input'
                                     required=''
@@ -328,7 +365,7 @@ export const AdminDashboard = () => {
                                     type='text'
                                     autoComplete='on'
                                     name='name'
-                                    value='11111'
+                                    value={selected?.lng}
                                     // onChange={nombresito}
                                     className='input'
                                     required=''
@@ -347,8 +384,7 @@ export const AdminDashboard = () => {
                                   <button
                                     type='submit'
                                     className='button is-primary'
-                                    // onClick={change}
-                                  >
+                                    onClick={addBranch}>
                                     Submit
                                   </button>
                                 </div>

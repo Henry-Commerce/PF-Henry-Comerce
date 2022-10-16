@@ -1,24 +1,26 @@
-import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
-import { Loading } from "../Loading/Loading";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllBranches } from "../../redux/actions";
+/** @format */
+
+import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api';
+import { Loading } from '../Loading/Loading';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllBranches } from '../../redux/actions';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
-} from "use-places-autocomplete";
+} from 'use-places-autocomplete';
 import {
   Combobox,
   ComboboxInput,
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
-} from "@reach/combobox";
-import "./AdminMap.scss";
+} from '@reach/combobox';
+import './AdminMap.scss';
 
-export const libraries = ["places"];
+export const libraries = ['places'];
 
-export const AdminMap = () => {
+export const AdminMap = ({ selected, setSelected }) => {
   const dispatch = useDispatch();
 
   const { isLoaded } = useLoadScript({
@@ -33,14 +35,16 @@ export const AdminMap = () => {
   }, []);
 
   const center = { lat: -17.3, lng: -60 };
-  const [selected, setSelected] = useState(null);
 
   if (!isLoaded) return <Loading />;
 
   return (
     <>
-      <GoogleMap zoom={5} center={center} mapContainerClassName="map-container">
-        <div className="places-container">
+      <GoogleMap
+        zoom={3.5}
+        center={center}
+        mapContainerClassName='map-container'>
+        <div className='places-container'>
           <PlacesAutocomplete setSelected={setSelected} />
         </div>
 
@@ -83,20 +87,18 @@ const PlacesAutocomplete = ({ setSelected }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
-        className="combobox-input"
-        placeholder="Search an address"
+        className='combobox-input'
+        placeholder='Search an address'
       />
       <ComboboxPopover>
         <ComboboxList>
-          {status === "OK" &&
+          {status === 'OK' &&
             data.map(({ place_id, description }) => (
-              <>
-                <ComboboxOption
-                  key={place_id}
-                  value={description}
-                  className="combobox-option pb-3"
-                />
-              </>
+              <ComboboxOption
+                key={place_id}
+                value={description}
+                className='combobox-option pb-3'
+              />
             ))}
         </ComboboxList>
       </ComboboxPopover>
