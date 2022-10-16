@@ -63,12 +63,11 @@ function rootReducer(state = initialState, action) {
         detail: action.payload[0],
       };
 
-      case 'POST_REVIEW':
-        return {
-            ...state,
-            review: action.payload
-        }
-
+    case "POST_REVIEW":
+      return {
+        ...state,
+        review: action.payload,
+      };
 
     case "SET_ORDER_PRICE":
       let orderByPrice = [...state.allClothing];
@@ -124,6 +123,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
+      };
+
+    case "EDIT_USER":
+      return {
+        ...state,
       };
 
     default:
