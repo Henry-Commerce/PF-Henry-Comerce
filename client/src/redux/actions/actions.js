@@ -1,8 +1,8 @@
 /** @format */
 
-import axios from "axios";
-import { FaBullseye } from "react-icons/fa";
-const LOCAL_HOST = "http://localhost:3001";
+import axios from 'axios';
+import { FaBullseye } from 'react-icons/fa';
+const LOCAL_HOST = 'http://localhost:3001';
 
 export function getClothing(allFilters) {
   return async function (dispatch) {
@@ -79,14 +79,12 @@ export function postReview(name, payload) {
         `${LOCAL_HOST}/api/clothing/reviewupdate/?name=${name}`,
         payload,
         {
-
           headers: { 'x-access-token': `${token}` },
-
         }
       );
       console.log(token);
       return dispatch({
-        type: "POST_REVIEW",
+        type: 'POST_REVIEW',
         payload: review,
       });
     } catch (error) {
@@ -194,9 +192,9 @@ export const startGithubSignIn = () => {
 
     const result = await singInWithGithub();
     if (result.ok === false) {
-      localStorage.setItem("authenticated", false);
+      localStorage.setItem('authenticated', false);
       return dispatch({
-        type: "LOGOUT",
+        type: 'LOGOUT',
         payload: result.errorMessage,
       });
     }
@@ -209,11 +207,11 @@ export const startGithubSignIn = () => {
       username: displayName,
       email: email.toLowerCase(),
       password,
-      country: "argentina",
+      country: 'argentina',
       isAdmin: admin,
     });
 
-    console.log("usuario creado", creado);
+    console.log('usuario creado', creado);
 
     let token = creado.data.token;
 
@@ -222,20 +220,20 @@ export const startGithubSignIn = () => {
       password,
     });
 
-    console.log("existe", existe);
+    console.log('existe', existe);
     token = existe.data.token;
 
-    console.log("data", existe.data);
-    console.log("token", token);
+    console.log('data', existe.data);
+    console.log('token', token);
     const add = await axios.get(
       `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
       {
-        headers: { "x-access-token": `${existe.data.token}` },
+        headers: { 'x-access-token': `${existe.data.token}` },
       }
     );
     admin = add.data.isAdmin;
     localStorage.setItem(
-      "authenticated",
+      'authenticated',
       JSON.stringify({
         authenticated: true,
         isAdmin: admin,
@@ -245,7 +243,7 @@ export const startGithubSignIn = () => {
     );
 
     dispatch({
-      type: "LOGIN",
+      type: 'LOGIN',
       payload: result,
     });
   };
@@ -254,14 +252,14 @@ export const startGithubSignIn = () => {
 export const startGoogleSignIn = () => {
   return async (dispatch) => {
     dispatch({
-      type: "CHECKING_CREDENTIALS",
+      type: 'CHECKING_CREDENTIALS',
     });
 
     const result = await singInWithGoogle();
     if (result.ok === false) {
-      localStorage.setItem("authenticated", false);
+      localStorage.setItem('authenticated', false);
       return dispatch({
-        type: "LOGOUT",
+        type: 'LOGOUT',
         payload: result.errorMessage,
       });
     }
@@ -276,11 +274,11 @@ export const startGoogleSignIn = () => {
       username: displayName,
       email: email.toLowerCase(),
       password,
-      country: "argentina",
+      country: 'argentina',
       isAdmin: admin,
     });
 
-    console.log("usuario creado", creado);
+    console.log('usuario creado', creado);
 
     let token = creado.data.token;
 
@@ -289,11 +287,11 @@ export const startGoogleSignIn = () => {
       password,
     });
 
-    console.log("existe", existe);
+    console.log('existe', existe);
     token = existe.data.token;
 
-    console.log("data", existe.data);
-    console.log("token", token);
+    console.log('data', existe.data);
+    console.log('token', token);
     // try {
     //   const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
     //   const { data } = existe;
@@ -320,12 +318,12 @@ export const startGoogleSignIn = () => {
     const add = await axios.get(
       `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
       {
-        headers: { "x-access-token": `${existe.data.token}` },
+        headers: { 'x-access-token': `${existe.data.token}` },
       }
     );
     admin = add.data.isAdmin;
     localStorage.setItem(
-      "authenticated",
+      'authenticated',
       JSON.stringify({
         authenticated: true,
         isAdmin: admin,
@@ -357,11 +355,11 @@ export const startCreatingUserWithEmailPassword = ({
       displayName,
     });
 
-    console.log("usuario a crear", result);
+    console.log('usuario a crear', result);
     if (result.ok === false) {
-      localStorage.setItem("authenticated", false);
+      localStorage.setItem('authenticated', false);
       return dispatch({
-        type: "LOGOUT",
+        type: 'LOGOUT',
         payload: result.errorMessage,
       });
     }
@@ -370,16 +368,16 @@ export const startCreatingUserWithEmailPassword = ({
       username: email.toLowerCase(),
       email: email.toLowerCase(),
       password,
-      country: "argentina",
+      country: 'argentina',
       isAdmin: false,
     });
-    console.log("usuario creado", creado);
+    console.log('usuario creado', creado);
 
     // }
     const token = creado.data.token;
 
     localStorage.setItem(
-      "authenticated",
+      'authenticated',
       JSON.stringify({
         authenticated: true,
         isAdmin: false,
@@ -388,7 +386,7 @@ export const startCreatingUserWithEmailPassword = ({
     );
 
     dispatch({
-      type: "LOGIN",
+      type: 'LOGIN',
       payload: result,
     });
   };
@@ -397,9 +395,8 @@ export const startCreatingUserWithEmailPassword = ({
 export const startLoginWithEmailPassword = ({ email, password }) => {
   return async (dispatch) => {
     dispatch({
-      type: "CHECKING_CREDENTIALS",
+      type: 'CHECKING_CREDENTIALS',
     });
-
 
     // const result = await loginWithEmailPassword({ email, password });
     // console.log('action login', result);
@@ -411,24 +408,23 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
     //   });
     // }
 
-
     const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
       email: email.toLowerCase(),
       password,
     });
 
-    console.log("existe", existe);
+    console.log('existe', existe);
     if (existe.status === 200) {
       const add = await axios.get(
         `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
         {
-          headers: { "x-access-token": `${existe.data.token}` },
+          headers: { 'x-access-token': `${existe.data.token}` },
         }
       );
 
       const admin = add.data.isAdmin;
       localStorage.setItem(
-        "authenticated",
+        'authenticated',
         JSON.stringify({
           authenticated: true,
           isAdmin: admin,
@@ -437,8 +433,8 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
         })
       );
       return dispatch({
-        type: "LOGIN",
-        payload: result,
+        type: 'LOGIN',
+        payload: existe,
       });
     }
   };
@@ -469,7 +465,7 @@ export function getUser(email) {
     try {
       const user = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
       return dispatch({
-        type: "GET_USER",
+        type: 'GET_USER',
         payload: user.data,
       });
     } catch (error) {
@@ -480,15 +476,19 @@ export function getUser(email) {
 
 export function editUser(payload) {
   return async function (dispatch) {
-    const token = JSON.parse(localStorage.getItem('authenticated')).token
+    const token = JSON.parse(localStorage.getItem('authenticated')).token;
     try {
-      let putUser = await axios.put(`${LOCAL_HOST}/api/user/edituser`, payload, {
-        headers: {
-          'x-access-token': token
+      let putUser = await axios.put(
+        `${LOCAL_HOST}/api/user/edituser`,
+        payload,
+        {
+          headers: {
+            'x-access-token': token,
+          },
         }
-      });
+      );
       return dispatch({
-        type: "EDIT_USER",
+        type: 'EDIT_USER',
         putUser,
       });
     } catch (error) {
