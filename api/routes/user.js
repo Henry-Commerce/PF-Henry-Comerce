@@ -301,25 +301,29 @@ router.post('/welcome', async (req, res) => {
   }
 });
 
-router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {// añadir correo
-  const { email ,image } = req.body;
-  if (!email || !image){return res.json({ message: "Expected info isn't provided" })};//
+router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {
+  // cambiar imagen
+  const { email, image } = req.body;
+  if (!email || !image) {
+    return res.json({ message: "Expected info isn't provided" });
+  } //
   const foundUser = await UserModel.findOne({ email: email });
-if (!foundUser) return res.json({ message: 'User not found' });
-if(!image.includes("https")){return res.json({message:"invalid link"})}
+  if (!foundUser) return res.json({ message: 'User not found' });
+  if (!image.includes('http')) {
+    return res.json({ message: 'invalid link' });
+  }
 
   await UserModel.findOneAndUpdate(
     { email: email },
     {
-     image: image,
+      image: image,
     }
   );
-  res.json({ message: 'Updated password methods' });
+  res.json({ message: 'image updated' });
 });
 
-
-
-router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {// añadir correo
+router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {
+  // añadir correo
 
   // añadir correo
   const { password } = req.body;
