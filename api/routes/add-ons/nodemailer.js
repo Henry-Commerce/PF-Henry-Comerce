@@ -37,4 +37,18 @@ module.exports = {
             ,
         }
     },  
+    mailChangepassworf: (email, link) => {
+        return {
+            from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>',
+            to: email,
+            subject: 'Cambio de contraseña',
+            html:
+                `
+            <img width=80% src="https://i.imgur.com/kJFPkVH.jpg"></img>
+            <br/>
+            <a href=${link} ><b>LINK</b></a>
+            `
+            ,
+        }
+    }, 
 }
