@@ -15,23 +15,24 @@ import { BsChevronLeft, BsChevronRight, BsThreeDots } from 'react-icons/bs';
 import axios from 'axios';
 import { checkAuth, getClothing } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { TablesPagination } from './TablesPagination';
 
 export const AdminTables = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [user, setUser] = useState([]);
   const [discount, setDiscount] = useState(0);
   const [price, setPrice] = useState(0);
 
   const clothing = useSelector((state) => state.allClothing);
 
-  // const [clothings, setClothing] = useState([]);
-  // const [allclothing, setAllClothing] = useState([]);
+  const [clothings, setClothing] = useState([]);
+  const [allclothing, setAllClothing] = useState([]);
+
+  const [user, setUser] = useState([]);
   const [all, setAll] = useState([]);
 
   useEffect(() => {
-    console.log(clothing);
     if (localStorage.getItem('authenticated')) {
       const { authenticated, isAdmin } = JSON.parse(
         localStorage.getItem('authenticated')
@@ -61,6 +62,22 @@ export const AdminTables = () => {
       setUser(usuarios.data.concat(admis.data));
     };
     users();
+
+    // const clo = async () => {
+    //   const { token } = JSON.parse(localStorage.getItem('authenticated'));
+    //   const clothing = await axios.get(`http://localhost:3001/api/user/info`, {
+    //     headers: { 'x-access-token': `${token}` },
+    //   });
+    //   const admis = await axios.get(
+    //     `http://localhost:3001/api/user/adminsinfo`,
+    //     {
+    //       headers: { 'x-access-token': `${token}` },
+    //     }
+    //   );
+    //   setClothing(clothing.data);
+    //   setAllClothing(clothing.data);
+    // };
+    // clo();
 
     dispatch(getClothing());
 
@@ -193,7 +210,17 @@ export const AdminTables = () => {
         price,
       },
     });
-    console.log('meow', name, price);
+  };
+  // PAGINADO USER
+  const [currentPageUser, setCurrentPageUser] = useState(1);
+  const [usersPage] = useState(12);
+  const lastUser = currentPageUser * usersPage;
+  const firtsUser = lastUser - usersPage;
+
+  const currentUser = user.slice(firtsUser, lastUser);
+
+  const paginadoU = (pageNumber) => {
+    setCurrentPageUser(pageNumber);
   };
 
   return (
@@ -1406,32 +1433,14 @@ export const AdminTables = () => {
                         </tbody>
                       </table>
                     </div>
-                    <div className='notification'>
-                      <div className='level'>
-                        <div className='level-left'>
-                          <div className='level-item'>
-                            <div className='buttons has-addons'>
-                              <button
-                                type='button'
-                                className='button is-active'>
-                                1
-                              </button>
-                              <button type='button' className='button'>
-                                2
-                              </button>
-                              <button type='button' className='button'>
-                                3
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className='level-right'>
-                          <div className='level-item'>
-                            <small>Page 1 of 3</small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
+                    <TablesPagination
+                      productsPage={usersPage}
+                      clothing={user.length}
+                      paginado={paginadoU}
+                      currentPage={currentPageUser}
+                      setCurrentPage={setCurrentPageUser}
+                    />
                   </div>
                 </div>
               </div>

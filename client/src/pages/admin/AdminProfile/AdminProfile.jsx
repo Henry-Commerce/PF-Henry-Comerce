@@ -1,17 +1,18 @@
 /** @format */
 
-import { AdminNav } from '../../../components';
+import { AdminNav, Notify } from '../../../components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RiAccountCircleFill, RiLockPasswordFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
-import { checkAuth } from '../../../redux/actions';
+import { checkAuth, editUser } from '../../../redux/actions';
 import axios from 'axios';
 import { dataCountrys } from './Countrys.js';
 import { v4 } from 'uuid';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 export const AdminProfile = () => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ export const AdminProfile = () => {
   const [data, setData] = useState('');
   const [nameChange, setNameChange] = useState('');
   const [pais, setPais] = useState(false);
+
+  const [gg, setGG] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('authenticated')) {
@@ -60,7 +63,7 @@ export const AdminProfile = () => {
   useEffect(() => {}, [data]);
 
   const change = async (e) => {
-    console.log('hola mundo', data);
+    e.preventDefault();
     const { token } = JSON.parse(localStorage.getItem('authenticated'));
 
     const res = await axios({
@@ -75,6 +78,9 @@ export const AdminProfile = () => {
         country: `${pais}`,
       },
     });
+    if (res) {
+      navigate('/admin');
+    }
     console.log('change', res);
   };
 
@@ -103,6 +109,28 @@ export const AdminProfile = () => {
   };
 
   const [image, setImage] = useState('');
+
+  const successPasswordChange = () =>
+    toast.success('La contraseña a sido cambiada con exito', {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+
+  const failePasswordChange = () =>
+    toast.error('A ocurrido un error al intentar cambiar la contraseña', {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
 
   const handleaddImage = async (e) => {
     e.preventDefault();
@@ -140,6 +168,7 @@ export const AdminProfile = () => {
 
     if (change.data.message === 'image updated') {
       setImage(imagensita);
+      navigate('/admin');
     }
 
     console.log('change', change);
@@ -169,29 +198,35 @@ export const AdminProfile = () => {
     }),
     onSubmit: (formData) => {
       console.log('formdata', formData);
-      const { token, email } = JSON.parse(
+      const { email, token } = JSON.parse(
         localStorage.getItem('authenticated')
       );
 
-      const change = async () => {
-        const res = await axios({
-          method: 'put',
-          url: `http://localhost:3001/api/user/edit/pass/${email}`,
-          headers: {
-            'x-access-token': `${token}`,
-          },
-          data: {
-            password: `${formData.password}`,
-          },
-        });
-
-        console.log('change', res);
+      formData = {
+        ...formData,
+        email,
       };
 
-      change();
-      /* dispatch(editUser(formData)); */
-      // handleReset();
-      // success();
+      const submitPass = async (formData) => {
+        let putUser = await axios.put(
+          `http://localhost:3001/api/user/edituser`,
+          formData,
+          {
+            headers: {
+              'x-access-token': token,
+            },
+          }
+        );
+        if (putUser.data === 'OK') {
+          successPasswordChange();
+        } else {
+          failePasswordChange();
+        }
+      };
+      submitPass(formData);
+
+      // dispatch(editUser(formData));
+      handleReset();
     },
   });
 
@@ -208,6 +243,7 @@ export const AdminProfile = () => {
   return (
     <div className='wrapper'>
       <div className='columns'>
+        <Notify />
         <AdminNav />
         <main className='column main'>
           <section className='hero is-hero-bar'>
@@ -407,7 +443,7 @@ export const AdminProfile = () => {
                 </div>
               </div>
             </div>
-            <div className='card'>
+            <div className='card is-disable'>
               <header className='card-header'>
                 <p className='card-header-title'>
                   <span className='icon'>
@@ -415,6 +451,11 @@ export const AdminProfile = () => {
                     {/* <i className='mdi mdi-lock default'></i> */}
                   </span>
                   Change Password
+                  {/* {errors.oldPassword && touched.oldPassword && (
+                    <div className='has-text-danger pt-2'>
+                      {errors.oldPassword}
+                    </div>
+                  )} */}
                 </p>
               </header>
               <div className='card-content'>
