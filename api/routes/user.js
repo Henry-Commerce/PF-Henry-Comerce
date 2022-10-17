@@ -180,27 +180,6 @@ router.post('/register', async (req, res) => {
  *                                                                                              *
  *                                                                                              *
  ************************************************************************************************/
-/*router.put('/change/:email', verifyToken, async (req, res) => {//borrar
-  const { email } = req.params;
-  console.log(email);
-  const { username, country } = req.body;
-  try {
-    if (email) {
-      const foundUser = await UserModel.findOne({ email: email });
-      if (!foundUser) return res.json({ message: 'User not found' });
-      if (!username && !country)
-        return res.status(404).json({ mesagge: 'No data provided' });
-      await UserModel.findOneAndUpdate(email, { username, country });
-      return res.json({ message: 'Updated User' });
-    } else {
-      return res.json({ message: "Email isn't provided" });
-    }
-  } catch (error) {
-    console.log(error);
-    res.json({ message: 'Internal error', error });
-  }
-});*/
-
 router.put('/:id/login_methods', verifyToken, async (req, res) => {
   const { id } = req.params;
   const { email, password } = req.body;
