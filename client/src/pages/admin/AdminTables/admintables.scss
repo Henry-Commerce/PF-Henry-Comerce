@@ -3,3 +3,8 @@
 .is-image-cell {
   width: 48px;
 }
+
+.admin ::hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
+}

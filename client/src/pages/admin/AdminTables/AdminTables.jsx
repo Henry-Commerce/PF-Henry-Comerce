@@ -121,7 +121,9 @@ export const AdminTables = () => {
         isAdmin: admin,
       },
     });
-    console.log('admin', res);
+    if (res.status === 200) {
+      window.location.reload();
+    }
   };
 
   return (
@@ -400,6 +402,7 @@ export const AdminTables = () => {
                               <td data-label='Mail'>{user.email}</td>
                               <td data-label='City'>{user.country}</td>
                               <td
+                                className='admin'
                                 data-label='Admin'
                                 onClick={() =>
                                   newAdmin(user.email, user.isAdmin)

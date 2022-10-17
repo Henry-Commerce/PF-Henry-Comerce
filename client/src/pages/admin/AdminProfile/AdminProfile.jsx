@@ -155,12 +155,11 @@ export const AdminProfile = () => {
       const change = async () => {
         const res = await axios({
           method: 'put',
-          url: `http://localhost:3001/api/user/edit/pass`,
+          url: `http://localhost:3001/api/user/edit/pass/${email}`,
           headers: {
             'x-access-token': `${token}`,
           },
           data: {
-            email: `${email}`,
             password: `${formData.password}`,
           },
         });
