@@ -199,7 +199,7 @@ export const startGithubSignIn = () => {
       });
     }
     console.log(result);
-    const { email, displayName } = result;
+    const { email, displayName, photoURL } = result;
     let admin = false;
 
     const password = email.toLowerCase();
@@ -207,6 +207,7 @@ export const startGithubSignIn = () => {
       username: displayName,
       email: email.toLowerCase(),
       password,
+      image: photoURL,
       country: 'argentina',
       isAdmin: admin,
     });
@@ -264,7 +265,7 @@ export const startGoogleSignIn = () => {
       });
     }
 
-    const { email, displayName } = result;
+    const { email, displayName, photoURL } = result;
 
     console.log(result);
     let admin = false;
@@ -274,6 +275,7 @@ export const startGoogleSignIn = () => {
       username: displayName,
       email: email.toLowerCase(),
       password,
+      image: photoURL,
       country: 'argentina',
       isAdmin: admin,
     });
@@ -368,6 +370,7 @@ export const startCreatingUserWithEmailPassword = ({
       username: email.toLowerCase(),
       email: email.toLowerCase(),
       password,
+      form: true,
       country: 'argentina',
       isAdmin: false,
     });
