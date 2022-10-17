@@ -381,6 +381,7 @@ export const startCreatingUserWithEmailPassword = ({
       JSON.stringify({
         authenticated: true,
         isAdmin: false,
+        email,
         token: token,
       })
     );
