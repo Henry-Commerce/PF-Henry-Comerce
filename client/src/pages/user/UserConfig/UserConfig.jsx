@@ -85,6 +85,7 @@ export const UserConfig = () => {
       email: "",
       oldPassword: "",
       newPassword: "",
+      repitePassword: "",
       confirm: false,
     },
     validationSchema: Yup.object().shape({
@@ -112,10 +113,12 @@ export const UserConfig = () => {
         delete values.oldPassword;
         delete values.newPassword;
       }
-      if (values.oldPassword && !values.newPassword && !values.repitePassword)
-        dispatch(editUser(formData));
+      console.log("dispatch");
+      delete values.repitePassword;
+      dispatch(editUser(formData));
       handleReset();
       success();
+      navigate("/user");
     },
   });
 
@@ -281,27 +284,25 @@ export const UserConfig = () => {
 
             <div className="field is-grouped m-3">
               <div className="control">
-                <Link to={`/user`}>
-                  <button
-                    className="button is-primary m-3"
-                    type="submit"
-                    disabled={
-                      errors.username ||
-                      errors.oldPassword ||
-                      errors.newPassword ||
-                      errors.repitePassword ||
-                      errors.confirm ||
-                      (values.oldPassword &&
-                        !values.newPassword &&
-                        !values.repitePassword) ||
-                      (values.oldPassword &&
-                        values.newPassword &&
-                        !values.repitePassword)
-                    }
-                  >
-                    Aceptar
-                  </button>
-                </Link>
+                <button
+                  className="button is-primary m-3"
+                  type="submit"
+                  disabled={
+                    errors.username ||
+                    errors.oldPassword ||
+                    errors.newPassword ||
+                    errors.repitePassword ||
+                    errors.confirm ||
+                    (values.oldPassword &&
+                      !values.newPassword &&
+                      !values.repitePassword) ||
+                    (values.oldPassword &&
+                      values.newPassword &&
+                      !values.repitePassword)
+                  }
+                >
+                  Aceptar
+                </button>
               </div>
 
               <div className="control">
