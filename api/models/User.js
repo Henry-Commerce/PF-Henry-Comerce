@@ -20,6 +20,10 @@ const UserSchema = new Schema(
       required: true,
       // select: false
     },
+    image: {
+      type: String,
+      default:"https://res.cloudinary.com/dmk0kmt7d/image/upload/v1665969945/blsyqex8mixxmqwhdmmh.png",
+    },
     country: {
       type: String,
       required: true,
@@ -66,6 +70,10 @@ const UserSchema = new Schema(
         )
       ),
       default: [],
+    },
+    form: {
+      type: Boolean,
+      default: false,
     },
     isAdmin: {
       type: Boolean,

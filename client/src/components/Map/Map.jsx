@@ -9,7 +9,7 @@ export const Map = () => {
   const dispatch = useDispatch();
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDTTPFDiXGdQArbLt0mJsKsoBJkCosTEPw",
+    googleMapsApiKey: import.meta.env.VITE_GMAPS_KEY,
   });
 
   const branches = useSelector((state) => state.allBranches);
@@ -25,6 +25,7 @@ export const Map = () => {
   -16.782944845843048, -57.73871475346553;
 
   return (
+    <>
     <GoogleMap zoom={4} center={center} mapContainerClassName="map-container">
       {branches.map((element, index) => (
         <MarkerF
@@ -35,5 +36,6 @@ export const Map = () => {
         />
       ))}
     </GoogleMap>
+    </>
   );
 };

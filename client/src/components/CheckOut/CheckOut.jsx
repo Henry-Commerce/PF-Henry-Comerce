@@ -12,10 +12,12 @@ export const Checkout = ({ product }) => {
   );
 
   const handleClick = () => {
+    const token = JSON.parse(localStorage.getItem("authenticated")).token;
     fetch("http://localhost:3001/api/checkout/create_preference", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-access-token": token,
       },
       body: localStorage.getItem("lsCartProducts"),
     })

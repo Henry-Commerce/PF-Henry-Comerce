@@ -68,6 +68,7 @@ export const Inicio = () => {
                       name={product.name}
                       image={product.image}
                       price={product.price}
+                      discount={product.discount}
                     />
                   );
                 })}

@@ -1,14 +1,14 @@
-const { Router } = require("express");
+/** @format */
+
+const { Router } = require('express');
 const router = Router();
-const ClothingModel = require("../models/Clothing");
+const ClothingModel = require('../models/Clothing');
 const UserModel = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { SECRET } = process.env;
 const { verifyToken, isAdmin } = require('../middlewares/utils');
-const mail= require("./add-ons/nodemailer"); 
-const { mailOffer } = require("./add-ons/nodemailer");
-
-
+const mail = require('./add-ons/nodemailer');
+const { mailOffer } = require('./add-ons/nodemailer');
 
 /************************************************************************************************
  *                                                                                              *
@@ -21,15 +21,15 @@ const { mailOffer } = require("./add-ons/nodemailer");
  *                                                                                              *
  ************************************************************************************************/
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const response = await ClothingModel.find({});
     if (
       req.query.categories &&
-      req.query.size === "" &&
-      req.query.price === ""
+      req.query.size === '' &&
+      req.query.price === ''
     ) {
-      const categories = req.query.categories.split(",");
+      const categories = req.query.categories.split(',');
       const responseArray = [];
       categories.forEach((element) => {
         responseArray.push(
@@ -40,9 +40,9 @@ router.get("/", async (req, res) => {
     } else if (
       req.query.categories &&
       req.query.size &&
-      req.query.price === ""
+      req.query.price === ''
     ) {
-      const categories = req.query.categories.split(",");
+      const categories = req.query.categories.split(',');
       const responseArrayCat = [];
       categories.forEach((element) => {
         responseArrayCat.push(
@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
         );
       });
       responseArrayCat.flat();
-      const size = req.query.size.split(",");
+      const size = req.query.size.split(',');
       const responseArraySize = [];
       size.forEach((element) => {
         responseArraySize.push(
@@ -61,7 +61,7 @@ router.get("/", async (req, res) => {
       });
       return res.status(200).send(responseArraySize.flat());
     } else if (req.query.categories && !req.query.size && req.query.price) {
-      const categories = req.query.categories.split(",");
+      const categories = req.query.categories.split(',');
       const responseArrayCat = [];
       categories.forEach((element) => {
         responseArrayCat.push(
@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
         );
       });
       responseArrayCat.flat();
-      const price = req.query.price.split("-");
+      const price = req.query.price.split('-');
       const responseArrayPrice = [];
       responseArrayPrice.push(
         responseArrayCat[0].filter(
@@ -80,7 +80,7 @@ router.get("/", async (req, res) => {
       );
       return res.status(200).send(responseArrayPrice[0]);
     } else if (req.query.categories && req.query.size && req.query.price) {
-      const categories = req.query.categories.split(",");
+      const categories = req.query.categories.split(',');
       const responseArrayCat = [];
       categories.forEach((element) => {
         responseArrayCat.push(
@@ -88,7 +88,7 @@ router.get("/", async (req, res) => {
         );
       });
       responseArrayCat.flat();
-      const size = req.query.size.split(",");
+      const size = req.query.size.split(',');
       const responseArraySize = [];
       size.forEach((element) => {
         responseArraySize.push(
@@ -97,7 +97,7 @@ router.get("/", async (req, res) => {
           )
         );
       });
-      const price = req.query.price.split("-");
+      const price = req.query.price.split('-');
       const responseArrayPrice = [];
       responseArrayPrice.push(
         responseArraySize[0].filter(
@@ -109,11 +109,11 @@ router.get("/", async (req, res) => {
       return res.status(200).send(responseArrayPrice[0]);
     }
     if (
-      req.query.categories === "" &&
+      req.query.categories === '' &&
       req.query.size &&
-      req.query.price === ""
+      req.query.price === ''
     ) {
-      const size = req.query.size.split(",");
+      const size = req.query.size.split(',');
       const responseArray = [];
       size.forEach((element) => {
         responseArray.push(
@@ -123,7 +123,7 @@ router.get("/", async (req, res) => {
       return res.status(200).send(responseArray.flat());
     }
     if (!req.query.categories && !req.query.size && req.query.price) {
-      const price = req.query.price.split("-");
+      const price = req.query.price.split('-');
       const responseArrayPrice = response.filter(
         (elementFilter) =>
           elementFilter.price > parseInt(price[0]) &&
@@ -132,7 +132,7 @@ router.get("/", async (req, res) => {
       return res.status(200).send(responseArrayPrice.flat());
     }
     if (!req.query.categories && req.query.size && req.query.price) {
-      const size = req.query.size.split(",");
+      const size = req.query.size.split(',');
       const responseArray = [];
       size.forEach((element) => {
         responseArray.push(
@@ -140,7 +140,7 @@ router.get("/", async (req, res) => {
         );
       });
       responseArray.flat();
-      const price = req.query.price.split("-");
+      const price = req.query.price.split('-');
       const responseArrayPrice = [];
       responseArrayPrice.push(
         response.filter(
@@ -152,34 +152,35 @@ router.get("/", async (req, res) => {
       return res.status(200).send(responseArrayPrice[0]);
     } else return res.status(200).send(response);
   } catch (error) {
-    console.log("GET /clothing", error);
+    console.log('GET /clothing', error);
   }
 });
 
-router.get("/search", async (req, res) => {
+router.get('/search', async (req, res) => {
   try {
     if (req.query.name) {
       const name = req.query.name;
       const foundName = await ClothingModel.find({
-        name: { $regex: name, $options: "i" },
+        name: { $regex: name, $options: 'i' },
       });
       if (foundName.length > 0) {
         return res.json(foundName);
       } else {
-        return res.status(404).send("No hay coincidencias");
+        return res.status(404).send('No hay coincidencias');
       }
     }
   } catch (error) {
-    res.status(404).send("No hay coincidencias");
+    res.status(404).send('No hay coincidencias');
   }
 });
 
-router.get("/oferts", async (req, res) => {
+router.get('/oferts', async (req, res) => {
   try {
     const { size, category, pricemin, pricemax } = req.query;
 
     const response = await ClothingModel.find({});
     var filtOffer = response.filter((el) => el.discount > 0);
+    filtOffer = filtOffer.filter((el) => el.show == true);
     if (category) {
       filtOffer = filtOffer.filter((el) => el.category === category);
     }
@@ -190,43 +191,40 @@ router.get("/oferts", async (req, res) => {
       filtOffer = filtOffer.filter((el) => el.price < pricemax);
     }
     if (size) {
-      var talla = size.split(",");
+      var talla = size.split(',');
       console.log(talla);
-      if (talla.find((el) => el === "XS")) {
+      if (talla.find((el) => el === 'XS')) {
         filtOffer = filtOffer.filter((el) => el.stock.XS > 0);
       }
-      if (talla.find((el) => el === "S")) {
+      if (talla.find((el) => el === 'S')) {
         filtOffer = filtOffer.filter((el) => el.stock.S > 0);
       }
-      if (talla.find((el) => el === "M")) {
+      if (talla.find((el) => el === 'M')) {
         filtOffer = filtOffer.filter((el) => el.stock.M > 0);
       }
-      if (talla.find((el) => el === "L")) {
+      if (talla.find((el) => el === 'L')) {
         filtOffer = filtOffer.filter((el) => el.stock.L > 0);
       }
-      if (talla.find((el) => el === "XL")) {
+      if (talla.find((el) => el === 'XL')) {
         filtOffer = filtOffer.filter((el) => el.stock.XL > 0);
       }
-      if (talla.find((el) => el === "XXL")) {
+      if (talla.find((el) => el === 'XXL')) {
         filtOffer = filtOffer.filter((el) => el.stock.XXL > 0);
       }
     }
     res.send(filtOffer);
   } catch (error) {
-    console.log("Cannot GET /clothing/oferts", error);
+    console.log('Cannot GET /clothing/oferts', error);
   }
 });
 
-
-
-
-router.get("/items/:name", async (req, res) => {
+router.get('/items/:name', async (req, res) => {
   const { name } = req.params;
   try {
     const response = await ClothingModel.find({ name: name });
     res.send(response);
   } catch (error) {
-    console.log("Cannot GET /clothing/:name", error);
+    console.log('Cannot GET /clothing/:name', error);
   }
 });
 /************************************************************************************************
@@ -240,7 +238,7 @@ router.get("/items/:name", async (req, res) => {
  *                                                                                              *
  ************************************************************************************************/
 
-router.post("/add", [verifyToken, isAdmin], async (req, res) => {
+router.post('/add', [verifyToken, isAdmin], async (req, res) => {
   try {
     const { name, category, price, stock, image, description } = req.body;
     const newCloth = new ClothingModel({
@@ -262,7 +260,7 @@ router.post("/add", [verifyToken, isAdmin], async (req, res) => {
       });
   } catch (error) {
     res.sendStatus(404);
-    console.log("POST /add", error);
+    console.log('POST /add', error);
   }
 });
 /************************************************************************************************
@@ -276,7 +274,8 @@ router.post("/add", [verifyToken, isAdmin], async (req, res) => {
  *                                                                                              *
  ************************************************************************************************/
 
-router.put("/restock/:name", [verifyToken, isAdmin], async (req, res) => {        //restock de la prenda
+router.put('/restock/:name', [verifyToken, isAdmin], async (req, res) => {
+  //restock de la prenda
   const newstock = await ClothingModel.findOneAndUpdate(
     { name: req.params.name },
     { stock: req.body }
@@ -284,39 +283,49 @@ router.put("/restock/:name", [verifyToken, isAdmin], async (req, res) => {      
   return res.json(newstock);
 });
 
-router.put("/showable", [verifyToken, isAdmin], async (req, res) => {        //APARECERLA O DESAPARECERLA
+router.put('/showable', [verifyToken, isAdmin], async (req, res) => {
+  //APARECERLA O DESAPARECERLA
   const show = await ClothingModel.findOneAndUpdate(
     { name: req.body.name },
     { show: req.body.show }
   );
-  const result= await ClothingModel.find({name: req.params.name})
+  const result = await ClothingModel.find({ name: req.params.name });
   return res.json(result);
 });
 
-router.put("/reviewupdate", verifyToken, async (req, res) => {         //Actualizar las reviews de la prenda
+router.put('/reviewupdate', verifyToken, async (req, res) => {
+  //Actualizar las reviews de la prenda
   try {
     const { name } = req.query;
     const { user, title, description, rating, isEditing } = req.body;
     const foundCloth = await ClothingModel.findOne({
       name,
-    })
+    });
     if (isEditing) {
-      
     } else {
       const commentsArray = foundCloth.comments;
       const newReview = {
         user,
         title,
         description,
-        rating
-      }
-      Object.keys(newReview).forEach(element => newReview[element] = typeof newReview[element] == 'string' ? newReview[element].trim() : newReview[element])
-      commentsArray.push(newReview)
-      await ClothingModel.findOneAndUpdate({ name }, { comments: commentsArray })
+        rating,
+      };
+      Object.keys(newReview).forEach(
+        (element) =>
+          (newReview[element] =
+            typeof newReview[element] == 'string'
+              ? newReview[element].trim()
+              : newReview[element])
+      );
+      commentsArray.push(newReview);
+      await ClothingModel.findOneAndUpdate(
+        { name },
+        { comments: commentsArray }
+      );
       res.status(200).json(foundCloth);
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
   // try {
 
@@ -363,10 +372,10 @@ router.put("/reviewupdate", verifyToken, async (req, res) => {         //Actuali
   //         { username: user },
   //         { reviews: userreview }
   //       );
-  //       resstatus.push(finrating) 
-  //       resstatus.push(finreview) 
+  //       resstatus.push(finrating)
+  //       resstatus.push(finreview)
   //       resstatus.push(finuserreview)
-        
+
   //       return res.status(200).send(resstatus)
   //     }else{
   //       return res.status(404).send("no hay conincidencias")
@@ -377,38 +386,55 @@ router.put("/reviewupdate", verifyToken, async (req, res) => {         //Actuali
   // }
 });
 
-router.put('/updateoffer', [verifyToken, isAdmin], async (req, res)=> {     // actualizar descuentos
-  const {name,offer}=req.body
+router.put('/updateprice', [verifyToken, isAdmin], async (req, res) => {
+  const { name, price } = req.body;
+  try {
+    const change = await ClothingModel.findOneAndUpdate(
+      { name: name },
+      { price: price }
+    );
+
+    const response = await ClothingModel.findOne({ name: name });
+    res.status(200).send(response);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+router.put('/updateoffer', [verifyToken, isAdmin], async (req, res) => {
+  // actualizar descuentos
+  const { name, offer } = req.body;
   try {
     const response = await ClothingModel.findOne({ name: name });
-    const change= await ClothingModel.findOneAndUpdate(
-      {name: name},
-      {discount:offer}
+    const change = await ClothingModel.findOneAndUpdate(
+      { name: name },
+      { discount: offer }
+    );
+    const oldoffer = response.discount;
+    const users = await UserModel.find({});
+    if (offer > oldoffer) {
+      const filtuser = users.filter((el) =>
+        el.cart.find((le) => le.name === name)
       );
-    const oldoffer=response.discount;
-    const users=await UserModel.find({});
-    if(offer>oldoffer){
-    const filtuser=users.filter(el=>
-      el.cart.find(le=>le.name==="SudaderaCeleste"))
-    var correos=[]
-    filtuser.forEach(el=>correos.push(el.email))
-      const email=correos.join(",")
-      const transporter=mail.transporter;
-      const mailOffer=mail.mailOffer(email,name)
+      var correos = [];
+      filtuser.forEach((el) => correos.push(el.email));
+      const email = correos.join(',');
+      const transporter = mail.transporter;
+      const mailOffer = mail.mailOffer(email, name);
       transporter.sendMail(mailOffer, (error, info) => {
         if (error) {
-          console.log(error)
+          console.log(error);
         } else {
           console.log('Email enviado');
         }
       });
-      res.status(201).send("ok")
-    }else{
-      res.status(200).send(change)
-    }    
+      res.status(201).send('ok');
+    } else {
+      res.status(200).send(change);
+    }
   } catch (error) {
-    console.log("error"+error)
+    console.log('error' + error);
   }
-    });
-    
+});
+
 module.exports = router;

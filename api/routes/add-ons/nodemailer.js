@@ -37,4 +37,32 @@ module.exports = {
             ,
         }
     },  
+    mailChangepassword: (email, link) => {
+        return {
+            from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>',
+            to: email,
+            subject: 'Cambio de contraseña',
+            html:
+                `
+            <img width=80% src="https://i.imgur.com/kJFPkVH.jpg"></img>
+            <br/>
+            <a href=${link} ><b>LINK</b></a>
+            `
+            ,
+        }
+    }, 
+    mailChangeemail: (email, link) => {
+        return {
+            from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>',
+            to: email,
+            subject: 'Cambio de email',
+            html:
+                `
+            <img width=80% src="https://i.imgur.com/UCSsO3l.png"></img>
+            <br/>
+            <a href=${link} ><b>LINK</b></a>
+            `
+            ,
+        }
+    }, 
 }

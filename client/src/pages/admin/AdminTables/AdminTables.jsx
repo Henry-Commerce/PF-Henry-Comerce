@@ -13,17 +13,25 @@ import {
 } from 'react-icons/ai';
 import { BsChevronLeft, BsChevronRight, BsThreeDots } from 'react-icons/bs';
 import axios from 'axios';
-import { checkAuth } from '../../../redux/actions';
-import { useDispatch } from 'react-redux';
+import { checkAuth, getClothing } from '../../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const AdminTables = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [user, setUser] = useState([]);
+  const [discount, setDiscount] = useState(0);
+  const [price, setPrice] = useState(0);
+
+  const clothing = useSelector((state) => state.allClothing);
+
+  // const [clothings, setClothing] = useState([]);
+  // const [allclothing, setAllClothing] = useState([]);
   const [all, setAll] = useState([]);
 
   useEffect(() => {
+    console.log(clothing);
     if (localStorage.getItem('authenticated')) {
       const { authenticated, isAdmin } = JSON.parse(
         localStorage.getItem('authenticated')
@@ -53,6 +61,8 @@ export const AdminTables = () => {
       setUser(usuarios.data.concat(admis.data));
     };
     users();
+
+    dispatch(getClothing());
 
     if (localStorage.getItem('authenticated')) {
       const session = JSON.parse(localStorage.getItem('authenticated'));
@@ -107,6 +117,85 @@ export const AdminTables = () => {
     }
   };
 
+  const newAdmin = async (userEmail, admin) => {
+    admin = !admin;
+    const { token } = JSON.parse(localStorage.getItem('authenticated'));
+    const res = await axios({
+      method: 'put',
+      url: `http://localhost:3001/api/user/newadmin`,
+      headers: {
+        'x-access-token': `${token}`,
+      },
+      data: {
+        email: `${userEmail}`,
+        isAdmin: admin,
+      },
+    });
+    if (res.status === 200) {
+      window.location.reload();
+    }
+  };
+
+  const changeShow = async (name, show) => {
+    show = !show;
+    const { token } = JSON.parse(localStorage.getItem('authenticated'));
+    const res = await axios({
+      method: 'put',
+      url: `http://localhost:3001/api/clothing/showable`,
+      headers: {
+        'x-access-token': `${token}`,
+      },
+      data: {
+        name,
+        show,
+      },
+    });
+    if (res.status === 200) {
+      window.location.reload();
+    }
+  };
+
+  const discountChange = (e) => {
+    setDiscount(e.target.value);
+  };
+
+  const handleChangeDiscount = async (name) => {
+    const { token } = JSON.parse(localStorage.getItem('authenticated'));
+
+    const res = await axios({
+      method: 'put',
+      url: `http://localhost:3001/api/clothing/updateoffer`,
+      headers: {
+        'x-access-token': `${token}`,
+      },
+      data: {
+        name,
+        offer: discount,
+      },
+    });
+  };
+
+  const priceChange = (e) => {
+    setPrice(e.target.value);
+  };
+
+  const handleChangePrice = async (name) => {
+    const { token } = JSON.parse(localStorage.getItem('authenticated'));
+
+    const res = await axios({
+      method: 'put',
+      url: `http://localhost:3001/api/clothing/updateprice`,
+      headers: {
+        'x-access-token': `${token}`,
+      },
+      data: {
+        name,
+        price,
+      },
+    });
+    console.log('meow', name, price);
+  };
+
   return (
     <>
       {user.length <= 0 && all.length <= 0 && <Loading />}
@@ -150,7 +239,7 @@ export const AdminTables = () => {
                     <span className='icon'>
                       <i className='mdi mdi-account-multiple'></i>
                     </span>
-                    Clients
+                    Clothing
                   </p>
 
                   <div className='level-right'>
@@ -235,7 +324,7 @@ export const AdminTables = () => {
                             <th draggable='false' className=''>
                               <div className='th-wrap'>
                                 <span className='is-relative'>
-                                  {arrowNombre === true && (
+                                  {/* {arrowNombre === true && (
                                     <span className='icon sort-icon is-small is-invisible'>
                                       <AiOutlineArrowUp className='mdi mdi-arrow-up' />
                                     </span>
@@ -244,7 +333,7 @@ export const AdminTables = () => {
                                     <span className='icon sort-icon is-small is-invisible'>
                                       <AiOutlineArrowDown className='mdi mdi-arrow-up' />
                                     </span>
-                                  )}
+                                  )} */}
                                 </span>
                               </div>
                             </th>
@@ -281,7 +370,7 @@ export const AdminTables = () => {
                                 <span
                                   className='is-relative'
                                   onClick={arrowMail}>
-                                  Mail
+                                  Type
                                   {arrowMaile === null && (
                                     <span className='icon sort-icon is-small is-invisible'>
                                       <AiOutlineArrowUp className='mdi mdi-arrow-up' />
@@ -307,7 +396,7 @@ export const AdminTables = () => {
                                 <span
                                   className='is-relative'
                                   onClick={arrowCity}>
-                                  City
+                                  Price
                                   {arrowCities === null && (
                                     <span className='icon sort-icon is-small is-invisible'>
                                       <AiOutlineArrowUp className='mdi mdi-arrow-up' />
@@ -331,8 +420,7 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span className='is-relative'>
-                                  {' '}
-                                  Progress{' '}
+                                  Discount
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
                                   </span>
@@ -342,8 +430,7 @@ export const AdminTables = () => {
                             <th draggable='false' className=''>
                               <div className='th-wrap'>
                                 <span className='is-relative'>
-                                  {' '}
-                                  Created{' '}
+                                  Show
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
                                   </span>
@@ -363,7 +450,7 @@ export const AdminTables = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {user.map((user, index) => (
+                          {clothing.map((cloth, index) => (
                             <tr key={index}>
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
@@ -379,10 +466,27 @@ export const AdminTables = () => {
                                   />
                                 </div>
                               </td>
-                              <td data-label='Name'>{user.username}</td>
-                              <td data-label='Company'>{user.email}</td>
-                              <td data-label='City'>{user.country}</td>
-                              <td
+                              <td data-label='Name'>{cloth.name}</td>
+                              <td data-label='Type'>{cloth.category}</td>
+                              <td data-label='Price'>
+                                <input
+                                  placeholder={cloth.price}
+                                  onChange={priceChange}
+                                  onBlur={() => {
+                                    handleChangePrice(cloth.name);
+                                  }}
+                                />
+                              </td>
+                              <td className='admin' data-label='Admin'>
+                                <input
+                                  placeholder={cloth.discount}
+                                  onChange={discountChange}
+                                  onBlur={() =>
+                                    handleChangeDiscount(cloth.name)
+                                  }
+                                />
+                              </td>
+                              {/* <td
                                 data-label='Progress'
                                 className='is-progress-cell'>
                                 <progress
@@ -391,13 +495,20 @@ export const AdminTables = () => {
                                   value='79'>
                                   79
                                 </progress>
-                              </td>
-                              <td data-label='Created'>
-                                <small
+                              </td> */}
+                              <td
+                                data-label='Show'
+                                onClick={() =>
+                                  changeShow(cloth.name, cloth.show)
+                                }>
+                                {cloth.show === true && 'yes'}
+                                {cloth.show === false && 'no'}
+
+                                {/* <small
                                   className='has-text-grey is-abbr-like'
                                   title='Oct 25, 2020'>
                                   Oct 25, 2020
-                                </small>
+                                </small> */}
                               </td>
                               <td className='is-actions-cell'>
                                 <div className='buttons is-right'>
@@ -974,6 +1085,324 @@ export const AdminTables = () => {
                             </div>
                           </td>
                         </tr> */}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className='notification'>
+                      <div className='level'>
+                        <div className='level-left'>
+                          <div className='level-item'>
+                            <div className='buttons has-addons'>
+                              <button
+                                type='button'
+                                className='button is-active'>
+                                1
+                              </button>
+                              <button type='button' className='button'>
+                                2
+                              </button>
+                              <button type='button' className='button'>
+                                3
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='level-right'>
+                          <div className='level-item'>
+                            <small>Page 1 of 3</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className='card has-table'>
+                <header className='card-header'>
+                  <p className='card-header-title'>
+                    <span className='icon'>
+                      <i className='mdi mdi-account-multiple'></i>
+                    </span>
+                    Clients
+                  </p>
+
+                  <div className='level-right'>
+                    <div className='level-item'>
+                      <form>
+                        <div className='field has-addons'>
+                          <div className='control'>
+                            <input
+                              type='text'
+                              placeholder='Find any user...'
+                              className='input'
+                              onChange={userSearch}
+                              autoComplete='off'
+                            />
+                          </div>
+                          <div className='control'>
+                            <button type='submit' className='button is-primary'>
+                              <span>
+                                <span className='icon'>
+                                  <svg
+                                    stroke='currentColor'
+                                    fill='currentColor'
+                                    strokeWidth='0'
+                                    viewBox='0 0 16 16'
+                                    className='mdi'
+                                    height='1em'
+                                    width='1em'
+                                    xmlns='http://www.w3.org/2000/svg'>
+                                    <path d='M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z'></path>
+                                  </svg>
+                                </span>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                  <a href='#' className='card-header-icon'>
+                    <span className='icon'>
+                      <i className='mdi mdi-reload'></i>
+                    </span>
+                  </a>
+                </header>
+
+                <div className='card-content'>
+                  <div className='b-table has-pagination'>
+                    <div className='table-wrapper has-mobile-cards'>
+                      <table className='table is-fullwidth is-striped is-hoverable is-fullwidth'>
+                        {/* <thead>
+                          <tr>
+                            <th className='is-checkbox-cell'>
+                              <label className='b-checkbox checkbox'>
+                                <input type='checkbox' value='false' />
+                                <span className='check'></span>
+                              </label>
+                            </th>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Company</th>
+                            <th>City</th>
+                            <th>Progress</th>
+                            <th>Created</th>
+                            <th></th>
+                          </tr>
+                        </thead> */}
+                        <thead>
+                          <tr>
+                            <th className='checkbox-cell'>
+                              <label className='b-checkbox checkbox'>
+                                <input
+                                  type='checkbox'
+                                  autoComplete='off'
+                                  true-value='true'
+                                  value='false'
+                                />
+                                <span className='check'></span>
+                                <span className='control-label'></span>
+                              </label>
+                            </th>
+                            <th draggable='false' className=''>
+                              <div className='th-wrap'>
+                                <span className='is-relative'>
+                                  {arrowNombre === true && (
+                                    <span className='icon sort-icon is-small is-invisible'>
+                                      <AiOutlineArrowUp className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                  {arrowNombre === false && (
+                                    <span className='icon sort-icon is-small is-invisible'>
+                                      <AiOutlineArrowDown className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                            </th>
+                            <th
+                              draggable='false'
+                              className='is-sortable is-unselectable is-current-sort'>
+                              <div className='th-wrap'>
+                                <span
+                                  className='is-relative'
+                                  onClick={arrowName}>
+                                  Name
+                                  {arrowNombre === null && (
+                                    <span className='icon sort-icon is-small is-invisible'>
+                                      <AiOutlineArrowUp className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                  {arrowNombre === true && (
+                                    <span className='icon sort-icon is-small'>
+                                      <AiOutlineArrowUp className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                  {arrowNombre === false && (
+                                    <span className='icon sort-icon is-small'>
+                                      <AiOutlineArrowDown className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                            </th>
+                            <th
+                              draggable='false'
+                              className='is-sortable is-unselectable'>
+                              <div className='th-wrap'>
+                                <span
+                                  className='is-relative'
+                                  onClick={arrowMail}>
+                                  Mail
+                                  {arrowMaile === null && (
+                                    <span className='icon sort-icon is-small is-invisible'>
+                                      <AiOutlineArrowUp className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                  {arrowMaile === true && (
+                                    <span className='icon sort-icon is-small'>
+                                      <AiOutlineArrowUp className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                  {arrowMaile === false && (
+                                    <span className='icon sort-icon is-small'>
+                                      <AiOutlineArrowDown className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                            </th>
+                            <th
+                              draggable='false'
+                              className='is-sortable is-unselectable'>
+                              <div className='th-wrap'>
+                                <span
+                                  className='is-relative'
+                                  onClick={arrowCity}>
+                                  City
+                                  {arrowCities === null && (
+                                    <span className='icon sort-icon is-small is-invisible'>
+                                      <AiOutlineArrowUp className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                  {arrowCities === true && (
+                                    <span className='icon sort-icon is-small'>
+                                      <AiOutlineArrowUp className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                  {arrowCities === false && (
+                                    <span className='icon sort-icon is-small'>
+                                      <AiOutlineArrowDown className='mdi mdi-arrow-up' />
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                            </th>
+                            <th
+                              draggable='false'
+                              className='is-sortable is-unselectable'>
+                              <div className='th-wrap'>
+                                <span className='is-relative'>
+                                  Admin
+                                  <span className='icon sort-icon is-small is-invisible'>
+                                    <i className='mdi mdi-arrow-up'></i>
+                                  </span>
+                                </span>
+                              </div>
+                            </th>
+                            <th draggable='false' className=''>
+                              <div className='th-wrap'>
+                                <span className='is-relative'>
+                                  {' '}
+                                  Created{' '}
+                                  <span className='icon sort-icon is-small is-invisible'>
+                                    <i className='mdi mdi-arrow-up'></i>
+                                  </span>
+                                </span>
+                              </div>
+                            </th>
+                            <th draggable='false' className=''>
+                              <div className='th-wrap'>
+                                <span className='is-relative'>
+                                  {' '}
+                                  <span className='icon sort-icon is-small is-invisible'>
+                                    <i className='mdi mdi-arrow-up'></i>
+                                  </span>
+                                </span>
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {console.log(user)}
+                          {user.map((user, index) => (
+                            <tr key={index}>
+                              <td className='is-checkbox-cell'>
+                                <label className='b-checkbox checkbox'>
+                                  <input type='checkbox' value='false' />
+                                  <span className='check'></span>
+                                </label>
+                              </td>
+                              <td className='is-image-cell'>
+                                <div className='image'>
+                                  <img
+                                    src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
+                                    className='is-rounded'
+                                  />
+                                </div>
+                              </td>
+                              <td data-label='Name'>{user.username}</td>
+                              <td data-label='Mail'>{user.email}</td>
+                              <td data-label='City'>{user.country}</td>
+                              <td
+                                className='admin'
+                                data-label='Admin'
+                                onClick={() =>
+                                  newAdmin(user.email, user.isAdmin)
+                                }>
+                                {user.isAdmin === true && 'yes'}
+                                {user.isAdmin === false && 'no'}
+                              </td>
+                              {/* <td
+                                data-label='Progress'
+                                className='is-progress-cell'>
+                                <progress
+                                  max='100'
+                                  className='progress is-small is-primary'
+                                  value='79'>
+                                  79
+                                </progress>
+                              </td> */}
+                              <td data-label='Created'>
+                                <small
+                                  className='has-text-grey is-abbr-like'
+                                  title='Oct 25, 2020'>
+                                  Oct 25, 2020
+                                </small>
+                              </td>
+                              <td className='is-actions-cell'>
+                                <div className='buttons is-right'>
+                                  <button
+                                    className='button is-small is-primary'
+                                    type='button'>
+                                    <span className='icon'>
+                                      <AiFillEdit className='mdi mdi-eye' />
+                                    </span>
+                                  </button>
+                                  <button
+                                    className='button is-small is-danger jb-modal'
+                                    data-target='sample-modal'
+                                    type='button'>
+                                    <span className='icon'>
+                                      <AiFillDelete className='mdi mdi-trash-can' />
+                                    </span>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>
