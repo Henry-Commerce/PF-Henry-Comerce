@@ -71,6 +71,10 @@ const UserSchema = new Schema(
       ),
       default: [],
     },
+    form: {
+      type: Boolean,
+      default: false,
+    },
     isAdmin: {
       type: Boolean,
       required: true,

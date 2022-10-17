@@ -150,7 +150,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password, country, isAdmin, image } = req.body;
+    const { username, email, password, country, isAdmin, image,form } = req.body;
     const foundUser = await UserModel.findOne({ email });
     if (foundUser)
       return res.json({ message: `Email: ${email} is already in use` });
@@ -159,6 +159,7 @@ router.post('/register', async (req, res) => {
       email: email.toLocaleLowerCase(),
       password: await UserModel.encyptPassword(password),
       image: image,
+      form:form,
       country,
       isAdmin,
     });
@@ -169,6 +170,23 @@ router.post('/register', async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.log('GET /', error);
+  }
+});
+router.post('/welcome', async (req, res) => {
+  const { name, email } = req.body;
+  try {
+    const transporter = mail.transporter;
+    const mailwelcome = mail.mailWelcome(email, name);
+    transporter.sendMail(mailwelcome, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email enviado');
+      }
+    });
+    res.status(201).send('ok');
+  } catch (error) {
+    console.log('error' + error);
   }
 });
 /************************************************************************************************
@@ -283,30 +301,12 @@ router.put('/edituser', verifyToken, async (req, res) => {
   }
 });
 
-router.post('/welcome', async (req, res) => {
-  const { name, email } = req.body;
-  try {
-    const transporter = mail.transporter;
-    const mailwelcome = mail.mailWelcome(email, name);
-    transporter.sendMail(mailwelcome, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email enviado');
-      }
-    });
-    res.status(201).send('ok');
-  } catch (error) {
-    console.log('error' + error);
-  }
-});
 
-router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {
-  // cambiar imagen
-  const { email, image } = req.body;
-  if (!email || !image) {
-    return res.json({ message: "Expected info isn't provided" });
-  } //
+
+router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {// añadir correo
+  const { email ,image } = req.body;
+  if (!email || !image){return res.json({ message: "Expected info isn't provided" })};//
+  console.log(email,image)
   const foundUser = await UserModel.findOne({ email: email });
   if (!foundUser) return res.json({ message: 'User not found' });
   if (!image.includes('http')) {
@@ -315,9 +315,7 @@ router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {
 
   await UserModel.findOneAndUpdate(
     { email: email },
-    {
-      image: image,
-    }
+    { image: image, }
   );
   res.json({ message: 'image updated' });
 });
