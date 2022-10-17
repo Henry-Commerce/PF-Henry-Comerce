@@ -31,6 +31,7 @@ router.get('/info', [verifyToken, isAdmin], async (req, res) => {
         country: el.country,
         boughtitems: el.boughtitems,
         reviews: el.reviews,
+        isAdmin: el.isAdmin,
       }));
     res.send(filt);
   } catch (error) {
@@ -49,6 +50,7 @@ router.get('/adminsinfo', [verifyToken, isAdmin], async (req, res) => {
         country: el.country,
         boughtitems: el.boughtitems,
         reviews: el.reviews,
+        isAdmin: el.isAdmin,
       }));
 
     res.send(filt);
@@ -255,28 +257,41 @@ router.put('/addcart', async (req, res) => {
 });
 
 router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
-  var newadmin = await UserModel.findOneAndUpdate(
-    { username: req.query.username },
-    { isAdmin: req.query.isAdmin }
-  );
-  return res.json(newadmin);
+  const { email, isAdmin } = req.body;
+  try {
+    var newadmin = await UserModel.findOneAndUpdate(
+      {
+        email,
+      },
+      {
+        isAdmin,
+      }
+    );
+    return res.json(newadmin);
+  } catch (err) {
+    console.log(err);
+  }
 });
-
 
 router.put('/edituser', verifyToken, async (req, res) => {
   const { email, username, country, oldPassword, newPassword } = req.body;
   try {
-    const userChange = await UserModel.findOneAndUpdate({
-      email
-    },{
-      username,
-      country,
-    })
-     if (!oldPassword || !newPassword) {
+    const userChange = await UserModel.findOneAndUpdate(
+      {
+        email,
+      },
+      {
+        username,
+        country,
+      }
+    );
+    if (!oldPassword || !newPassword) {
       res.status(200).send(userChange);
-     }
-     else {
-      const userComparePassword = await UserModel.comparePassword(oldPassword, userChange.password)
+    } else {
+      const userComparePassword = await UserModel.comparePassword(
+        oldPassword,
+        userChange.password
+      );
       if (userComparePassword) {
         const changedPassword = await UserModel.encyptPassword(newPassword);
         userChange.password = changedPassword;
@@ -285,11 +300,11 @@ router.put('/edituser', verifyToken, async (req, res) => {
       } else {
         res.sendStatus(401);
       }
-     }
+    }
   } catch (error) {
     console.error(error);
   }
-})
+});
 
 router.post('/welcome', async (req, res) => {
   const { name, email } = req.body;
@@ -307,6 +322,32 @@ router.post('/welcome', async (req, res) => {
   } catch (error) {
     console.log('error' + error);
   }
+});
+
+router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {
+  const { password } = req.body;
+  const { email } = req.params;
+
+  console.log(email, password);
+  if (!email || !password)
+    return res.json({ message: "Expected info isn't provided" });
+  const foundUser = await UserModel.findOne({ email: email });
+  if (!foundUser) return res.json({ message: 'User not found' });
+  const matchPassword = await UserModel.comparePassword(
+    password,
+    foundUser.password
+  );
+  if (matchPassword)
+    return res.json({
+      message: 'Password should be difrent from the last one',
+    });
+  await UserModel.findOneAndUpdate(
+    { email: email },
+    {
+      password: await UserModel.encyptPassword(password),
+    }
+  );
+  res.json({ message: 'Updated password methods' });
 });
 
 router.put('/edit/:email', verifyToken, async (req, res) => {
@@ -342,31 +383,4 @@ router.put('/edit/:email', verifyToken, async (req, res) => {
     res.json({ message: 'Internal error', error });
   }
 });
-
-router.put('/edit/pass', verifyToken, async (req, res) => {
-  const { email, password } = req.body;
-  if (!email && !password)
-    return res.json({ message: "Expected info isn't provided" });
-  const foundUser = await UserModel.findOne({ email: email });
-  if (!foundUser) return res.json({ message: 'User not found' });
-  if (email === foundUser.email)
-    return res.json({ message: 'Email should be diferent from the last one' });
-  const matchPassword = await UserModel.comparePassword(
-    password,
-    foundUser.password
-  );
-  if (matchPassword)
-    return res.json({
-      message: 'Password should be difrent from the last one',
-    });
-  await UserModel.findOneAndUpdate(
-    { email: email },
-    {
-      email,
-      password: await UserModel.encyptPassword(password),
-    }
-  );
-  res.json({ message: 'Updated password methods' });
-});
-
 module.exports = router;
