@@ -178,6 +178,7 @@ router.get("/2", async (req, res) => {
     const { size, category, pricemin, pricemax } = req.query;
 
     const response = await ClothingModel.find({});
+    var filtOffer = response;
     filtOffer = filtOffer.filter((el) => el.show == true)
     if (category) {
       filtOffer = filtOffer.filter((el) => el.category === category);
@@ -212,7 +213,7 @@ router.get("/2", async (req, res) => {
     }
     res.send(filtOffer);
   } catch (error) {
-    console.log("Cannot GET /clothing", error);
+    console.log("Cannot GET /clothing/oferts", error);
   }
 
 
