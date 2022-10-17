@@ -52,7 +52,7 @@ const newCount = lsProducts.find(item => item.count === a) */
   /* function deleteAllCart(e) {
     localStorage.clear();
   } */
-
+  const userLocalStorage = localStorage.getItem("authenticated");
   return (
     <section className="section is-clipped ">
       <div className="container">
@@ -159,7 +159,13 @@ const newCount = lsProducts.find(item => item.count === a) */
                   </span>
                 </div>
 
-                <Checkout product={lsCartProducts} />
+                {userLocalStorage ? (
+                  <Checkout product={lsCartProducts} />
+                ) : (
+                  <p className="has-text-danger pt-2">
+                    Para proseguir con la compra es necesario estar registrado
+                  </p>
+                )}
               </div>
             </div>
           </div>
