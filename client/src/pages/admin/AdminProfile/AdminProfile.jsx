@@ -19,9 +19,7 @@ export const AdminProfile = () => {
   let session = null;
   const [data, setData] = useState('');
   const [nameChange, setNameChange] = useState('');
-  const [meow, setMeow] = useState(false);
-
-  let pais = '';
+  const [pais, setPais] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('authenticated')) {
@@ -67,11 +65,12 @@ export const AdminProfile = () => {
 
     const res = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/user/edit/${data.email}`,
+      url: `http://localhost:3001/api/user/edit/info`,
       headers: {
         'x-access-token': `${token}`,
       },
       data: {
+        email: `${data.email}`,
         username: `${nameChange}`,
         country: `${pais}`,
       },
@@ -82,9 +81,11 @@ export const AdminProfile = () => {
   const country = async (e) => {
     e.preventDefault();
     if (e.target.value === 'DEFAULT') {
-      pais = '';
+      // pais = '';
+      setPais('');
     } else {
-      pais = e.target.value;
+      setPais(e.target.value);
+      // pais = e.target.value;
     }
     console.log('change', pais);
   };
@@ -280,7 +281,7 @@ export const AdminProfile = () => {
                                 type='text'
                                 autoComplete='on'
                                 name='name'
-                                // value='John Doe'
+                                placeholder='Write your new username'
                                 onChange={nombresito}
                                 className='input'
                                 required=''

@@ -199,7 +199,7 @@ export const startGithubSignIn = () => {
       });
     }
     console.log(result);
-    const { email, displayName } = result;
+    const { email, displayName, photoURL } = result;
     let admin = false;
 
     const password = email.toLowerCase();
@@ -207,6 +207,7 @@ export const startGithubSignIn = () => {
       username: displayName,
       email: email.toLowerCase(),
       password,
+      image: photoURL,
       country: 'argentina',
       isAdmin: admin,
     });
@@ -264,7 +265,7 @@ export const startGoogleSignIn = () => {
       });
     }
 
-    const { email, displayName } = result;
+    const { email, displayName, photoURL } = result;
 
     console.log(result);
     let admin = false;
@@ -274,6 +275,7 @@ export const startGoogleSignIn = () => {
       username: displayName,
       email: email.toLowerCase(),
       password,
+      image: photoURL,
       country: 'argentina',
       isAdmin: admin,
     });
@@ -349,25 +351,26 @@ export const startCreatingUserWithEmailPassword = ({
       type: 'CHECKING_CREDENTIALS',
     });
 
-    const result = await registerUserWithEmailPassword({
-      email,
-      password,
-      displayName,
-    });
+    // const result = await registerUserWithEmailPassword({
+    //   email,
+    //   password,
+    //   displayName,
+    // });
 
-    console.log('usuario a crear', result);
-    if (result.ok === false) {
-      localStorage.setItem('authenticated', false);
-      return dispatch({
-        type: 'LOGOUT',
-        payload: result.errorMessage,
-      });
-    }
+    // console.log('usuario a crear', result);
+    // if (result.ok === false) {
+    //   localStorage.setItem('authenticated', false);
+    //   return dispatch({
+    //     type: 'LOGOUT',
+    //     payload: result.errorMessage,
+    //   });
+    // }
 
     const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
       username: email.toLowerCase(),
       email: email.toLowerCase(),
       password,
+      form: true,
       country: 'argentina',
       isAdmin: false,
     });
@@ -388,7 +391,7 @@ export const startCreatingUserWithEmailPassword = ({
 
     dispatch({
       type: 'LOGIN',
-      payload: result,
+      payload: creado,
     });
   };
 };

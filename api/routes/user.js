@@ -350,19 +350,15 @@ router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {
   res.json({ message: 'Updated password methods' });
 });
 
-router.put('/edit/:email', verifyToken, async (req, res) => {
-  const { email } = req.params;
-  const { username, country } = req.body;
+router.put('/edit/info', verifyToken, async (req, res) => {
+  const { username, country, email } = req.body;
   try {
     if (email) {
       const foundUser = await UserModel.findOne({ email: email });
       if (!foundUser)
         return res.status(404).json({ message: 'User not found' });
       if (username && country) {
-        await UserModel.findOneAndUpdate(
-          { email: email },
-          { username, country }
-        );
+        await UserModel.findOneAndUpdate({ email }, { username, country });
         return res.json({ message: 'Updated User' });
       }
       if (username && !country) {
