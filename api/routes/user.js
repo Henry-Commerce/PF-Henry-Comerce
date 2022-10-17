@@ -149,7 +149,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password, country, isAdmin } = req.body;
+    const { username, email, password, country, isAdmin, image } = req.body;
     const foundUser = await UserModel.findOne({ email });
     if (foundUser)
       return res.json({ message: `Email: ${email} is already in use` });
@@ -157,6 +157,7 @@ router.post('/register', async (req, res) => {
       username,
       email: email.toLocaleLowerCase(),
       password: await UserModel.encyptPassword(password),
+      image:image,
       country,
       isAdmin,
     });
@@ -179,7 +180,7 @@ router.post('/register', async (req, res) => {
  *                                                                                              *
  *                                                                                              *
  ************************************************************************************************/
-router.put('/change/:email', verifyToken, async (req, res) => {
+/*router.put('/change/:email', verifyToken, async (req, res) => {//borrar
   const { email } = req.params;
   console.log(email);
   const { username, country } = req.body;
@@ -198,7 +199,7 @@ router.put('/change/:email', verifyToken, async (req, res) => {
     console.log(error);
     res.json({ message: 'Internal error', error });
   }
-});
+});*/
 
 router.put('/:id/login_methods', verifyToken, async (req, res) => {
   const { id } = req.params;
@@ -248,7 +249,7 @@ router.put('/shopitems', verifyToken, async (req, res) => {
   }
 });
 
-router.put('/addcart', async (req, res) => {
+router.put('/addcart', async (req, res) => {//añadir correo
   var newcart = await UserModel.findOneAndUpdate(
     { username: req.query.username },
     { cart: req.body }
@@ -256,16 +257,12 @@ router.put('/addcart', async (req, res) => {
   return res.json(newcart);
 });
 
-router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
+router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {//añadir correo
   const { email, isAdmin } = req.body;
   try {
     var newadmin = await UserModel.findOneAndUpdate(
-      {
-        email,
-      },
-      {
-        isAdmin,
-      }
+      { email,},
+      { isAdmin,}
     );
     return res.json(newadmin);
   } catch (err) {
@@ -285,7 +282,7 @@ router.put('/edituser', verifyToken, async (req, res) => {
         country,
       }
     );
-    if (!oldPassword || !newPassword) {
+    if (!oldPassword || !newPassword) {// añadir correo
       res.status(200).send(userChange);
     } else {
       const userComparePassword = await UserModel.comparePassword(
@@ -324,14 +321,15 @@ router.post('/welcome', async (req, res) => {
   }
 });
 
-router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {
+router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {// añadir correo
   const { password } = req.body;
   const { email } = req.params;
 
   console.log(email, password);
   if (!email || !password)
-    return res.json({ message: "Expected info isn't provided" });
+    return res.json({ message: "Expected info isn't provided" });//
   const foundUser = await UserModel.findOne({ email: email });
+
   if (!foundUser) return res.json({ message: 'User not found' });
   const matchPassword = await UserModel.comparePassword(
     password,
@@ -340,7 +338,7 @@ router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {
   if (matchPassword)
     return res.json({
       message: 'Password should be difrent from the last one',
-    });
+    });//
   await UserModel.findOneAndUpdate(
     { email: email },
     {
