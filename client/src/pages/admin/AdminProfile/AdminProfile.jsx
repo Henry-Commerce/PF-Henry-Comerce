@@ -120,7 +120,6 @@ export const AdminProfile = () => {
       .then((data) => {
         console.log(data);
         imagensita = data.url;
-        setImage(data.url);
       })
       .catch((err) => console.log(err));
 
@@ -137,6 +136,11 @@ export const AdminProfile = () => {
         image: imagensita,
       },
     });
+
+    if (change.data.message === 'image updated') {
+      setImage(imagensita);
+    }
+
     console.log('change', change);
   };
 
@@ -256,6 +260,7 @@ export const AdminProfile = () => {
                                 <input
                                   type='file'
                                   name='image'
+                                  accept='image/png, image/gif, image/jpeg'
                                   onChange={handleaddImage}
                                 />
                               </label>
@@ -350,7 +355,7 @@ export const AdminProfile = () => {
                   </header>
                   <div className='card-content'>
                     <div className='is-user-avatar image has-max-width is-aligned-center'>
-                      <img src={`${data.image}`} alt='John Doe' />
+                      <img src={`${data.image}`} alt={`${data.username}`} />
                     </div>
                     <hr />
                     <div className='field'>
