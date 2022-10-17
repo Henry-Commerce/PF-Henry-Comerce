@@ -173,7 +173,50 @@ router.get("/search", async (req, res) => {
     res.status(404).send("No hay coincidencias");
   }
 });
+router.get("/2", async (req, res) => {
+  try {
+    const { size, category, pricemin, pricemax } = req.query;
 
+    const response = await ClothingModel.find({});
+    filtOffer = filtOffer.filter((el) => el.show == true)
+    if (category) {
+      filtOffer = filtOffer.filter((el) => el.category === category);
+    }
+    if (pricemin) {
+      filtOffer = filtOffer.filter((el) => el.price > pricemin);
+    }
+    if (pricemax) {
+      filtOffer = filtOffer.filter((el) => el.price < pricemax);
+    }
+    if (size) {
+      var talla = size.split(",");
+      console.log(talla);
+      if (talla.find((el) => el === "XS")) {
+        filtOffer = filtOffer.filter((el) => el.stock.XS > 0);
+      }
+      if (talla.find((el) => el === "S")) {
+        filtOffer = filtOffer.filter((el) => el.stock.S > 0);
+      }
+      if (talla.find((el) => el === "M")) {
+        filtOffer = filtOffer.filter((el) => el.stock.M > 0);
+      }
+      if (talla.find((el) => el === "L")) {
+        filtOffer = filtOffer.filter((el) => el.stock.L > 0);
+      }
+      if (talla.find((el) => el === "XL")) {
+        filtOffer = filtOffer.filter((el) => el.stock.XL > 0);
+      }
+      if (talla.find((el) => el === "XXL")) {
+        filtOffer = filtOffer.filter((el) => el.stock.XXL > 0);
+      }
+    }
+    res.send(filtOffer);
+  } catch (error) {
+    console.log("Cannot GET /clothing", error);
+  }
+
+
+})
 router.get("/oferts", async (req, res) => {
   try {
     const { size, category, pricemin, pricemax } = req.query;
