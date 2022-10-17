@@ -120,9 +120,6 @@ export const ProductsDetails = () => {
       error();
     }
   };
-  
-
-
 
   let printStock = [detail.stock];
 
@@ -137,8 +134,6 @@ export const ProductsDetails = () => {
     }
     setSize(e.target.value);
   };
-
-  
 
   const sumStock = (e) => {
     if (count === 0) {
@@ -171,11 +166,22 @@ export const ProductsDetails = () => {
       return true;
     }
   };
- 
-  
+
+  console.log(detail.comments);
+
+  const [session, setSession] = useState(false);
+
+  useEffect(() => {
+    setSession(JSON.parse(localStorage.getItem("authenticated")));
+    console.log("session", session);
+  }, [localStorage.getItem("authenticated")]);
+
+  const status = useSelector((state) => state.status);
+  useEffect(() => {}, [status]);
+
   return (
     <div>
-      {detail.length === 0 && <Loading/>}
+      {detail.length === 0 && <Loading />}
       <Notify />
       <section className="pt-6"></section>
       <div className="container has-text-left pt-6">
@@ -282,7 +288,7 @@ export const ProductsDetails = () => {
       <div className="columns is-centered">
         <div className="column is-11 background-a is-centered">
           <div className="columns is-centered">
-            <div className="column is-11 border-bottom background-c">
+            <div className="column is-11  background-c">
               <div className="filee is-centered border-bottom">
                 <h3 className="pt-1 pl-6 p title  mb-4 has-text-left">
                   RECOMMENDED PRODUCTS
@@ -322,56 +328,81 @@ export const ProductsDetails = () => {
               <div className="filee is-centered  is-justify-content-flex-start"></div>
               <div className="is-flex-direction-row pt-6 has-text-centered background-e">
                 <div className="columns is-centered">
-                 
-                  <div className="column has-text-left bt">
+                  <div className="column  has-text-left bt">
                     <div className="has-text-left ">
                       <section className=" ">
-                        <h3 className="title is-size-3 has-text-centered">
-                          REVIEWS
-                        </h3>
+                        <div className="column is-12">
+                          <h3 className="title is-size-3 has-text-centered">
+                            REVIEWS
+                          </h3>
+                        </div>
                       </section>
                     </div>
                   </div>
                 </div>
-                {detail.comments && (detail.comments)
-                    .map((e, index) => (
-                      <div key={index} className=" pt-2 pb-2 border-bottom">
-                        <div className="columns pt-3 pb-4">
-                          <div className="column is-one-quarter ">
-                            <h1 className="title is-size-5">{e.user}</h1>
-                          </div>
-                          <div className="column ">
-                            <h1 className="pt-0 title is-size-4 ">
-                              {e.title}
-                            </h1>
-                          </div>
+                {detail.comments ? (
+                  detail.comments.map((e, index) => (
+                    <div key={index} className=" pt-2 pb-2 border-bottom">
+                      <div className="columns pt-3 pb-4">
+                        <div className="column fileee is-one-quarter ">
+                          {/* <h1 className= "has-text-weight-bold is-size-5 pr-3">Usuario:</h1> */}
+                          <h1 className="title is-size-5">{e.user}</h1>
                         </div>
-                        <div className="columns is-vcentered pt- pb-0">
-                          <div className="column is-one-quarter ">
-                            <h1 className="title is-size-5">Rating:{e.rating}/5</h1>
-                          </div>
-                          <div className="column is-three-quarters ">
-                            <p className="is-size-6 has-text-centered">
-                              {e.description}
-                            </p>
-                          </div>
+                        <div className="column ">
+                          <h1 className="pt-0 title is-size-4 ">{e.title}</h1>
+                        </div>
+                        <div className="column is-1">
+                          {session?.authenticated === true &&
+                            session.isAdmin === true && (
+                              <button className="button">X</button>
+                            )}
+
+                          {session?.authenticated === true && (
+                            <button className="button" width="2">
+                              ✏️
+                            </button>
+                          )}
                         </div>
                       </div>
-                    ))
-                }
+                      <div className="columns is-vcentered pt- pb-0">
+                        <div className="column zzz is-one-quarter ">
+                          <h1 className="has-text-weight-bold is-size-5 pr-3">
+                            Rating:
+                          </h1>
+                          <h1 className="title is-size-5">{e.rating}/5</h1>
+                        </div>
+                        <div className="column ">
+                          <p className="is-size-6 has-text-centered">
+                            {e.description}
+                          </p>
+                        </div>
+                        <div className="column is-1"></div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className=" pt-6">
+                    <h1 className="title is-size-5 is-vcentered">
+                      No contamos con reviews hasta al momento :(
+                    </h1>
+                  </div>
+                )}
                 <div className="has-text-centered pt-6 pb-6">
-                <PostReview />
+                  {/* {session?.authenticated === true  ? (               
+                  <PostReview />
+                           ) : <h1>Debe mantener una sesion activa para poder dejar una review</h1>} */}
+                  <PostReview />
                 </div>
               </div>
               <section className="pt-6"></section>
               <section className="pt-6"></section>
-              <div className="background-e">
+              {/* <div className="background-e">
                 <div className="fileee is-centered border-bottom pb-4">
                   <h3 className="pt-6 filee pl-6 title is-size-3  mb-2 has-text-centered ">
                     QUESTIONS
                   </h3>
                 </div>
-               {/*  <div className="columns pt-3 is-centered has-text-left">
+                <div className="columns pt-3 is-centered has-text-left">
                   <div className="column">
                     {Object.values(arr[0].comments) &&
                       Object.values(arr[0].comments)
@@ -395,7 +426,7 @@ export const ProductsDetails = () => {
                           </div>
                         ))}
                   </div>
-                </div> */}
+                </div>
                 <div className="has-text-centered pt-6 pb-6">
                   <div className="columns is-centered">
                     <div className="column is-6 filee">
@@ -410,7 +441,7 @@ export const ProductsDetails = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

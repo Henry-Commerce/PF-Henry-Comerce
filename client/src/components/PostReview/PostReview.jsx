@@ -44,7 +44,7 @@ export const PostReview = () => {
   const detail = useSelector((state) => state.detail);
 
   const navigate = useNavigate();
-  let session;
+  let auth;
   const [data, setData] = useState("");
 
   const [form, setForm] = useState({
@@ -61,12 +61,12 @@ export const PostReview = () => {
       const { authenticated, isAdmin } = JSON.parse(
         localStorage.getItem("authenticated")
       );
-      session = JSON.parse(localStorage.getItem("authenticated"));
-      dispatch(checkAuth(session));
+      auth = JSON.parse(localStorage.getItem("authenticated"));
+      dispatch(checkAuth(auth));
     }
 
     const profile = async () => {
-      const { email, token } = session;
+      const { email, token } = auth;
       const user = await axios.get(
         `http://localhost:3001/api/user/info/${email}`,
         {
@@ -75,7 +75,6 @@ export const PostReview = () => {
       );
 
       setData(user.data);
-      console.log("data", data);
     };
     profile();
   }, []);
@@ -88,9 +87,16 @@ export const PostReview = () => {
     });
   }, [data, detail]);
 
+  ///////////////////////////////////////////////
+  const [session, setSession] = useState(false);
 
-  console.log(form)
-  const userPerson = useSelector((e) => e.user);
+  useEffect(() => {
+    setSession(JSON.parse(localStorage.getItem("authenticated")));
+    console.log("session", session);
+  }, [localStorage.getItem("authenticated")]);
+
+  const status = useSelector((state) => state.status);
+  useEffect(() => {}, [status]);
 
   const [error, setError] = useState({});
 
@@ -102,7 +108,9 @@ export const PostReview = () => {
     });
   }
 
-  const handleSubmit = (e) => {
+  console.log(data.reviews);
+
+  /* const handleSubmit = (e) => {
     if (
       form.title === "" ||
       error.title ||
@@ -118,13 +126,15 @@ export const PostReview = () => {
       e.preventDefault();
       data.reviews.push(form);
     }
-  };
+  }; */
 
   return (
     <Popup
       className=""
       trigger={
         <section>
+          {/* {session?.authenticated === true  && (               
+          )} */}
           <button className="button is-warning">Dar reseña</button>
         </section>
       }
@@ -133,93 +143,106 @@ export const PostReview = () => {
     >
       {(close) => (
         <div className="box widtht is-align-content-stretch">
-          <form onSubmit={(e) => {
-             if (
-              form.title === "" ||
-              error.title ||
-              form.description === "" ||
-              error.description ||
-              form.rating === 0 ||
-              error.rating
-            ) {
-              setError(validateInput({ ...form, [e.target.name]: e.target.value }));
-              e.preventDefault();
-            } else {
-              dispatch(postReview(id, form));
-              e.preventDefault();
-              data.reviews.push(form);
-              navigate(0)
-            } 
-          }}  autoComplete="off">
-            <div className="columns is-centered">
-              <div className="column has-text-centered is-4 pt-5">
-                <h1>Titulo de la reseña</h1>
-                <input
-                  name="title"
-                  value={form.title}
-                  onChange={(e) => handleChange(e)}
-                  className="input"
-                  type="text"
-                  placeholder="Text input"
-                />
-                {error.title && <p className="red">{error.title}</p>}
-              </div>
-            </div>
-            <div className="columns is-centered">
-              <div className="column has-text-centered is-12 pt-5">
-                <h1>Rating</h1>
-                {stars.map((_, index) => {
-                  const ratingValue = index + 1;
-                  const handleClick = (value) => {
-                    setCurrentValue(value);
-                    setStar(ratingValue);
-                    form.rating = star;
-                  };
-                  return (
-                    <FaStar
-                      key={index}
-                      value={form.rating}
-                      size={24}
-                      style={{
-                        marginRight: 10,
-                        cursor: "pointer",
-                      }}
-                      color={
-                        (hoverValue || currentValue) > index
-                          ? colors.orange
-                          : colors.grey
-                      }
-                      onClick={() => handleClick(index + 1)}
-                    />
+          {session?.authenticated === true ? (
+            <form
+              onSubmit={(e) => {
+                if (
+                  form.title === "" ||
+                  error.title ||
+                  form.description === "" ||
+                  error.description ||
+                  form.rating === 0 ||
+                  error.rating
+                ) {
+                  setError(
+                    validateInput({ ...form, [e.target.name]: e.target.value })
                   );
-                })}
-                {error.rating && <p className="red">{error.rating}</p>}
+                  e.preventDefault();
+                } else {
+                  dispatch(postReview(id, form));
+                  e.preventDefault();
+                  navigate(0);
+                }
+              }}
+              autoComplete="off"
+            >
+              <div className="columns is-centered">
+                <div className="column has-text-centered is-4 pt-5">
+                  <h1>Titulo de la reseña</h1>
+                  <input
+                    name="title"
+                    value={form.title}
+                    onChange={(e) => handleChange(e)}
+                    className="input"
+                    type="text"
+                    placeholder="Text input"
+                  />
+                  {error.title && <p className="red">{error.title}</p>}
+                </div>
               </div>
-            </div>
-            <div className="columns is-centered">
-              <div className="column has-text-centered is-9 pt-5">
-                <h1>Descripcion sobre el producto</h1>
-                <textarea
-                  value={form.description || ""}
-                  name="description"
-                  onChange={(e) => handleChange(e)}
-                  className="textarea"
-                  placeholder="Describe tu experiencia de nuestro producto"
-                ></textarea>
-                {error.description && (
-                  <p className="red">{error.description}</p>
-                )}
-              </div>
-            </div>
+              <div className="columns is-centered">
+                <div className="column has-text-centered is-12 pt-5">
+                  <h1>Rating</h1>
+                  {stars.map((_, index) => {
+                    const ratingValue = index + 1;
+                    const handleClick = (value) => {
+                      setCurrentValue(value);
+                      setStar(ratingValue);
+                      form.rating = ratingValue;
+                    };
 
-            <div className="columns is-centered">
-              <div className="column has-text-centered is-12 pt-5">
-                <button  type="submit" className="button is-warning">
-                  Añadir reseña
-                </button>
+                    return (
+                      <FaStar
+                        key={index}
+                        value={form.rating}
+                        size={24}
+                        style={{
+                          marginRight: 10,
+                          cursor: "pointer",
+                        }}
+                        color={
+                          (hoverValue || currentValue) > index
+                            ? colors.orange
+                            : colors.grey
+                        }
+                        onClick={() => handleClick(index + 1)}
+                      />
+                    );
+                  })}
+                  {error.rating && <p className="red">{error.rating}</p>}
+                </div>
               </div>
+              <div className="columns is-centered">
+                <div className="column has-text-centered is-9 pt-5">
+                  <h1>Descripcion sobre el producto</h1>
+                  <textarea
+                    value={form.description || ""}
+                    name="description"
+                    onChange={(e) => handleChange(e)}
+                    className="textarea"
+                    placeholder="Describe tu experiencia de nuestro producto"
+                  ></textarea>
+                  {error.description && (
+                    <p className="red">{error.description}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="columns is-centered">
+                <div className="column has-text-centered is-12 pt-5">
+                  <button type="submit" className="button is-warning">
+                    Añadir reseña
+                  </button>
+                </div>
+              </div>
+            </form>
+          ) : (
+            <div className="columns.is-vcentered">
+              <h1 className="has-text-vcentered pt-1 pl-6 is-size-3 has-text-weight-bold mb-5 has-text-left">
+                Para poder dejar una review debes mantener una sesion activa :(
+              </h1>
             </div>
-          </form>
+          )}
         </div>
       )}
     </Popup>
