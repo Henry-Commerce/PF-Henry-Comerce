@@ -304,15 +304,14 @@ router.post('/welcome', async (req, res) => {
 router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {// añadir correo
   const { email ,image } = req.body;
   if (!email || !image){return res.json({ message: "Expected info isn't provided" })};//
+  console.log(email,image)
   const foundUser = await UserModel.findOne({ email: email });
 if (!foundUser) return res.json({ message: 'User not found' });
 if(!image.includes("https")){return res.json({message:"invalid link"})}
 
   await UserModel.findOneAndUpdate(
     { email: email },
-    {
-     image: image,
-    }
+    { image: image, }
   );
   res.json({ message: 'Updated password methods' });
 });
