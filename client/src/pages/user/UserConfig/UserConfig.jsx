@@ -10,6 +10,8 @@ import "../UserDashboard/User.scss";
 import { checkAuth, editUser } from "../../../redux/actions/actions";
 import { Loading } from "../../../components/Loading/Loading";
 import { CountryDropdown } from "react-country-region-selector";
+import { Map } from "../../../components/Map/Map";
+import { dataCountrys } from "../../admin/AdminProfile/Countrys";
 
 export const UserConfig = () => {
   const [isActive, setisActive] = useState(false);
@@ -186,12 +188,20 @@ export const UserConfig = () => {
             <div className="field m-3">
               <label className="label">Pais</label>
               <div className="select">
-                <CountryDropdown
+                <select
                   name="country"
-                  value={values.country}
+                  className="input"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                />
+                  value={values.country}
+                >
+                  <option value="DEFAULT">Cambiar pais</option>
+                  {dataCountrys.result.map((countrys, index) => (
+                    <option key={index} value={countrys.name}>
+                      {countrys.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
