@@ -111,7 +111,7 @@ export const AdminProfile = () => {
     data.append('upload_preset', 'images');
     data.append('cloud_name', 'dg50vvzpm');
     data.append('public_id', v4());
-
+    let imagensita = '';
     await fetch('https://api.cloudinary.com/v1_1/dg50vvzpm/image/upload', {
       method: 'post',
       body: data,
@@ -119,9 +119,29 @@ export const AdminProfile = () => {
       .then((resp) => resp.json())
       .then((data) => {
         console.log(data);
-        setImage(data.url);
+        imagensita = data.url;
       })
       .catch((err) => console.log(err));
+
+    const { token, email } = JSON.parse(localStorage.getItem('authenticated'));
+
+    const change = await axios({
+      method: 'put',
+      url: `http://localhost:3001/api/user/edit/image`,
+      headers: {
+        'x-access-token': `${token}`,
+      },
+      data: {
+        email: email,
+        image: imagensita,
+      },
+    });
+
+    if (change.data.message === 'image updated') {
+      setImage(imagensita);
+    }
+
+    console.log('change', change);
   };
 
   const formik = useFormik({
@@ -240,6 +260,7 @@ export const AdminProfile = () => {
                                 <input
                                   type='file'
                                   name='image'
+                                  accept='image/png, image/gif, image/jpeg'
                                   onChange={handleaddImage}
                                 />
                               </label>
@@ -334,10 +355,7 @@ export const AdminProfile = () => {
                   </header>
                   <div className='card-content'>
                     <div className='is-user-avatar image has-max-width is-aligned-center'>
-                      <img
-                        src='https://avatars.dicebear.com/v2/initials/john-doe.svg'
-                        alt='John Doe'
-                      />
+                      <img src={`${data.image}`} alt={`${data.username}`} />
                     </div>
                     <hr />
                     <div className='field'>
