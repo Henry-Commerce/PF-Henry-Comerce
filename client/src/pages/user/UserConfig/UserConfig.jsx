@@ -92,46 +92,33 @@ export const UserConfig = () => {
       username: Yup.string()
         .min(5, "El nombre debe tener al menos 5 caracteres")
         .max(15, "El nombre no puede contener mas de 15 caracteres"),
-      oldPassword: Yup.string()
-        .min(5, "La contraseña debe tener al menos 5 caracteres")
-        .max(15, "La contraseña no debe tener mas de 15 caracteres"),
-      newPassword: Yup.string()
-        .min(5, "La contraseña debe tener al menos 5 caracteres")
-        .max(15, "La contraseña no debe tener mas de 15 caracteres")
-        .when("oldPassword", (oldPassword, field) =>
-          oldPassword ? field.required() : field
-        )
-        /* .oneOf(
-          [Yup.ref("oldPassword"), null],
-          "Es necesaria la contraseña actual"
-        ) */,
+      oldPassword: Yup.string(),
+      newPassword: Yup.string().min(
+        6,
+        "La contraseña debe tener un minimo de 6 caracteres"
+      ),
       repitePassword: Yup.string()
-        .min(5, "La contraseña debe tener al menos 5 caracteres")
-        .max(15, "La contraseña no debe tener mas de 15 caracteres")
-        .when("newPassword", (password, field) =>
-          password ? field.required().oneOf([Yup.ref("newPassword")]) : field
-        ),
-      /* .oneOf([Yup.ref("newPassword"), null], "Se debe repetir la contraseña") */ confirm:
-        Yup.boolean().oneOf([true], "a"),
+        .min(6, "La contraseña debe tener un minimo de 6 caracteres")
+        .oneOf([Yup.ref("newPassword")], "Las contraseñas deben coincidir"),
+      confirm: Yup.boolean().oneOf(
+        [true],
+        "Marcar la casilla en caso de estar seguro de querer realizar los cambios"
+      ),
     }),
     onSubmit: (formData) => {
       if (!values.username) values.username = data.username;
       if (!values.country) values.country = data.country;
       if (!values.email) values.email = data.email;
-      if (
-        !values.oldPassword ||
-        !values.newPassword ||
-        !values.repitePassword
-      ) {
+      if (!values.oldPassword || !values.newPassword) {
         delete values.oldPassword;
         delete values.newPassword;
-        delete values.repitePassword;
       }
-      /* console.log("formdata", formData); */
-      /* dispatch(editUser(formData)); */
-      /* console.log("holi", formik.values); */
+      console.log("dispatch");
+      delete values.repitePassword;
+      dispatch(editUser(formData));
       handleReset();
       success();
+      navigate("/user");
     },
   });
 
@@ -203,6 +190,7 @@ export const UserConfig = () => {
                   name="country"
                   value={values.country}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -240,6 +228,9 @@ export const UserConfig = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.newPassword}
+                  disabled={
+                    !values.oldPassword || values.oldPassword.length < 6
+                  }
                 />
                 {errors.newPassword && touched.newPassword && (
                   <div className="has-text-danger pt-2">
@@ -255,12 +246,15 @@ export const UserConfig = () => {
                 <input
                   className="input"
                   type="password"
-                  placeholder="Nueva contraseña"
+                  placeholder="Repetir contraseña"
                   name="repitePassword"
                   autoComplete="off"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.repitePassword}
+                  disabled={
+                    !values.oldPassword || values.oldPassword.length < 6
+                  }
                 />
                 {errors.repitePassword && touched.repitePassword && (
                   <div className="has-text-danger pt-2">
@@ -290,7 +284,23 @@ export const UserConfig = () => {
 
             <div className="field is-grouped m-3">
               <div className="control">
-                <button className="button is-primary m-3" type="submit">
+                <button
+                  className="button is-primary m-3"
+                  type="submit"
+                  disabled={
+                    errors.username ||
+                    errors.oldPassword ||
+                    errors.newPassword ||
+                    errors.repitePassword ||
+                    errors.confirm ||
+                    (values.oldPassword &&
+                      !values.newPassword &&
+                      !values.repitePassword) ||
+                    (values.oldPassword &&
+                      values.newPassword &&
+                      !values.repitePassword)
+                  }
+                >
                   Aceptar
                 </button>
               </div>
