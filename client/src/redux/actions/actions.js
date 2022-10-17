@@ -351,20 +351,20 @@ export const startCreatingUserWithEmailPassword = ({
       type: 'CHECKING_CREDENTIALS',
     });
 
-    const result = await registerUserWithEmailPassword({
-      email,
-      password,
-      displayName,
-    });
+    // const result = await registerUserWithEmailPassword({
+    //   email,
+    //   password,
+    //   displayName,
+    // });
 
-    console.log('usuario a crear', result);
-    if (result.ok === false) {
-      localStorage.setItem('authenticated', false);
-      return dispatch({
-        type: 'LOGOUT',
-        payload: result.errorMessage,
-      });
-    }
+    // console.log('usuario a crear', result);
+    // if (result.ok === false) {
+    //   localStorage.setItem('authenticated', false);
+    //   return dispatch({
+    //     type: 'LOGOUT',
+    //     payload: result.errorMessage,
+    //   });
+    // }
 
     const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
       username: email.toLowerCase(),
@@ -391,7 +391,7 @@ export const startCreatingUserWithEmailPassword = ({
 
     dispatch({
       type: 'LOGIN',
-      payload: result,
+      payload: creado,
     });
   };
 };
