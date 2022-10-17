@@ -107,6 +107,23 @@ export const AdminTables = () => {
     }
   };
 
+  const newAdmin = async (userEmail, admin) => {
+    admin = !admin;
+    const { token } = JSON.parse(localStorage.getItem('authenticated'));
+    const res = await axios({
+      method: 'put',
+      url: `http://localhost:3001/api/user/newadmin`,
+      headers: {
+        'x-access-token': `${token}`,
+      },
+      data: {
+        email: `${userEmail}`,
+        isAdmin: admin,
+      },
+    });
+    console.log('admin', res);
+  };
+
   return (
     <>
       {user.length <= 0 && all.length <= 0 && <Loading />}
@@ -331,8 +348,7 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span className='is-relative'>
-                                  {' '}
-                                  Progress{' '}
+                                  Admin
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
                                   </span>
@@ -383,7 +399,14 @@ export const AdminTables = () => {
                               <td data-label='Name'>{user.username}</td>
                               <td data-label='Mail'>{user.email}</td>
                               <td data-label='City'>{user.country}</td>
-                              <td data-label='City'>{user.isAdmin}</td>
+                              <td
+                                data-label='Admin'
+                                onClick={() =>
+                                  newAdmin(user.email, user.isAdmin)
+                                }>
+                                {user.isAdmin === true && 'yes'}
+                                {user.isAdmin === false && 'no'}
+                              </td>
                               {/* <td
                                 data-label='Progress'
                                 className='is-progress-cell'>

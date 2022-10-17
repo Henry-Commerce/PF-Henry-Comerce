@@ -145,9 +145,6 @@ export const AdminProfile = () => {
         .max(20, 'Password must be no more than 20 characters')
         .required('New password is a required field one more time')
         .oneOf([Yup.ref('newPassword')], 'Passwords must be the same'),
-      // .when('oldPassword', (oldPassword, field) =>
-      //   oldPassword ? field.required() : field
-      // ),
     }),
     onSubmit: (formData) => {
       console.log('formdata', formData);
