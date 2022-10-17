@@ -66,6 +66,7 @@ router.get('/info/:email', verifyToken, async (req, res) => {
     const User = {
       username: resultUN.username,
       email: resultUN.email,
+      image: resultUN.image,
       country: resultUN.country,
       boughtitems: resultUN.boughtitems,
       reviews: resultUN.reviews,
@@ -157,7 +158,7 @@ router.post('/register', async (req, res) => {
       username,
       email: email.toLocaleLowerCase(),
       password: await UserModel.encyptPassword(password),
-      image:image,
+      image: image,
       country,
       isAdmin,
     });
@@ -228,7 +229,8 @@ router.put('/shopitems', verifyToken, async (req, res) => {
   }
 });
 
-router.put('/addcart', async (req, res) => {//añadir correo
+router.put('/addcart', async (req, res) => {
+  //añadir correo
   var newcart = await UserModel.findOneAndUpdate(
     { username: req.query.username },
     { cart: req.body }
@@ -236,13 +238,11 @@ router.put('/addcart', async (req, res) => {//añadir correo
   return res.json(newcart);
 });
 
-router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {//añadir correo
+router.put('/newadmin', [verifyToken, isAdmin], async (req, res) => {
+  //añadir correo
   const { email, isAdmin } = req.body;
   try {
-    var newadmin = await UserModel.findOneAndUpdate(
-      { email,},
-      { isAdmin,}
-    );
+    var newadmin = await UserModel.findOneAndUpdate({ email }, { isAdmin });
     return res.json(newadmin);
   } catch (err) {
     console.log(err);
@@ -261,7 +261,8 @@ router.put('/edituser', verifyToken, async (req, res) => {
         country,
       }
     );
-    if (!oldPassword || !newPassword) {// añadir correo
+    if (!oldPassword || !newPassword) {
+      // añadir correo
       res.status(200).send(userChange);
     } else {
       const userComparePassword = await UserModel.comparePassword(
@@ -300,13 +301,14 @@ router.post('/welcome', async (req, res) => {
   }
 });
 
-router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {// añadir correo
+router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {
+  // añadir correo
   const { password } = req.body;
   const { email } = req.params;
 
   console.log(email, password);
   if (!email || !password)
-    return res.json({ message: "Expected info isn't provided" });//
+    return res.json({ message: "Expected info isn't provided" }); //
   const foundUser = await UserModel.findOne({ email: email });
 
   if (!foundUser) return res.json({ message: 'User not found' });
@@ -317,7 +319,7 @@ router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {// 
   if (matchPassword)
     return res.json({
       message: 'Password should be difrent from the last one',
-    });//
+    }); //
   await UserModel.findOneAndUpdate(
     { email: email },
     {
