@@ -180,6 +180,7 @@ router.get('/oferts', async (req, res) => {
 
     const response = await ClothingModel.find({});
     var filtOffer = response.filter((el) => el.discount > 0);
+    filtOffer = filtOffer.filter((el) => el.show == true);
     if (category) {
       filtOffer = filtOffer.filter((el) => el.category === category);
     }
