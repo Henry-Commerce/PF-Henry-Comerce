@@ -21,10 +21,12 @@ export const ConfigButton = ({ dark, setDark }) => {
       )}
 
       {active && (
-        <div className='config-box'>
+        <div className={`${dark ? 'has-background-black' : ''} config-box`}>
           <div className='config-wrapper config-boxwidth'>
             <div className='field'>
-              <label className='label'>App style</label>
+              <label className={`${dark ? 'text-for-black' : ''} label`}>
+                App style
+              </label>
               <div className='field'>
                 <div className='control'>
                   <label className='b-radio radio'>
@@ -35,7 +37,13 @@ export const ConfigButton = ({ dark, setDark }) => {
                       checked={dark === false}
                     />
                     <span className='check'></span>
-                    <span className='control-label'> Light </span>
+                    <span
+                      className={`${
+                        dark ? 'text-for-black' : ''
+                      } control-label`}>
+                      {' '}
+                      Light{' '}
+                    </span>
                   </label>
                 </div>
                 <div className='control'>
@@ -47,7 +55,13 @@ export const ConfigButton = ({ dark, setDark }) => {
                       checked={dark === true}
                     />
                     <span className='check'></span>
-                    <span className='control-label'> Dark </span>
+                    <span
+                      className={`${
+                        dark ? 'text-for-black' : ''
+                      } control-label`}>
+                      {' '}
+                      Dark{' '}
+                    </span>
                   </label>
                 </div>
               </div>
@@ -99,7 +113,7 @@ export const ConfigButton = ({ dark, setDark }) => {
             <span
               className='icon is-medium close-button'
               onClick={() => setActive(false)}>
-              <GrClose className='mdi mdi-24px mdi-close' />
+              <GrClose className={`mdi mdi-24px mdi-close`} />
             </span>
           </div>
         </div>

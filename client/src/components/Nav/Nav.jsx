@@ -48,7 +48,10 @@ export const Nav = ({ dark }) => {
 
   return (
     <header>
-      <nav className={`${dark ? 'is-black' : ''} navbar is-transparent navp`}>
+      <nav
+        className={`${
+          dark ? 'is-black navpDark' : 'navp'
+        } navbar is-transparent `}>
         <div className='navbar-brand'>
           <Link className='navbar-item' to='/'>
             <img
