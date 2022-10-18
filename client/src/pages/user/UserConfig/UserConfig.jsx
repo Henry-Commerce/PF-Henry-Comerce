@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { Notify } from "../../../components/Notify/Notify";
 import { toast } from "react-toastify";
 import "../UserDashboard/User.scss";
-import { checkAuth, editUser } from "../../../redux/actions/actions";
+import { checkAuth } from "../../../redux/actions/actions";
 import { Loading } from "../../../components/Loading/Loading";
 import { CountryDropdown } from "react-country-region-selector";
 import { Map } from "../../../components/Map/Map";
@@ -56,8 +56,6 @@ export const UserConfig = () => {
     profile();
   }, []);
 
-  useEffect(() => {}, [data]);
-
   const success = () =>
     toast.success("Los cambios se han realizado con exito", {
       position: "top-center",
@@ -69,8 +67,8 @@ export const UserConfig = () => {
       progress: undefined,
     });
 
-  const error = () =>
-    toast.error("Los cambios se han realizado con exito", {
+  const passwordError = () =>
+    toast.error("La contraseña no es valida", {
       position: "top-center",
       autoClose: 3000,
       hideProgressBar: false,
@@ -107,7 +105,7 @@ export const UserConfig = () => {
         "Marcar la casilla en caso de estar seguro de querer realizar los cambios"
       ),
     }),
-    onSubmit: (formData) => {
+    onSubmit: async (formData) => {
       if (!values.username) values.username = data.username;
       if (!values.country) values.country = data.country;
       if (!values.email) values.email = data.email;
@@ -115,14 +113,26 @@ export const UserConfig = () => {
         delete values.oldPassword;
         delete values.newPassword;
       }
-      console.log("dispatch");
-      delete values.repitePassword;
-      dispatch(editUser(formData));
-      handleReset();
-      success();
-      navigate("/user");
+      try {
+        const token = JSON.parse(localStorage.getItem("authenticated")).token;
+        return await axios
+          .put(`http://localhost:3001/api/user/edituser`, formData, {
+            headers: {
+              "x-access-token": token,
+            },
+          })
+          .then(() => {
+            delete values.repitePassword;
+            handleReset();
+            return success();
+          });
+      } catch (error) {
+        handleReset();
+        return passwordError();
+      }
     },
   });
+
 
   const {
     values,
@@ -138,6 +148,7 @@ export const UserConfig = () => {
     <div className="columns is-centered">
       <div className="column is-7">
         <article className="panel form-user">
+          <Notify />
           <p className="panel-heading title is-3">Mi cuenta</p>
           <p className="panel-tabs">
             <Link
@@ -283,6 +294,7 @@ export const UserConfig = () => {
                     name="confirm"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.confirm}
                   />
                   ¿Estas seguro que quieres realizar los cambios?
                 </label>
