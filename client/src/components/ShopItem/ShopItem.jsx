@@ -40,6 +40,9 @@ export const ShopItem = ({
     localStorage.setItem("lsCartProducts", JSON.stringify(newCart));
     setLsCartProducts(newCart);
     handleAmount()
+    if(lsCartProducts.length === 1) {
+      navigate(0)
+    }
   };
 
   const handlePlus = () => {
@@ -123,7 +126,7 @@ export const ShopItem = ({
           </div>
         </div>
         <div className="column ">
-          <p className="subtitle has-text-info has-text-weight-bold pl-4 pb-2">
+          <p className="subtitle has-text-info has-text-weight-bold pb-2">
             ${product.price * count}
           </p>
         </div>

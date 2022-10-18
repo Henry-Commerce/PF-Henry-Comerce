@@ -51,7 +51,7 @@ export const ProductsDetails = () => {
   const detail = useSelector((state) => state.detail);
   const limitUsers =
     detail.comments && detail.comments.find((e) => e.user === data.username);
-  console.log(limitUsers);
+  
   const allProducts = useSelector((state) => state.allClothing);
   const dispatch = useDispatch();
   const { id, name } = useParams();
