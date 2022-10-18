@@ -48,6 +48,7 @@ export const PostReview = () => {
   const [data, setData] = useState("");
 
   const [form, setForm] = useState({
+    email:"",
     product: "",
     isEditing: false,
     user: "",
@@ -92,6 +93,7 @@ const limitUsers = detail.comments && detail.comments.find((e) => e.user === use
       ...form,
       user: data.username,
       product: detail.name,
+      email: data.email,
     });
   }, [data, detail]);
 
