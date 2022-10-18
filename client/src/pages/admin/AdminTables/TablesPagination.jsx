@@ -6,6 +6,7 @@ export const TablesPagination = ({
   paginado,
   currentPage,
   setCurrentPage,
+  dark,
 }) => {
   const pageNumbers = [];
 
@@ -38,14 +39,16 @@ export const TablesPagination = ({
   };
 
   return (
-    <div className='notification'>
+    <div className={`${dark ? 'has-background-black' : ''} notification`}>
       <div className='level'>
-        <div className='level-left'>
-          <div className='level-item'>
-            <div className='buttons has-addons'>
+        <div className='level-left '>
+          <div className='level-item '>
+            <div className='buttons has-addons '>
               {pageNumbers.map((e) => (
                 <button
-                  className={selectPage(e) ? 'button is-active' : 'button '}
+                  className={`${
+                    dark ? 'has-background-black text-for-black dark' : ''
+                  } ${selectPage(e) ? 'button is-active' : 'button'}`}
                   onClick={() => paginado(e)}
                   key={e}>
                   {e}

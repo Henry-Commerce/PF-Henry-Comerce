@@ -116,3 +116,27 @@ li {
   position: relative;
   padding: 1.25rem 2.5rem 1.25rem 1.5rem;
 }
+
+.shadow-left {
+  box-shadow: 0 5px 6px -2px rgba(128, 128, 128, 0.641);
+}
+
+.card-content:first-child,
+.card-footer:first-child,
+.card-header:first-child {
+  border-top-left-radius: 0rem !important;
+  border-top-right-radius: 0rem !important;
+}
+
+.table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+  background-color: #fafafa;
+}
+
+.table.is-striped-black tbody tr:not(.is-selected):nth-child(2n) {
+  background-color: #313233 !important;
+}
+
+.is-active.dark {
+  background-color: #edfd04 !important;
+  color: black !important;
+}

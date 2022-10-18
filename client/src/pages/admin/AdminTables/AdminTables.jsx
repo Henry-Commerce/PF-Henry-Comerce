@@ -11,7 +11,15 @@ import {
   AiOutlineArrowDown,
   AiOutlineArrowUp,
 } from 'react-icons/ai';
-import { BsChevronLeft, BsChevronRight, BsThreeDots } from 'react-icons/bs';
+
+import { GiClothes } from 'react-icons/gi';
+
+import {
+  BsChevronLeft,
+  BsChevronRight,
+  BsThreeDots,
+  BsFillPeopleFill,
+} from 'react-icons/bs';
 import axios from 'axios';
 import { checkAuth, getClothing } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -245,9 +253,15 @@ export const AdminTables = ({ dark }) => {
         <div className='columns'>
           <AdminNav dark={dark} />
           <main className={`${dark ? 'has-background-black' : ''} column main`}>
-            <div className='card has-table has-mobile-sort-spaced'>
-              <hr />
-              <section className='hero is-hero-bar'>
+            <div
+              className={`${
+                dark ? 'has-background-black' : ''
+              }card has-table has-mobile-sort-spaced`}>
+              <hr className={`${dark ? 'has-background-dark' : ''}`} />
+              <section
+                className={`${
+                  dark ? 'has-background-black' : ''
+                } hero is-hero-bar`}>
                 <div className='hero-body'>
                   <div className='level'>
                     <div className='level-left'>
@@ -261,7 +275,9 @@ export const AdminTables = ({ dark }) => {
                         /> */}
                         </span>
 
-                        <h1 className='title'>Tables</h1>
+                        <h1 className={`${dark ? 'text-for-black' : ''} title`}>
+                          Tables
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -275,11 +291,20 @@ export const AdminTables = ({ dark }) => {
                 </div>
               </section>
 
-              <div className='card has-table'>
-                <header className='card-header'>
-                  <p className='card-header-title'>
+              <div
+                className={`${
+                  dark ? 'has-background-black' : ''
+                } card has-table`}>
+                <header
+                  className={`${
+                    dark ? 'has-background-black' : ''
+                  } card-header`}>
+                  <p
+                    className={`${
+                      dark ? 'text-for-black' : ''
+                    } card-header-title`}>
                     <span className='icon'>
-                      <i className='mdi mdi-account-multiple'></i>
+                      <GiClothes className='mdi mdi-account-multiple' />
                     </span>
                     Clothing
                   </p>
@@ -331,7 +356,12 @@ export const AdminTables = ({ dark }) => {
                 <div className='card-content'>
                   <div className='b-table has-pagination'>
                     <div className='table-wrapper has-mobile-cards'>
-                      <table className='table is-fullwidth is-striped is-hoverable is-fullwidth'>
+                      <table
+                        className={`${
+                          dark
+                            ? 'text-for-black has-background-black is-striped-black'
+                            : 'is-striped'
+                        } table is-fullwidth is-hoverable is-fullwidth`}>
                         {/* <thead>
                           <tr>
                             <th className='is-checkbox-cell'>
@@ -349,7 +379,10 @@ export const AdminTables = ({ dark }) => {
                             <th></th>
                           </tr>
                         </thead> */}
-                        <thead>
+                        <thead
+                          className={`${
+                            dark ? 'has-background-black' : ''
+                          } is-relative`}>
                           <tr>
                             <th className='checkbox-cell'>
                               <label className='b-checkbox checkbox'>
@@ -384,7 +417,9 @@ export const AdminTables = ({ dark }) => {
                               className='is-sortable is-unselectable is-current-sort'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowName}>
                                   Name
                                   {arrowNombre === null && (
@@ -410,7 +445,9 @@ export const AdminTables = ({ dark }) => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowMail}>
                                   Type
                                   {arrowMaile === null && (
@@ -436,7 +473,9 @@ export const AdminTables = ({ dark }) => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowCity}>
                                   Price
                                   {arrowCities === null && (
@@ -461,7 +500,10 @@ export const AdminTables = ({ dark }) => {
                               draggable='false'
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   Discount
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
@@ -471,7 +513,10 @@ export const AdminTables = ({ dark }) => {
                             </th>
                             <th draggable='false' className=''>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   Show
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
@@ -493,7 +538,13 @@ export const AdminTables = ({ dark }) => {
                         </thead>
                         <tbody>
                           {currentClothing.map((cloth, index) => (
-                            <tr key={index}>
+                            <tr
+                              key={index}
+                              className={`${
+                                dark
+                                  ? 'text-for-black has-background-black'
+                                  : ''
+                              } is-relative`}>
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
                                   <input type='checkbox' value='false' />
@@ -1137,16 +1188,23 @@ export const AdminTables = ({ dark }) => {
                       paginado={paginadoC}
                       currentPage={currentPageClothing}
                       setCurrentPage={setCurrentPageClothing}
+                      dark={dark}
                     />
                   </div>
                 </div>
               </div>
 
-              <div className='card has-table'>
+              <div
+                className={`${
+                  dark ? 'has-background-black' : ''
+                } card has-table`}>
                 <header className='card-header'>
-                  <p className='card-header-title'>
+                  <p
+                    className={`${
+                      dark ? 'text-for-black' : ''
+                    } card-header-title`}>
                     <span className='icon'>
-                      <i className='mdi mdi-account-multiple'></i>
+                      <BsFillPeopleFill className='mdi mdi-account-multiple' />
                     </span>
                     Clients
                   </p>
@@ -1198,7 +1256,12 @@ export const AdminTables = ({ dark }) => {
                 <div className='card-content'>
                   <div className='b-table has-pagination'>
                     <div className='table-wrapper has-mobile-cards'>
-                      <table className='table is-fullwidth is-striped is-hoverable is-fullwidth'>
+                      <table
+                        className={`${
+                          dark
+                            ? 'text-for-black has-background-black is-striped-black'
+                            : 'is-striped'
+                        } table is-fullwidth is-hoverable is-fullwidth`}>
                         {/* <thead>
                           <tr>
                             <th className='is-checkbox-cell'>
@@ -1216,7 +1279,10 @@ export const AdminTables = ({ dark }) => {
                             <th></th>
                           </tr>
                         </thead> */}
-                        <thead>
+                        <thead
+                          className={`${
+                            dark ? 'has-background-black' : ''
+                          } is-relative`}>
                           <tr>
                             <th className='checkbox-cell'>
                               <label className='b-checkbox checkbox'>
@@ -1251,7 +1317,9 @@ export const AdminTables = ({ dark }) => {
                               className='is-sortable is-unselectable is-current-sort'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowName}>
                                   Name
                                   {arrowNombre === null && (
@@ -1277,7 +1345,9 @@ export const AdminTables = ({ dark }) => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowMail}>
                                   Mail
                                   {arrowMaile === null && (
@@ -1303,7 +1373,9 @@ export const AdminTables = ({ dark }) => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowCity}>
                                   City
                                   {arrowCities === null && (
@@ -1328,7 +1400,10 @@ export const AdminTables = ({ dark }) => {
                               draggable='false'
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   Admin
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
@@ -1338,7 +1413,10 @@ export const AdminTables = ({ dark }) => {
                             </th>
                             <th draggable='false' className=''>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   {' '}
                                   Created{' '}
                                   <span className='icon sort-icon is-small is-invisible'>
@@ -1361,7 +1439,13 @@ export const AdminTables = ({ dark }) => {
                         </thead>
                         <tbody>
                           {currentUser.map((user, index) => (
-                            <tr key={index}>
+                            <tr
+                              key={index}
+                              className={`${
+                                dark
+                                  ? 'text-for-black has-background-black'
+                                  : ''
+                              } is-relative`}>
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
                                   <input type='checkbox' value='false' />
@@ -1370,8 +1454,10 @@ export const AdminTables = ({ dark }) => {
                               </td>
                               <td className='is-image-cell'>
                                 <div className='image'>
+                                  {console.log(user)}
                                   <img
-                                    src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
+                                    // src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
+                                    src={user.image}
                                     className='is-rounded'
                                   />
                                 </div>
@@ -1436,6 +1522,7 @@ export const AdminTables = ({ dark }) => {
                       paginado={paginadoU}
                       currentPage={currentPageUser}
                       setCurrentPage={setCurrentPageUser}
+                      dark={dark}
                     />
                   </div>
                 </div>

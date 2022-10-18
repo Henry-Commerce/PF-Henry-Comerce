@@ -6,6 +6,8 @@ import './main.scss';
 import { BiTachometer } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
+import { FiRefreshCcw } from 'react-icons/fi';
+
 import { useDispatch } from 'react-redux';
 import { checkAuth } from '../../../redux/actions';
 import { Map } from '../../../components/Map/Map';
@@ -342,7 +344,7 @@ export const AdminDashboard = ({ dark }) => {
                           className='button button is-small'>
                           <span>
                             <span className='icon'>
-                              <i className='mdi mdi-refresh default'></i>
+                              <FiRefreshCcw className='mdi mdi-refresh default' />
                             </span>
                             <span>Refresh</span>
                           </span>
@@ -730,7 +732,7 @@ export const AdminDashboard = ({ dark }) => {
                           className='button button is-small'>
                           <span>
                             <span className='icon'>
-                              <i className='mdi mdi-refresh default'></i>
+                              <FiRefreshCcw className='mdi mdi-refresh default' />
                             </span>
                             <span>Refresh</span>
                           </span>
