@@ -412,10 +412,17 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
     //   });
     // }
 
-    const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
-      email: email.toLowerCase(),
-      password,
-    });
+    let existe = {};
+    try {
+      existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
+        email: email.toLowerCase(),
+        password,
+      });
+    } catch (error) {
+      return dispatch({
+        type: 'IncorrectPassword',
+      });
+    }
 
     console.log('existe', existe);
     if (existe.status === 200) {
@@ -490,13 +497,13 @@ export function editUser(payload) {
             'x-access-token': token,
           },
         }
-      )
+      );
       return dispatch({
         type: 'EDIT_USER',
         putUser,
       });
     } catch (error) {
-      return error.response.data
+      return error.response.data;
     }
   };
 }
