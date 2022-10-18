@@ -143,7 +143,7 @@ const limitUsers = detail.comments && detail.comments.find((e) => e.user === use
 
   return (
     <Popup
-      className=""
+      className="vue"
       trigger={
         <section>
            { limitUsers && limitUsers.user === data.username ? null : (               
@@ -155,7 +155,7 @@ const limitUsers = detail.comments && detail.comments.find((e) => e.user === use
       nested
     >
       {(close) => (
-        <div className="box widtht is-align-content-stretch">
+        <div className="box widtht">
           {session?.authenticated === true  ?  (
             <form
               onSubmit={(e) => {
