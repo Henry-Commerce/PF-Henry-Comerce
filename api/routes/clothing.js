@@ -303,8 +303,12 @@ router.put('/reviewupdate', verifyToken, async (req, res) => {
     });
     const commentsArray = foundCloth.comments;
     if (isDeleting) {
-      const newReviews = commentsArray.filter(element => element.user !== email)
-      res.status(200).send(newReviews)
+      const leftoverReviews = commentsArray.filter(element => element.email !== email);
+      await ClothingModel.findOneAndUpdate(
+        { name },
+        { comments: leftoverReviews }
+      );
+      res.status(200).json(leftoverReviews);
     } else {
       const newReview = {
         email,
@@ -320,7 +324,6 @@ router.put('/reviewupdate', verifyToken, async (req, res) => {
               ? newReview[element].trim()
               : newReview[element])
       );
-      console.log(newReview);
       commentsArray.push(newReview);
       await ClothingModel.findOneAndUpdate(
         { name },
