@@ -1,6 +1,6 @@
 /** @format */
 import { useState } from 'react';
-import { ConfigButton, Nav } from './components';
+import { ConfigButton, Nav, ChatBot } from './components';
 import { Rutas } from './config/Rutas';
 
 export const App = () => {
@@ -10,6 +10,7 @@ export const App = () => {
       <Nav dark={dark} />
       <ConfigButton dark={dark} setDark={setDark} />
       <Rutas dark={dark} />
+      <ChatBot/>
     </>
   );
 };

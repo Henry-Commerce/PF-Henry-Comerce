@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kommunicate/kommunicate-chatbot-plugin": "^0.0.5",
     "@reach/combobox": "^0.18.0",
     "@react-google-maps/api": "^2.13.1",
     "@redux-devtools/extension": "^3.2.3",
