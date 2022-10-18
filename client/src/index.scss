@@ -84,9 +84,35 @@ div.sticky {
 }
 
 .has-background-dark {
-  background-color: #363636 !important;
+  background-color: #313233 !important;
 }
 
 .text-for-black {
   color: white !important;
+}
+
+li {
+  .text-for-black:hover {
+    background-color: #edfd04 !important;
+    color: black !important;
+  }
+}
+
+li {
+  .is-active {
+    background-color: #edfd04 !important;
+    color: black !important;
+  }
+}
+
+.border-yellow {
+  border: #edfd04 solid 0.1rem !important;
+  border-color: #edfd04 !important;
+}
+
+.notification-black {
+  background-color: #313233;
+  border-radius: 4px;
+  position: relative;
+  padding: 1.25rem 2.5rem 1.25rem 1.5rem;
 }

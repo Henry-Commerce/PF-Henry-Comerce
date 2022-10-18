@@ -7,7 +7,7 @@ import { CgProfile } from 'react-icons/cg';
 import { IoMenuSharp } from 'react-icons/io5';
 import { useState, useEffect } from 'react';
 
-export const AdminNav = () => {
+export const AdminNav = ({ dark }) => {
   const location = useLocation();
   const [active, setActive] = useState('');
 
@@ -31,14 +31,17 @@ export const AdminNav = () => {
   }, [location.pathname]);
 
   return (
-    <aside className='column is-2 aside is-placed-left is-expanded '>
+    <aside
+      className={`${
+        dark ? 'has-background-black' : ''
+      } column is-2 aside is-placed-left is-expanded`}>
       <div className='menu is-menu-main'>
         <p className='pb-1'></p>
         <ul className='menu-list'>
           <li>
             <Link
               to='/admin'
-              className={`router-link-active has-icon ${
+              className={`${dark ? 'text-for-black' : ''} has-icon ${
                 active === 'dashboard' ? 'is-active' : ''
               }`}>
               <span className='icon'>
@@ -53,7 +56,9 @@ export const AdminNav = () => {
           <li>
             <Link
               to='/admin/users'
-              className={` has-icon ${active === 'users' ? 'is-active' : ''}`}>
+              className={`${dark ? 'text-for-black' : ''} has-icon ${
+                active === 'users' ? 'is-active' : ''
+              }`}>
               <span className='icon has-update-mark'>
                 {/* <i className='mdi mdi-table'></i> */}
                 <FaTable />
@@ -66,7 +71,9 @@ export const AdminNav = () => {
           <li>
             <Link
               to='/admin/add'
-              className={` has-icon ${active === 'add' ? 'is-active' : ''}`}>
+              className={`${dark ? 'text-for-black' : ''} has-icon ${
+                active === 'add' ? 'is-active' : ''
+              }`}>
               <span className='icon has-update-mark'>
                 {/* <i className='mdi mdi-table'></i> */}
                 <IoMdAdd />
@@ -78,7 +85,7 @@ export const AdminNav = () => {
           <li>
             <Link
               to='/admin/profile'
-              className={` has-icon ${
+              className={`${dark ? 'text-for-black' : ''} has-icon ${
                 active === 'profile' ? 'is-active' : ''
               }`}>
               <span className='icon has-update-mark'>
@@ -116,7 +123,7 @@ export const AdminNav = () => {
             </ul>
           </li> */}
         </ul>
-        <p className='menu-label'>About</p>
+        {/* <p className='menu-label'>About</p>
         <ul className='menu-list'>
           <li>
             <a
@@ -137,7 +144,7 @@ export const AdminNav = () => {
               <span className='menu-item-label'>About</span>
             </a>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </aside>
   );

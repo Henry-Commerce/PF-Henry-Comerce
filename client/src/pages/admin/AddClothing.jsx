@@ -13,7 +13,7 @@ import { FaDollarSign } from 'react-icons/fa';
 import { BiRename } from 'react-icons/bi';
 import { v4 } from 'uuid';
 
-export const AddClothing = () => {
+export const AddClothing = ({ dark }) => {
   const dispatch = useDispatch();
   const [image, setImage] = useState('');
 
@@ -119,17 +119,33 @@ export const AddClothing = () => {
   return (
     <div className='wrapper'>
       <div className='columns'>
-        <AdminNav />
-        <main className='column main'>
+        <AdminNav dark={dark} />
+        <main
+          className={`${
+            dark ? 'has-background-black' : 'has-background-light'
+          } column main`}>
           <Notify />
-          <div className='container box p-6 has-background-light'>
-            <h1 className='title has-text-centered '>Add Product</h1>
-            <h2 className='subtitle has-text-centered'>
+          <div
+            className={`${
+              dark ? ' has-background-black' : 'has-background-light'
+            } container box p-6`}>
+            <h1
+              className={`${
+                dark ? 'text-for-black' : ''
+              } title has-text-centered`}>
+              Add Product
+            </h1>
+            <h2
+              className={`${
+                dark ? 'text-for-black' : ''
+              } subtitle has-text-centered`}>
               Fill in the details correctly
             </h2>
             <form action='' onSubmit={handleSubmit}>
               <div className='field'>
-                <label className='label'>Name</label>
+                <label className={`${dark ? 'text-for-black' : ''} label`}>
+                  Name
+                </label>
                 <div className='control has-icons-left has-icons-right'>
                   <input
                     className='input'
@@ -151,7 +167,9 @@ export const AddClothing = () => {
               </div>
 
               <div className='field'>
-                <label className='label'>Choose category</label>
+                <label className={`${dark ? 'text-for-black' : ''} label`}>
+                  Choose category
+                </label>
                 <div className='control'>
                   <div className='select'>
                     <select
@@ -168,7 +186,9 @@ export const AddClothing = () => {
               </div>
 
               <div className='field'>
-                <label className='label'>Price</label>
+                <label className={`${dark ? 'text-for-black' : ''} label`}>
+                  Price
+                </label>
                 <div className='control has-icons-left has-icons-right'>
                   <input
                     className='input'
@@ -189,12 +209,16 @@ export const AddClothing = () => {
               </div>
 
               <div className='field'>
-                <label className='label'>Image</label>
+                <label className={`${dark ? 'text-for-black' : ''} label`}>
+                  Image
+                </label>
                 <input type='file' name='image' onChange={handleaddImage} />
               </div>
 
               <div className='field'>
-                <label className='label'>Product description</label>
+                <label className={`${dark ? 'text-for-black' : ''} label`}>
+                  Product description
+                </label>
                 <div className='control'>
                   <textarea
                     className='textarea'

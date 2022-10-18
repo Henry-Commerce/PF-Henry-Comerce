@@ -14,7 +14,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-export const AdminProfile = () => {
+export const AdminProfile = ({ dark }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let session = null;
@@ -244,14 +244,19 @@ export const AdminProfile = () => {
     <div className='wrapper'>
       <div className='columns'>
         <Notify />
-        <AdminNav />
-        <main className='column main'>
-          <section className='hero is-hero-bar'>
+        <AdminNav dark={dark} />
+        <main className={`${dark ? 'has-background-black' : ''} column main`}>
+          <section
+            className={`${
+              dark ? 'has-background-black' : ''
+            } hero is-hero-bar`}>
             <div className='hero-body'>
               <div className='level'>
                 <div className='level-left'>
                   <div className='level-item'>
-                    <h1 className='title'>Profile</h1>
+                    <h1 className={`${dark ? 'text-for-black' : ''} title`}>
+                      Profile
+                    </h1>
                   </div>
                 </div>
                 <div

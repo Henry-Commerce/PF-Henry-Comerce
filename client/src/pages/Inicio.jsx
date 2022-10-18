@@ -53,7 +53,7 @@ export const Inicio = ({ dark }) => {
       {clothing.length > 0 && !notFound && (
         <section
           className={`${
-            dark ? 'has-background-dark' : 'has-background-light'
+            dark ? 'has-background-black' : 'has-background-light'
           } section is-clipped`}>
           <div>
             <Order handleOrderByPrice={handleOrderByPrice} dark={dark} />

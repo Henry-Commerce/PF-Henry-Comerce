@@ -14,7 +14,7 @@ export const Product = ({ name, image, price, discount, dark }) => {
       <Link to={'/products/' + name} preventScrollReset={false}>
         <div
           className={`${
-            dark ? 'has-background-black' : 'has-background-white'
+            dark ? 'has-background-black border-yellow' : 'has-background-white'
           }  pt-4 px-10 pb-10 is-relative`}>
           {discount > 0 ? (
             <span className='is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-danger has-text-weight-bold'>

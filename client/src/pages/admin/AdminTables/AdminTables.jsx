@@ -17,7 +17,7 @@ import { checkAuth, getClothing } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { TablesPagination } from './TablesPagination';
 
-export const AdminTables = () => {
+export const AdminTables = ({ dark }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -243,8 +243,8 @@ export const AdminTables = () => {
       )}
       <div className='wrapper'>
         <div className='columns'>
-          <AdminNav />
-          <main className='column main'>
+          <AdminNav dark={dark} />
+          <main className={`${dark ? 'has-background-black' : ''} column main`}>
             <div className='card has-table has-mobile-sort-spaced'>
               <hr />
               <section className='hero is-hero-bar'>
