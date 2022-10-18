@@ -7,7 +7,7 @@ export const App = () => {
   const [dark, setDark] = useState(false);
   return (
     <>
-      <Nav />
+      <Nav dark={dark} />
       <ConfigButton dark={dark} setDark={setDark} />
       <Rutas />
     </>

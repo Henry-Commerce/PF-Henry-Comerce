@@ -1,11 +1,13 @@
 /** @format */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GrClose } from 'react-icons/gr';
 import { IoSettingsSharp } from 'react-icons/io5';
 
 export const ConfigButton = ({ dark, setDark }) => {
   const [active, setActive] = useState(false);
+
+  useEffect(() => {}, [active]);
   return (
     <>
       {active === false && (
@@ -26,28 +28,31 @@ export const ConfigButton = ({ dark, setDark }) => {
               <div className='field'>
                 <div className='control'>
                   <label className='b-radio radio'>
-                    <input type='radio' value='default' />
-                    <span className='check'></span>
-                    <span className='control-label'> Default </span>
-                  </label>
-                </div>
-                <div className='control'>
-                  <label className='b-radio radio'>
-                    <input type='radio' value='light' />
+                    <input
+                      type='radio'
+                      value='light'
+                      onClick={() => setDark(false)}
+                      checked={dark === false}
+                    />
                     <span className='check'></span>
                     <span className='control-label'> Light </span>
                   </label>
                 </div>
                 <div className='control'>
                   <label className='b-radio radio'>
-                    <input type='radio' value='dark' />
+                    <input
+                      type='radio'
+                      value='dark'
+                      onClick={() => setDark(true)}
+                      checked={dark === true}
+                    />
                     <span className='check'></span>
                     <span className='control-label'> Dark </span>
                   </label>
                 </div>
               </div>
             </div>
-            <div className='field'>
+            {/* <div className='field'>
               <label className='label'>Updates Bar</label>
               <button type='button' className='button is-small'>
                 <span>
@@ -90,7 +95,7 @@ export const ConfigButton = ({ dark, setDark }) => {
                   </label>
                 </div>
               </div>
-            </div>
+            </div> */}
             <span
               className='icon is-medium close-button'
               onClick={() => setActive(false)}>

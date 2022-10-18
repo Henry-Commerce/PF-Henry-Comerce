@@ -6,6 +6,15 @@ nav {
     -webkit-transition: all 1s;
   }
 }
+@media screen and (max-width: 1023px) {
+  .navbar-menublack {
+    background-color: #000 !important;
+  }
+}
+
+.text-for-black {
+  color: white !important;
+}
 
 .navp {
   box-shadow: 0 5px 6px -2px rgba(128, 128, 128, 0.641);
