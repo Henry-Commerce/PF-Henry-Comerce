@@ -289,7 +289,7 @@ router.put('/showable', [verifyToken, isAdmin], async (req, res) => {
     { name: req.body.name },
     { show: req.body.show }
   );
-  const result = await ClothingModel.find({ name: req.params.name });
+  const result = await ClothingModel.find({ name: req.body.name });
   return res.json(result);
 });
 
