@@ -14,13 +14,24 @@
   flex-direction: column;
   justify-content: center;
 }
-.widtht {
-  min-width: 70rem;
+
+
+
+.widtht{
+  
+  min-width: 60rem;
   min-height: 30rem;
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  justify-content: stretch;
 }
+
+.content{
+  font-size: 10px;
+  width: 45rem;
+}
+
+
 
 .boxx {
   display: flex;
