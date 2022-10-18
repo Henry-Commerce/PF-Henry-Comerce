@@ -135,6 +135,11 @@ function rootReducer(state = initialState, action) {
         ...state,
       };
 
+    case "DELETE_REVIEW":
+      return {
+        ...state
+      }
+
     default:
       return state;
   }
