@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import "./ProductsDetails.scss";
 import { MdRemove, MdAdd } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link /* Navigate */ } from "react-router-dom";
+import { Link, /* Navigate */ 
+useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getClothingDetail } from "../../redux/actions/actions";
@@ -20,6 +21,7 @@ import { FaStar } from "react-icons/fa";
 import { deleteReview } from "../../redux/actions/actions";
 
 export const ProductsDetails = () => {
+  const navigate = useNavigate()
   let auth;
   useEffect(() => {
     if (localStorage.getItem("authenticated")) {
@@ -208,7 +210,6 @@ export const ProductsDetails = () => {
   useEffect(() => {}, [status]);
 
   const deleteClick = (e) => {
-    e.preventDefault();
     const obj = {
       email: data.email,
       isDeleting: true,
