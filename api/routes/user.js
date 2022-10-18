@@ -291,6 +291,16 @@ router.put('/edituser', verifyToken, async (req, res) => {
         const changedPassword = await UserModel.encyptPassword(newPassword);
         userChange.password = changedPassword;
         await userChange.save();
+
+        const transporter = mail.transporter;
+        const mailChangepassword = mail.mailChangepassword(email);
+        transporter.sendMail(mailChangepassword, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email enviado');
+          }
+        });
         res.sendStatus(200);
       } else {
         res.sendStatus(401);

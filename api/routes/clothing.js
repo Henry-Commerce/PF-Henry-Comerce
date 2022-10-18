@@ -175,8 +175,13 @@ router.get("/search", async (req, res) => {
 });
 router.get("/2", async (req, res) => {
   try {
-    const { size, category, pricemin, pricemax } = req.query;
-
+    const { size, category, price } = req.query;
+    const pricemin= 0;
+    const pricemax= Infinity
+    if(price){
+     pricemin=price[0]
+     pricemax=price[1]
+}
     const response = await ClothingModel.find({});
     var filtOffer = response;
     filtOffer = filtOffer.filter((el) => el.show == true)

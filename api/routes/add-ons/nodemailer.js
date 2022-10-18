@@ -51,7 +51,7 @@ module.exports = {
             ,
         }
     }, 
-    mailChangeemail: (email, link) => {
+   /* mailChangeemail: (email, link) => {
         return {
             from: '"Henry bot asistant" <bootcamphenry.ecommerce@gmail.com>',
             to: email,
@@ -64,5 +64,5 @@ module.exports = {
             `
             ,
         }
-    }, 
+    },*/ 
 }
