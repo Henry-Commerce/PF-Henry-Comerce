@@ -24,7 +24,7 @@ export const AdminTables = () => {
   const [discount, setDiscount] = useState(0);
   const [price, setPrice] = useState(0);
 
-  const clothing = useSelector((state) => state.allClothing);
+  // const clothing = useSelector((state) => state.allClothing);
 
   const [clothings, setClothing] = useState([]);
   const [allclothing, setAllClothing] = useState([]);
@@ -63,21 +63,13 @@ export const AdminTables = () => {
     };
     users();
 
-    // const clo = async () => {
-    //   const { token } = JSON.parse(localStorage.getItem('authenticated'));
-    //   const clothing = await axios.get(`http://localhost:3001/api/user/info`, {
-    //     headers: { 'x-access-token': `${token}` },
-    //   });
-    //   const admis = await axios.get(
-    //     `http://localhost:3001/api/user/adminsinfo`,
-    //     {
-    //       headers: { 'x-access-token': `${token}` },
-    //     }
-    //   );
-    //   setClothing(clothing.data);
-    //   setAllClothing(clothing.data);
-    // };
-    // clo();
+    const clo = async () => {
+      const { token } = JSON.parse(localStorage.getItem('authenticated'));
+      const clothing = await axios.get(`http://localhost:3001/api/clothing`);
+      setClothing(clothing.data);
+      setAllClothing(clothing.data);
+    };
+    clo();
 
     dispatch(getClothing());
 
@@ -126,10 +118,19 @@ export const AdminTables = () => {
     if (usuario === '') {
       setUser(all);
     } else {
-      setUser(
-        user.filter((champion) =>
-          champion.username.toLowerCase().startsWith(usuario)
-        )
+      setUser(user.filter((u) => u.username.toLowerCase().startsWith(usuario)));
+    }
+  };
+
+  const clothSearch = (e) => {
+    e.preventDefault();
+    const clo = e.target.value.toLowerCase().trim();
+
+    if (clo === '') {
+      setClothing(allclothing);
+    } else {
+      setClothing(
+        clothings.filter((c) => c.name.toLowerCase().startsWith(clo))
       );
     }
   };
@@ -213,7 +214,7 @@ export const AdminTables = () => {
   };
   // PAGINADO USER
   const [currentPageUser, setCurrentPageUser] = useState(1);
-  const [usersPage] = useState(12);
+  const [usersPage] = useState(10);
   const lastUser = currentPageUser * usersPage;
   const firtsUser = lastUser - usersPage;
 
@@ -223,9 +224,23 @@ export const AdminTables = () => {
     setCurrentPageUser(pageNumber);
   };
 
+  // PAGINADO ROPA
+  const [currentPageClothing, setCurrentPageClothing] = useState(1);
+  const [clothingPage] = useState(5);
+  const lastClothing = currentPageClothing * clothingPage;
+  const firtsClothing = lastClothing - clothingPage;
+
+  const currentClothing = clothings.slice(firtsClothing, lastClothing);
+
+  const paginadoC = (pageNumber) => {
+    setCurrentPageClothing(pageNumber);
+  };
+
   return (
     <>
-      {user.length <= 0 && all.length <= 0 && <Loading />}
+      {user.length <= 0 && all.length <= 0 && clothings.length <= 0 && (
+        <Loading />
+      )}
       <div className='wrapper'>
         <div className='columns'>
           <AdminNav />
@@ -278,7 +293,7 @@ export const AdminTables = () => {
                               type='text'
                               placeholder='Find any user...'
                               className='input'
-                              onChange={userSearch}
+                              onChange={clothSearch}
                               autoComplete='off'
                             />
                           </div>
@@ -477,7 +492,7 @@ export const AdminTables = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {clothing.map((cloth, index) => (
+                          {currentClothing.map((cloth, index) => (
                             <tr key={index}>
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
@@ -1115,32 +1130,14 @@ export const AdminTables = () => {
                         </tbody>
                       </table>
                     </div>
-                    <div className='notification'>
-                      <div className='level'>
-                        <div className='level-left'>
-                          <div className='level-item'>
-                            <div className='buttons has-addons'>
-                              <button
-                                type='button'
-                                className='button is-active'>
-                                1
-                              </button>
-                              <button type='button' className='button'>
-                                2
-                              </button>
-                              <button type='button' className='button'>
-                                3
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className='level-right'>
-                          <div className='level-item'>
-                            <small>Page 1 of 3</small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
+                    <TablesPagination
+                      productsPage={clothingPage}
+                      clothing={clothings.length}
+                      paginado={paginadoC}
+                      currentPage={currentPageClothing}
+                      setCurrentPage={setCurrentPageClothing}
+                    />
                   </div>
                 </div>
               </div>
@@ -1363,8 +1360,7 @@ export const AdminTables = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {console.log(user)}
-                          {user.map((user, index) => (
+                          {currentUser.map((user, index) => (
                             <tr key={index}>
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
