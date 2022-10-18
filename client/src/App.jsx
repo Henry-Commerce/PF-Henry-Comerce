@@ -9,7 +9,7 @@ export const App = () => {
     <>
       <Nav dark={dark} />
       <ConfigButton dark={dark} setDark={setDark} />
-      <Rutas />
+      <Rutas dark={dark} />
     </>
   );
 };
