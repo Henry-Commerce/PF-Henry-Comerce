@@ -50,7 +50,7 @@ export const Shop = (product) => {
   /* function deleteAllCart(e) {
     localStorage.clear();
   } */
-
+  const userLocalStorage = localStorage.getItem("authenticated");
   return (
     <section className="section is-clipped ">
       <div className="container">
@@ -157,7 +157,13 @@ export const Shop = (product) => {
                   </span>
                 </div>
 
-                <Checkout product={lsCartProducts} />
+                {userLocalStorage ? (
+                  <Checkout product={lsCartProducts} />
+                ) : (
+                  <p className="has-text-danger pt-2">
+                    Para proseguir con la compra es necesario estar registrado
+                  </p>
+                )}
               </div>
             </div>
           </div>

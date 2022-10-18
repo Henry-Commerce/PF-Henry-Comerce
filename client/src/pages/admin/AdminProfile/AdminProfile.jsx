@@ -1,25 +1,28 @@
 /** @format */
 
-import { AdminNav } from '../../../components';
+import { AdminNav, Notify } from '../../../components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RiAccountCircleFill, RiLockPasswordFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
-import { checkAuth } from '../../../redux/actions';
+import { checkAuth, editUser } from '../../../redux/actions';
 import axios from 'axios';
 import { dataCountrys } from './Countrys.js';
 import { v4 } from 'uuid';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
-export const AdminProfile = () => {
+export const AdminProfile = ({ dark }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let session = null;
   const [data, setData] = useState('');
   const [nameChange, setNameChange] = useState('');
   const [pais, setPais] = useState(false);
+
+  const [gg, setGG] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('authenticated')) {
@@ -60,7 +63,7 @@ export const AdminProfile = () => {
   useEffect(() => {}, [data]);
 
   const change = async (e) => {
-    console.log('hola mundo', data);
+    e.preventDefault();
     const { token } = JSON.parse(localStorage.getItem('authenticated'));
 
     const res = await axios({
@@ -75,6 +78,9 @@ export const AdminProfile = () => {
         country: `${pais}`,
       },
     });
+    if (res) {
+      navigate('/admin');
+    }
     console.log('change', res);
   };
 
@@ -103,6 +109,28 @@ export const AdminProfile = () => {
   };
 
   const [image, setImage] = useState('');
+
+  const successPasswordChange = () =>
+    toast.success('La contraseña a sido cambiada con exito', {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+
+  const failePasswordChange = () =>
+    toast.error('A ocurrido un error al intentar cambiar la contraseña', {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
 
   const handleaddImage = async (e) => {
     e.preventDefault();
@@ -140,6 +168,7 @@ export const AdminProfile = () => {
 
     if (change.data.message === 'image updated') {
       setImage(imagensita);
+      navigate('/admin');
     }
 
     console.log('change', change);
@@ -169,29 +198,35 @@ export const AdminProfile = () => {
     }),
     onSubmit: (formData) => {
       console.log('formdata', formData);
-      const { token, email } = JSON.parse(
+      const { email, token } = JSON.parse(
         localStorage.getItem('authenticated')
       );
 
-      const change = async () => {
-        const res = await axios({
-          method: 'put',
-          url: `http://localhost:3001/api/user/edit/pass/${email}`,
-          headers: {
-            'x-access-token': `${token}`,
-          },
-          data: {
-            password: `${formData.password}`,
-          },
-        });
-
-        console.log('change', res);
+      formData = {
+        ...formData,
+        email,
       };
 
-      change();
-      /* dispatch(editUser(formData)); */
-      // handleReset();
-      // success();
+      const submitPass = async (formData) => {
+        let putUser = await axios.put(
+          `http://localhost:3001/api/user/edituser`,
+          formData,
+          {
+            headers: {
+              'x-access-token': token,
+            },
+          }
+        );
+        if (putUser.data === 'OK') {
+          successPasswordChange();
+        } else {
+          failePasswordChange();
+        }
+      };
+      submitPass(formData);
+
+      // dispatch(editUser(formData));
+      handleReset();
     },
   });
 
@@ -208,14 +243,20 @@ export const AdminProfile = () => {
   return (
     <div className='wrapper'>
       <div className='columns'>
-        <AdminNav />
-        <main className='column main'>
-          <section className='hero is-hero-bar'>
+        <Notify />
+        <AdminNav dark={dark} />
+        <main className={`${dark ? 'has-background-black' : ''} column main`}>
+          <section
+            className={`${
+              dark ? 'has-background-black' : ''
+            } hero is-hero-bar`}>
             <div className='hero-body'>
               <div className='level'>
                 <div className='level-left'>
                   <div className='level-item'>
-                    <h1 className='title'>Profile</h1>
+                    <h1 className={`${dark ? 'text-for-black' : ''} title`}>
+                      Profile
+                    </h1>
                   </div>
                 </div>
                 <div
@@ -232,9 +273,15 @@ export const AdminProfile = () => {
           <section className='section is-main-section'>
             <div className='tile is-ancestor'>
               <div className='tile is-parent'>
-                <div className='card tile is-child'>
+                <div
+                  className={`${
+                    dark ? 'has-background-black border-yellow' : ''
+                  } card tile is-child`}>
                   <header className='card-header'>
-                    <p className='card-header-title'>
+                    <p
+                      className={`${
+                        dark ? 'text-for-black' : ''
+                      } card-header-title`}>
                       <span className='icon'>
                         <RiAccountCircleFill className='mdi mdi-account default' />
                         {/* <i className='mdi mdi-account-circle default'></i> */}
@@ -246,7 +293,10 @@ export const AdminProfile = () => {
                     <form>
                       <div className='field is-horizontal'>
                         <div className='field-label is-normal'>
-                          <label className='label'>Avatar</label>
+                          <label
+                            className={`${dark ? 'text-for-black' : ''} label`}>
+                            Avatar
+                          </label>
                         </div>
                         <div className='field-body'>
                           <div className='field'>
@@ -269,10 +319,13 @@ export const AdminProfile = () => {
                           </div>
                         </div>
                       </div>
-                      <hr />
+                      <hr className={`${dark ? 'has-background-dark' : ''}`} />
                       <div className='field is-horizontal'>
                         <div className='field-label is-normal'>
-                          <label className='label'>Name</label>
+                          <label
+                            className={`${dark ? 'text-for-black' : ''} label`}>
+                            Name
+                          </label>
                         </div>
                         <div className='field-body'>
                           <div className='field'>
@@ -293,7 +346,10 @@ export const AdminProfile = () => {
                       </div>
                       <div className='field is-horizontal'>
                         <div className='field-label is-normal'>
-                          <label className='label'>Country</label>
+                          <label
+                            className={`${dark ? 'text-for-black' : ''} label`}>
+                            Country
+                          </label>
                         </div>
                         <div className='field-body'>
                           <div className='field'>
@@ -324,7 +380,7 @@ export const AdminProfile = () => {
                           </div>
                         </div>
                       </div>
-                      <hr />
+                      <hr className={`${dark ? 'has-background-dark' : ''}`} />
                       <div className='field is-horizontal'>
                         <div className='field-label is-normal'></div>
                         <div className='field-body'>
@@ -345,9 +401,15 @@ export const AdminProfile = () => {
                 </div>
               </div>
               <div className='tile is-parent'>
-                <div className='card tile is-child'>
+                <div
+                  className={`${
+                    dark ? 'has-background-black border-yellow' : ''
+                  } card tile is-child`}>
                   <header className='card-header'>
-                    <p className='card-header-title'>
+                    <p
+                      className={`${
+                        dark ? 'text-for-black' : ''
+                      } card-header-title`}>
                       <span className='icon'>
                         <RiAccountCircleFill className='mdi mdi-account default' />
                       </span>
@@ -358,11 +420,17 @@ export const AdminProfile = () => {
                     <div className='is-user-avatar image has-max-width is-aligned-center'>
                       <img src={`${data.image}`} alt={`${data.username}`} />
                     </div>
-                    <hr />
+                    <hr className={`${dark ? 'has-background-dark' : ''}`} />
                     <div className='field'>
-                      <label className='label'>Name</label>
+                      <label
+                        className={`${dark ? 'text-for-black' : ''} label`}>
+                        Name
+                      </label>
                       <div className='control is-clearfix'>
-                        <p className='input is-static'>
+                        <p
+                          className={`${
+                            dark ? 'text-for-black' : ''
+                          } input is-static`}>
                           {data ? data.username : ''}
                         </p>
                         {/* <input
@@ -373,11 +441,17 @@ export const AdminProfile = () => {
                         /> */}
                       </div>
                     </div>
-                    <hr />
+                    <hr className={`${dark ? 'has-background-dark' : ''}`} />
                     <div className='field'>
-                      <label className='label'>E-mail</label>
+                      <label
+                        className={`${dark ? 'text-for-black' : ''} label`}>
+                        E-mail
+                      </label>
                       <div className='control is-clearfix'>
-                        <p className='input is-static'>
+                        <p
+                          className={`${
+                            dark ? 'text-for-black' : ''
+                          } input is-static`}>
                           {data ? data.email : ''}
                         </p>
                         {/* <input
@@ -388,11 +462,17 @@ export const AdminProfile = () => {
                         /> */}
                       </div>
                     </div>
-                    <hr />
+                    <hr className={`${dark ? 'has-background-dark' : ''}`} />
                     <div className='field'>
-                      <label className='label'>Country</label>
+                      <label
+                        className={`${dark ? 'text-for-black' : ''} label`}>
+                        Country
+                      </label>
                       <div className='control is-clearfix'>
-                        <p className='input is-static'>
+                        <p
+                          className={`${
+                            dark ? 'text-for-black' : ''
+                          } input is-static`}>
                           {data ? data.country : ''}
                         </p>
                         {/* <input
@@ -407,21 +487,35 @@ export const AdminProfile = () => {
                 </div>
               </div>
             </div>
-            <div className='card'>
+            <div
+              className={`${
+                dark ? 'has-background-black border-yellow' : ''
+              } card `}>
               <header className='card-header'>
-                <p className='card-header-title'>
+                <p
+                  className={`${
+                    dark ? 'text-for-black' : ''
+                  } card-header-title`}>
                   <span className='icon'>
                     <RiLockPasswordFill className='mdi mdi-lock default' />
                     {/* <i className='mdi mdi-lock default'></i> */}
                   </span>
                   Change Password
+                  {/* {errors.oldPassword && touched.oldPassword && (
+                    <div className='has-text-danger pt-2'>
+                      {errors.oldPassword}
+                    </div>
+                  )} */}
                 </p>
               </header>
               <div className='card-content'>
                 <form onSubmit={handleSubmit}>
                   <div className='field is-horizontal'>
                     <div className='field-label is-normal'>
-                      <label className='label'>Current password</label>
+                      <label
+                        className={`${dark ? 'text-for-black' : ''} label`}>
+                        Current password
+                      </label>
                     </div>
                     <div className='field-body'>
                       <div className='field'>
@@ -448,10 +542,13 @@ export const AdminProfile = () => {
                       </div>
                     </div>
                   </div>
-                  <hr />
+                  <hr className={`${dark ? 'has-background-dark' : ''}`} />
                   <div className='field is-horizontal'>
                     <div className='field-label is-normal'>
-                      <label className='label'>New password</label>
+                      <label
+                        className={`${dark ? 'text-for-black' : ''} label`}>
+                        New password
+                      </label>
                     </div>
                     <div className='field-body'>
                       <div className='field'>
@@ -480,7 +577,10 @@ export const AdminProfile = () => {
                   </div>
                   <div className='field is-horizontal'>
                     <div className='field-label is-normal'>
-                      <label className='label'>Confirm password</label>
+                      <label
+                        className={`${dark ? 'text-for-black' : ''} label`}>
+                        Confirm password
+                      </label>
                     </div>
                     <div className='field-body'>
                       <div className='field'>
@@ -510,7 +610,7 @@ export const AdminProfile = () => {
                       </div>
                     </div>
                   </div>
-                  <hr />
+                  <hr className={`${dark ? 'has-background-dark' : ''}`} />
                   <div className='field is-horizontal'>
                     <div className='field-label is-normal'></div>
                     <div className='field-body'>

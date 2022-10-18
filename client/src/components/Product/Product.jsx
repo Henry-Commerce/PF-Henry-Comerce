@@ -2,7 +2,7 @@
 import { GrAdd } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 
-export const Product = ({ name, image, price, discount }) => {
+export const Product = ({ name, image, price, discount, dark }) => {
   function add() {
     console.log('meow');
   }
@@ -12,13 +12,19 @@ export const Product = ({ name, image, price, discount }) => {
   return (
     <div className='column is-3-desktop is-6-tablet'>
       <Link to={'/products/' + name} preventScrollReset={false}>
-        <div className='has-background-white pt-4 px-10 pb-10 is-relative'>
+        <div
+          className={`${
+            dark ? 'has-background-black border-yellow' : 'has-background-white'
+          }  pt-4 px-10 pb-10 is-relative`}>
           {discount > 0 ? (
             <span className='is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-danger has-text-weight-bold'>
               -{discount}%
             </span>
           ) : (
-            <span className='is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-white has-text-weight-bold'></span>
+            <span
+              className={`${
+                dark ? 'has-background-black' : 'has-background-white'
+              }  pt-4 is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-white has-text-weight-bold`}></span>
           )}
 
           <div className='mt-6 mb-2 px-6 is-block' href='#'>

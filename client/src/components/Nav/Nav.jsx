@@ -1,6 +1,7 @@
 /** @format */
 import './Nav.scss';
 import logo from '../../assets/logo.png';
+import logoDark from '../../assets/logoDark.png';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { RiLoginBoxFill } from 'react-icons/ri';
@@ -11,7 +12,7 @@ import { getClothingByName, startLogout } from '../../redux/actions/actions';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-export const Nav = () => {
+export const Nav = ({ dark }) => {
   const dispatch = useDispatch();
   const [isActive, setisActive] = useState(false);
   const [name, setName] = useState('');
@@ -47,10 +48,18 @@ export const Nav = () => {
 
   return (
     <header>
-      <nav className='navbar is-transparent navp'>
+      <nav
+        className={`${
+          dark ? 'is-black navpDark' : 'navp'
+        } navbar is-transparent `}>
         <div className='navbar-brand'>
           <Link className='navbar-item' to='/'>
-            <img src={logo} alt='Logo' width='112' height='28' />
+            <img
+              src={dark ? logoDark : logo}
+              alt='Logo'
+              width='112'
+              height='28'
+            />
           </Link>
           <a
             onClick={() => {
@@ -69,12 +78,16 @@ export const Nav = () => {
 
         <div
           id='nav-links'
-          className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
+          className={`${dark ? 'navbar-menublack' : ''} navbar-menu ${
+            isActive ? 'is-active' : ''
+          }`}>
           <div className='navbar-start'>
-            <Link className='navbar-item jsi' to='/'>
+            <Link
+              className={`${dark ? 'text-for-black' : ''} navbar-item jsi `}
+              to='/'>
               Home
             </Link>
-            <div className='navbar-item has-dropdown is-hoverable'>
+            {/* <div className='navbar-item has-dropdown is-hoverable'>
               <a className='navbar-link' href='#'>
                 Products
               </a>
@@ -99,19 +112,21 @@ export const Nav = () => {
                   Female
                 </a>
               </div>
-            </div>
-
+            </div> */}
+            {/* 
             <Link className='navbar-item jsi' to='/news'>
               News
-            </Link>
-            <Link className='navbar-item jsi' to='/offers'>
+            </Link> */}
+            {/* <Link className='navbar-item jsi' to='/offers'>
               Offers
-            </Link>
-            <Link className='navbar-item jsi' to='/team'>
+            </Link> */}
+            <Link
+              className={`${dark ? 'text-for-black' : ''} navbar-item jsi `}
+              to='/team'>
               Team
             </Link>
 
-            <div className='navbar-item'>
+            <div className='navbar-item is-black'>
               <p className='control has-icons-right'>
                 <input
                   onChange={(event) => {

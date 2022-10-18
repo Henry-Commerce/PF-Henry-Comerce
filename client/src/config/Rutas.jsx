@@ -24,36 +24,36 @@ import {
   AdminProfile,
 } from '../pages';
 
-export const Rutas = () => {
+export const Rutas = ({ dark }) => {
   return (
     <Routes>
-      <Route path='*' element={<Page404 />} />
+      <Route path='*' element={<Page404 dark={dark} />} />
 
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/shop' element={<Shop />} />
+      <Route path='/login' element={<Login dark={dark} />} />
+      <Route path='/register' element={<Register dark={dark} />} />
+      <Route path='/shop' element={<Shop dark={dark} />} />
 
-      <Route path='/' element={<Inicio />} />
-      <Route path='/news' element={<News />} />
-      <Route path='/offers' element={<Offers />} />
-      <Route path='/team' element={<Team />} />
+      <Route path='/' element={<Inicio dark={dark} />} />
+      <Route path='/news' element={<News />} dark={dark} />
+      <Route path='/offers' element={<Offers dark={dark} />} />
+      <Route path='/team' element={<Team />} dark={dark} />
 
-      <Route path='/products' element={<Products />} />
-      <Route path='/products/:id' element={<ProductsDetails />} />
+      <Route path='/products' element={<Products dark={dark} />} />
+      <Route path='/products/:id' element={<ProductsDetails dark={dark} />} />
 
-      <Route path='/faq' element={<FAQ />} />
+      <Route path='/faq' element={<FAQ dark={dark} />} />
 
-      <Route path='/admin' element={<AdminDashboard />} />
-      <Route path='/admin/add' element={<AddClothing />} />
-      <Route path='/admin/users' element={<AdminTables />} />
-      <Route path='/admin/profile' element={<AdminProfile />} />
+      <Route path='/admin' element={<AdminDashboard dark={dark} />} />
+      <Route path='/admin/add' element={<AddClothing dark={dark} />} />
+      <Route path='/admin/users' element={<AdminTables dark={dark} />} />
+      <Route path='/admin/profile' element={<AdminProfile dark={dark} />} />
 
-      <Route path='/user' element={<UserDashboard />} />
-      <Route path='/user/config' element={<UserConfig />} />
+      <Route path='/user' element={<UserDashboard dark={dark} />} />
+      <Route path='/user/config' element={<UserConfig dark={dark} />} />
 
-      <Route path='/success' element={<CheckOutSuccess />} />
-      <Route path='/failure' element={<CheckOutFailure />} />
-      <Route path='/pending' element={<CheckOutPending />} />
+      <Route path='/success' element={<CheckOutSuccess dark={dark} />} />
+      <Route path='/failure' element={<CheckOutFailure dark={dark} />} />
+      <Route path='/pending' element={<CheckOutPending dark={dark} />} />
     </Routes>
   );
 };

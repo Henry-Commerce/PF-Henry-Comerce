@@ -36,3 +36,34 @@ div .image {
     width: 30%;
   }
 }
+
+.config-box {
+  display: block;
+  position: fixed;
+  top: 25rem;
+  left: 0;
+  background: #fff;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  // border-top: 1px solid #b5b5b5;
+  // border-left: 1px solid #b5b5b5;
+  // border-bottom: 1px solid #b5b5b5;
+  // box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+  //   0 0 0 1px rgba(10, 10, 10, 0.02);
+  z-index: 45;
+  .config-boxwidth {
+    width: 125px;
+  }
+}
+
+.config-box .config-wrapper .close-button {
+  position: absolute;
+  top: 0rem;
+  right: 0.2rem;
+  cursor: pointer;
+}
+
+.icon.is-medium {
+  height: 2rem;
+  width: 2rem;
+}

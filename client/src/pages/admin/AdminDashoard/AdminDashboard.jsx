@@ -6,12 +6,14 @@ import './main.scss';
 import { BiTachometer } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
+import { FiRefreshCcw } from 'react-icons/fi';
+
 import { useDispatch } from 'react-redux';
 import { checkAuth } from '../../../redux/actions';
 import { Map } from '../../../components/Map/Map';
 import { AdminMap } from '../../../components/AdminMap/AdminMap';
 
-export const AdminDashboard = () => {
+export const AdminDashboard = ({ dark }) => {
   const [numberUsers, setNumberUsers] = useState(false);
   const [numberAdmins, setNumberAdmins] = useState(false);
   const [numberAccounts, setNumberAccounts] = useState(false);
@@ -111,8 +113,9 @@ export const AdminDashboard = () => {
       {numberUsers && numberAccounts && (
         <div className='wrapper'>
           <div className='columns'>
-            <AdminNav />
-            <main className='column main '>
+            <AdminNav dark={dark} />
+            <main
+              className={`${dark ? 'has-background-black' : ''} column main`}>
               {/* <nav className='breadcrumb is-small pt-3' aria-label='breadcrumbs'>
             <ul>
               <li>
@@ -125,7 +128,12 @@ export const AdminDashboard = () => {
               </li>
             </ul>
           </nav> */}
-              <section className='hero is-hero-bar'>
+              <section
+                className={`${
+                  dark
+                    ? 'is-black has-background-black'
+                    : 'has-background-light'
+                } hero is-hero-bar`}>
                 <div className='hero-body'>
                   <div className='level'>
                     <div className='level-left'>
@@ -156,13 +164,26 @@ export const AdminDashboard = () => {
               <section className='section is-main-section'>
                 <div className='tile is-ancestor'>
                   <div className='tile is-parent'>
-                    <div className='card tile is-child'>
+                    <div
+                      className={`${
+                        dark ? 'has-background-black border-yellow' : ''
+                      } card tile is-child`}>
                       <div className='card-content'>
                         <div className='level is-mobile'>
                           <div className='level-item'>
                             <div className='is-widget-label'>
-                              <h3 className='subtitle is-spaced'>Clients</h3>
-                              <h1 className='title'>{numberUsers}</h1>
+                              <h3
+                                className={`${
+                                  dark ? 'text-for-black' : ''
+                                } subtitle is-spaced`}>
+                                Clients
+                              </h3>
+                              <h1
+                                className={`${
+                                  dark ? 'text-for-black' : ''
+                                } title`}>
+                                {numberUsers}
+                              </h1>
                             </div>
                           </div>
                           <div className='level-item has-widget-icon'>
@@ -177,13 +198,26 @@ export const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className='tile is-parent'>
-                    <div className='card tile is-child'>
+                    <div
+                      className={`${
+                        dark ? 'has-background-black border-yellow' : ''
+                      } card tile is-child`}>
                       <div className='card-content'>
                         <div className='level is-mobile'>
                           <div className='level-item'>
                             <div className='is-widget-label'>
-                              <h3 className='subtitle is-spaced'>Sales</h3>
-                              <h1 className='title'>$7,770</h1>
+                              <h3
+                                className={`${
+                                  dark ? 'text-for-black' : ''
+                                } subtitle is-spaced`}>
+                                Sales
+                              </h3>
+                              <h1
+                                className={`${
+                                  dark ? 'text-for-black' : ''
+                                } title`}>
+                                $7,770
+                              </h1>
                             </div>
                           </div>
                           <div className='level-item has-widget-icon'>
@@ -198,15 +232,26 @@ export const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className='tile is-parent'>
-                    <div className='card tile is-child'>
+                    <div
+                      className={`${
+                        dark ? 'has-background-black border-yellow' : ''
+                      } card tile is-child`}>
                       <div className='card-content'>
                         <div className='level is-mobile'>
                           <div className='level-item'>
                             <div className='is-widget-label'>
-                              <h3 className='subtitle is-spaced'>
+                              <h3
+                                className={`${
+                                  dark ? 'text-for-black' : ''
+                                } subtitle is-spaced`}>
                                 Performance
                               </h3>
-                              <h1 className='title'>256%</h1>
+                              <h1
+                                className={`${
+                                  dark ? 'text-for-black' : ''
+                                } title`}>
+                                256%
+                              </h1>
                             </div>
                           </div>
                           <div className='level-item has-widget-icon'>
@@ -221,13 +266,18 @@ export const AdminDashboard = () => {
                     </div>
                   </div>
                 </div>
-                <div className='card'>
+                <div
+                  className={`${
+                    dark ? 'has-background-black border-yellow' : ''
+                  } card`}>
                   <header className='card-header'>
                     <p className='card-header-title'>
                       <span className='icon'>
                         <i className='mdi mdi-finance default'></i>
                       </span>
-                      <span>Branch Map</span>
+                      <span className={`${dark ? 'text-for-black' : ''} `}>
+                        Branch Map
+                      </span>
                     </p>
                     <a
                       href='#'
@@ -240,7 +290,11 @@ export const AdminDashboard = () => {
                   </header>
                   <div className='card-content'>
                     <div className='chart-area'>
-                      <AdminMap setSelected={setSelected} selected={selected} />
+                      <AdminMap
+                        setSelected={setSelected}
+                        selected={selected}
+                        dark={dark}
+                      />
                       {/* <div
                         className=''
                         style={{
@@ -269,33 +323,42 @@ export const AdminDashboard = () => {
                   </div>
                 </div>
 
-                <hr />
+                <hr className={`${dark ? 'has-background-dark' : ''}`} />
                 <div className='columns is-desktop'>
                   <div className='column'>
-                    <div className='card is-scrollable-height-medium'>
+                    <div
+                      className={`${
+                        dark ? 'has-background-black' : ''
+                      }card is-scrollable-height-medium`}>
                       <header className='card-header'>
                         <p className='card-header-title'>
                           <span className='icon'>
                             <i className='mdi mdi-comment-multiple-outline default'></i>
                           </span>
-                          <span>Create new branch</span>
+                          <span className={`${dark ? 'text-for-black' : ''}`}>
+                            Create new branch
+                          </span>
                         </p>
                         <button
                           type='button'
                           className='button button is-small'>
                           <span>
                             <span className='icon'>
-                              <i className='mdi mdi-refresh default'></i>
+                              <FiRefreshCcw className='mdi mdi-refresh default' />
                             </span>
                             <span>Refresh</span>
                           </span>
                         </button>
                       </header>
-                      <div className='notification is-card-toolbar is-upper is-upper'>
+                      <div
+                        className={`${
+                          dark ? 'notification-black' : 'notification'
+                        } is-card-toolbar is-upper is-upper`}>
                         <div className='level'>
                           <div className='level-left'>
                             <div className='level-item'>
-                              <div>
+                              <div
+                                className={`${dark ? 'text-for-black' : ''}`}>
                                 First find the site of the next branch on the
                                 map
                               </div>
@@ -375,7 +438,9 @@ export const AdminDashboard = () => {
                               </div>
                             </div>
                           </div>
-                          <hr />
+                          <hr
+                            className={`${dark ? 'has-background-dark' : ''}`}
+                          />
                           <div className='field is-horizontal'>
                             <div className='field-label is-normal'></div>
                             <div className='field-body'>
@@ -637,7 +702,7 @@ export const AdminDashboard = () => {
                           </article>
                         </div> */}
                       </div>
-                      <hr />
+                      <hr className={`${dark ? 'has-background-dark' : ''}`} />
                       {/* <footer className='card-footer'>
                         <a className='card-footer-item'>
                           <span className='icon'>
@@ -649,30 +714,42 @@ export const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className='column'>
-                    <div className='card is-scrollable-height-medium'>
+                    <div
+                      className={`${
+                        dark ? 'has-background-black' : ''
+                      }card is-scrollable-height-medium`}>
                       <header className='card-header'>
                         <p className='card-header-title'>
                           <span className='icon'>
                             <i className='mdi mdi-animation-outline default'></i>
                           </span>
-                          <span>Updates</span>
+                          <span className={`${dark ? 'text-for-black' : ''}`}>
+                            Updates
+                          </span>
                         </p>
                         <button
                           type='button'
                           className='button button is-small'>
                           <span>
                             <span className='icon'>
-                              <i className='mdi mdi-refresh default'></i>
+                              <FiRefreshCcw className='mdi mdi-refresh default' />
                             </span>
                             <span>Refresh</span>
                           </span>
                         </button>
                       </header>
-                      <div className='notification is-card-toolbar is-upper is-upper'>
+                      <div
+                        className={`${
+                          dark ? 'notification-black' : 'notification'
+                        } is-card-toolbar is-upper is-upper`}>
                         <div className='level'>
                           <div className='level-left'>
                             <div className='level-item'>
-                              <div> You're up to date :-) </div>
+                              <div
+                                className={`${dark ? 'text-for-black' : ''}`}>
+                                {' '}
+                                You're up to date :-){' '}
+                              </div>
                             </div>
                           </div>
                           <div className='level-right'>
@@ -1038,14 +1115,14 @@ export const AdminDashboard = () => {
                           </article>
                         </div> */}
                       </div>
-                      <footer className='card-footer'>
+                      {/* <footer className='card-footer'>
                         <a className='card-footer-item'>
                           <span className='icon'>
                             <i className='mdi mdi-autorenew default'></i>
                           </span>
                           <span>Load more</span>
                         </a>
-                      </footer>
+                      </footer> */}
                     </div>
                   </div>
                 </div>

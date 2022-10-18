@@ -48,15 +48,12 @@ export const UserDashboard = () => {
       );
 
       setData(user.data);
-      console.log("data", data);
+      /* console.log("data", data); */
     };
     profile();
   }, []);
 
-  useEffect(() => {}, [data]);
-
-  console.log(data);
-
+  /* console.log(data);*/
   return (
     <>
       {!data.username && <Loading />}
@@ -98,10 +95,6 @@ export const UserDashboard = () => {
               <span className="panel-block">
                 <HiMail className="title is-2 m-1" />
                 <p className="is-size-4">Mail: {data.email}</p>
-              </span>
-              <span className="panel-block">
-                <HiPhone className="title is-2 m-1" />
-                <p className="is-size-4">Telefono: 12345678</p>
               </span>
             </article>
           </div>

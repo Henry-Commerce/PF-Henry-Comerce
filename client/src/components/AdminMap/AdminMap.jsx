@@ -20,7 +20,7 @@ import './AdminMap.scss';
 
 export const libraries = ['places'];
 
-export const AdminMap = ({ selected, setSelected }) => {
+export const AdminMap = ({ selected, setSelected, dark }) => {
   const dispatch = useDispatch();
 
   const { isLoaded } = useLoadScript({

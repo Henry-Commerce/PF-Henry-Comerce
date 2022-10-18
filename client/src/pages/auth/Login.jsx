@@ -18,15 +18,15 @@ import {
   startLoginWithEmailPassword,
 } from '../../redux/actions/actions';
 
-export const Login = () => {
+export const Login = ({ dark }) => {
   const [checked, setChecked] = useState(true);
   const [typeLog, setTypeLog] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const errorUsuarioNoExiste = () =>
-    toast.error('Usuario no existe', {
+  const error = () =>
+    toast.error('Datos incorrectos', {
       position: 'top-center',
       autoClose: 3500,
       hideProgressBar: false,
@@ -41,9 +41,11 @@ export const Login = () => {
     console.log('page login', login);
     if (login.type === 'LOGIN') {
       navigate('/');
+    } else if (login.type === 'IncorrectPassword') {
+      error();
+      // handleReset();
     } else {
       errorUsuarioNoExiste();
-      handleReset();
     }
   };
   const loginGoogle = async () => {
@@ -102,18 +104,36 @@ export const Login = () => {
     <>
       <Notify />
 
-      <section className='hero is-success is-fullheight'>
+      <section
+        className={`${
+          dark ? 'text-for-black has-background-black' : 'has-text-black'
+        } hero is-success is-fullheight`}>
         <div className='hero-body'>
           <div className='container has-text-centered'>
             <div className='column is-4 is-offset-4'>
-              <h3 className='title has-text-black'>Login</h3>
+              <h3
+                className={`${
+                  dark
+                    ? 'text-for-black has-background-black'
+                    : 'has-text-black'
+                } title`}>
+                Login
+              </h3>
               <hr className='login-hr' />
-              <p className='subtitle has-text-black'>
+              <p
+                className={`${
+                  dark
+                    ? 'text-for-black has-background-black'
+                    : 'has-text-black'
+                } subtitle`}>
                 Please login to proceed.
               </p>
-              <div className='box'>
+              <div
+                className={`${
+                  dark ? 'text-for-black has-background-dark' : ''
+                } box`}>
                 <figure className='avatar'>
-                  <img src='https://via.placeholder.com/150' />
+                  <img src='https://res.cloudinary.com/dmk0kmt7d/image/upload/ar_1:1,b_rgb:ffffff,bo_0px_solid_rgb:ffffff,c_fill,g_auto,q_100,r_max,w_150,z_3/v1665969945/blsyqex8mixxmqwhdmmh.png' />
                 </figure>
                 <form onSubmit={handleSubmit}>
                   <div className='field'>
@@ -171,6 +191,7 @@ export const Login = () => {
                     <i className='fa fa-sign-in' aria-hidden='true'></i>
                   </button>
                   <br />
+
                   <p className='control'>
                     <Link
                       className='button is-primary is-large is-fullwidth'

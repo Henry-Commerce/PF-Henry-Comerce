@@ -11,27 +11,36 @@ import {
   AiOutlineArrowDown,
   AiOutlineArrowUp,
 } from 'react-icons/ai';
-import { BsChevronLeft, BsChevronRight, BsThreeDots } from 'react-icons/bs';
+
+import { GiClothes } from 'react-icons/gi';
+
+import {
+  BsChevronLeft,
+  BsChevronRight,
+  BsThreeDots,
+  BsFillPeopleFill,
+} from 'react-icons/bs';
 import axios from 'axios';
 import { checkAuth, getClothing } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { TablesPagination } from './TablesPagination';
 
-export const AdminTables = () => {
+export const AdminTables = ({ dark }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [user, setUser] = useState([]);
   const [discount, setDiscount] = useState(0);
   const [price, setPrice] = useState(0);
 
-  const clothing = useSelector((state) => state.allClothing);
+  // const clothing = useSelector((state) => state.allClothing);
 
-  // const [clothings, setClothing] = useState([]);
-  // const [allclothing, setAllClothing] = useState([]);
+  const [clothings, setClothing] = useState([]);
+  const [allclothing, setAllClothing] = useState([]);
+
+  const [user, setUser] = useState([]);
   const [all, setAll] = useState([]);
 
   useEffect(() => {
-    console.log(clothing);
     if (localStorage.getItem('authenticated')) {
       const { authenticated, isAdmin } = JSON.parse(
         localStorage.getItem('authenticated')
@@ -61,6 +70,14 @@ export const AdminTables = () => {
       setUser(usuarios.data.concat(admis.data));
     };
     users();
+
+    const clo = async () => {
+      const { token } = JSON.parse(localStorage.getItem('authenticated'));
+      const clothing = await axios.get(`http://localhost:3001/api/clothing`);
+      setClothing(clothing.data);
+      setAllClothing(clothing.data);
+    };
+    clo();
 
     dispatch(getClothing());
 
@@ -109,10 +126,19 @@ export const AdminTables = () => {
     if (usuario === '') {
       setUser(all);
     } else {
-      setUser(
-        user.filter((champion) =>
-          champion.username.toLowerCase().startsWith(usuario)
-        )
+      setUser(user.filter((u) => u.username.toLowerCase().startsWith(usuario)));
+    }
+  };
+
+  const clothSearch = (e) => {
+    e.preventDefault();
+    const clo = e.target.value.toLowerCase().trim();
+
+    if (clo === '') {
+      setClothing(allclothing);
+    } else {
+      setClothing(
+        clothings.filter((c) => c.name.toLowerCase().startsWith(clo))
       );
     }
   };
@@ -193,19 +219,49 @@ export const AdminTables = () => {
         price,
       },
     });
-    console.log('meow', name, price);
+  };
+  // PAGINADO USER
+  const [currentPageUser, setCurrentPageUser] = useState(1);
+  const [usersPage] = useState(10);
+  const lastUser = currentPageUser * usersPage;
+  const firtsUser = lastUser - usersPage;
+
+  const currentUser = user.slice(firtsUser, lastUser);
+
+  const paginadoU = (pageNumber) => {
+    setCurrentPageUser(pageNumber);
+  };
+
+  // PAGINADO ROPA
+  const [currentPageClothing, setCurrentPageClothing] = useState(1);
+  const [clothingPage] = useState(5);
+  const lastClothing = currentPageClothing * clothingPage;
+  const firtsClothing = lastClothing - clothingPage;
+
+  const currentClothing = clothings.slice(firtsClothing, lastClothing);
+
+  const paginadoC = (pageNumber) => {
+    setCurrentPageClothing(pageNumber);
   };
 
   return (
     <>
-      {user.length <= 0 && all.length <= 0 && <Loading />}
+      {user.length <= 0 && all.length <= 0 && clothings.length <= 0 && (
+        <Loading />
+      )}
       <div className='wrapper'>
         <div className='columns'>
-          <AdminNav />
-          <main className='column main'>
-            <div className='card has-table has-mobile-sort-spaced'>
-              <hr />
-              <section className='hero is-hero-bar'>
+          <AdminNav dark={dark} />
+          <main className={`${dark ? 'has-background-black' : ''} column main`}>
+            <div
+              className={`${
+                dark ? 'has-background-black' : ''
+              }card has-table has-mobile-sort-spaced`}>
+              <hr className={`${dark ? 'has-background-dark' : ''}`} />
+              <section
+                className={`${
+                  dark ? 'has-background-black' : ''
+                } hero is-hero-bar`}>
                 <div className='hero-body'>
                   <div className='level'>
                     <div className='level-left'>
@@ -219,7 +275,9 @@ export const AdminTables = () => {
                         /> */}
                         </span>
 
-                        <h1 className='title'>Tables</h1>
+                        <h1 className={`${dark ? 'text-for-black' : ''} title`}>
+                          Tables
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -233,11 +291,20 @@ export const AdminTables = () => {
                 </div>
               </section>
 
-              <div className='card has-table'>
-                <header className='card-header'>
-                  <p className='card-header-title'>
+              <div
+                className={`${
+                  dark ? 'has-background-black' : ''
+                } card has-table`}>
+                <header
+                  className={`${
+                    dark ? 'has-background-black' : ''
+                  } card-header`}>
+                  <p
+                    className={`${
+                      dark ? 'text-for-black' : ''
+                    } card-header-title`}>
                     <span className='icon'>
-                      <i className='mdi mdi-account-multiple'></i>
+                      <GiClothes className='mdi mdi-account-multiple' />
                     </span>
                     Clothing
                   </p>
@@ -251,7 +318,7 @@ export const AdminTables = () => {
                               type='text'
                               placeholder='Find any user...'
                               className='input'
-                              onChange={userSearch}
+                              onChange={clothSearch}
                               autoComplete='off'
                             />
                           </div>
@@ -289,7 +356,12 @@ export const AdminTables = () => {
                 <div className='card-content'>
                   <div className='b-table has-pagination'>
                     <div className='table-wrapper has-mobile-cards'>
-                      <table className='table is-fullwidth is-striped is-hoverable is-fullwidth'>
+                      <table
+                        className={`${
+                          dark
+                            ? 'text-for-black has-background-black is-striped-black'
+                            : 'is-striped'
+                        } table is-fullwidth is-hoverable is-fullwidth`}>
                         {/* <thead>
                           <tr>
                             <th className='is-checkbox-cell'>
@@ -307,7 +379,10 @@ export const AdminTables = () => {
                             <th></th>
                           </tr>
                         </thead> */}
-                        <thead>
+                        <thead
+                          className={`${
+                            dark ? 'has-background-black' : ''
+                          } is-relative`}>
                           <tr>
                             <th className='checkbox-cell'>
                               <label className='b-checkbox checkbox'>
@@ -342,7 +417,9 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable is-current-sort'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowName}>
                                   Name
                                   {arrowNombre === null && (
@@ -368,7 +445,9 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowMail}>
                                   Type
                                   {arrowMaile === null && (
@@ -394,7 +473,9 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowCity}>
                                   Price
                                   {arrowCities === null && (
@@ -419,7 +500,10 @@ export const AdminTables = () => {
                               draggable='false'
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   Discount
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
@@ -429,7 +513,10 @@ export const AdminTables = () => {
                             </th>
                             <th draggable='false' className=''>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   Show
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
@@ -450,8 +537,14 @@ export const AdminTables = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {clothing.map((cloth, index) => (
-                            <tr key={index}>
+                          {currentClothing.map((cloth, index) => (
+                            <tr
+                              key={index}
+                              className={`${
+                                dark
+                                  ? 'text-for-black has-background-black'
+                                  : ''
+                              } is-relative`}>
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
                                   <input type='checkbox' value='false' />
@@ -461,7 +554,8 @@ export const AdminTables = () => {
                               <td className='is-image-cell'>
                                 <div className='image'>
                                   <img
-                                    src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
+                                    // src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
+                                    src={cloth.image}
                                     className='is-rounded'
                                   />
                                 </div>
@@ -531,598 +625,33 @@ export const AdminTables = () => {
                               </td>
                             </tr>
                           ))}
-                          {/* <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Rebecca Bauch</td>
-                          <td data-label='Company'>Daugherty-Daniel</td>
-                          <td data-label='City'>South Cory</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='79'>
-                              79
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Oct 25, 2020'>
-                              Oct 25, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/felicita-yundt.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Felicita Yundt</td>
-                          <td data-label='Company'>Johns-Weissnat</td>
-                          <td data-label='City'>East Ariel</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='67'>
-                              67
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Jan 8, 2020'>
-                              Jan 8, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/mr-larry-satterfield-v.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Mr. Larry Satterfield V</td>
-                          <td data-label='Company'>Hyatt Ltd</td>
-                          <td data-label='City'>Windlerburgh</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='16'>
-                              16
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Dec 18, 2020'>
-                              Dec 18, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/mr-broderick-kub.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Mr. Broderick Kub</td>
-                          <td data-label='Company'>
-                            Kshlerin, Bauch and Ernser
-                          </td>
-                          <td data-label='City'>New Kirstenport</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='71'>
-                              71
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Sep 13, 2020'>
-                              Sep 13, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/barry-weber.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Barry Weber</td>
-                          <td data-label='Company'>
-                            Schulist, Mosciski and Heidenreich
-                          </td>
-                          <td data-label='City'>East Violettestad</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='80'>
-                              80
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Jul 24, 2020'>
-                              Jul 24, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/bert-kautzer-md.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Bert Kautzer MD</td>
-                          <td data-label='Company'>Gerhold and Sons</td>
-                          <td data-label='City'>Mayeport</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='62'>
-                              62
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Mar 30, 2020'>
-                              Mar 30, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/lonzo-steuber.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Lonzo Steuber</td>
-                          <td data-label='Company'>Skiles Ltd</td>
-                          <td data-label='City'>Marilouville</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='17'>
-                              17
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Feb 12, 2020'>
-                              Feb 12, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/jonathon-hahn.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Jonathon Hahn</td>
-                          <td data-label='Company'>Flatley Ltd</td>
-                          <td data-label='City'>Billiemouth</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='74'>
-                              74
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Dec 30, 2020'>
-                              Dec 30, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/ryley-wuckert.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Ryley Wuckert</td>
-                          <td data-label='Company'>Heller-Little</td>
-                          <td data-label='City'>Emeraldtown</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='54'>
-                              54
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Jun 28, 2020'>
-                              Jun 28, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className='is-checkbox-cell'>
-                            <label className='b-checkbox checkbox'>
-                              <input type='checkbox' value='false' />
-                              <span className='check'></span>
-                            </label>
-                          </td>
-                          <td className='is-image-cell'>
-                            <div className='image'>
-                              <img
-                                src='https://avatars.dicebear.com/v2/initials/sienna-hayes.svg'
-                                className='is-rounded'
-                              />
-                            </div>
-                          </td>
-                          <td data-label='Name'>Sienna Hayes</td>
-                          <td data-label='Company'>Conn, Jerde and Douglas</td>
-                          <td data-label='City'>Jonathanfort</td>
-                          <td
-                            data-label='Progress'
-                            className='is-progress-cell'>
-                            <progress
-                              max='100'
-                              className='progress is-small is-primary'
-                              value='55'>
-                              55
-                            </progress>
-                          </td>
-                          <td data-label='Created'>
-                            <small
-                              className='has-text-grey is-abbr-like'
-                              title='Mar 7, 2020'>
-                              Mar 7, 2020
-                            </small>
-                          </td>
-                          <td className='is-actions-cell'>
-                            <div className='buttons is-right'>
-                              <button
-                                className='button is-small is-primary'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillEdit className='mdi mdi-eye' />
-                                </span>
-                              </button>
-                              <button
-                                className='button is-small is-danger jb-modal'
-                                data-target='sample-modal'
-                                type='button'>
-                                <span className='icon'>
-                                  <AiFillDelete className='mdi mdi-trash-can' />
-                                </span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr> */}
                         </tbody>
                       </table>
                     </div>
-                    <div className='notification'>
-                      <div className='level'>
-                        <div className='level-left'>
-                          <div className='level-item'>
-                            <div className='buttons has-addons'>
-                              <button
-                                type='button'
-                                className='button is-active'>
-                                1
-                              </button>
-                              <button type='button' className='button'>
-                                2
-                              </button>
-                              <button type='button' className='button'>
-                                3
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className='level-right'>
-                          <div className='level-item'>
-                            <small>Page 1 of 3</small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
+                    <TablesPagination
+                      productsPage={clothingPage}
+                      clothing={clothings.length}
+                      paginado={paginadoC}
+                      currentPage={currentPageClothing}
+                      setCurrentPage={setCurrentPageClothing}
+                      dark={dark}
+                    />
                   </div>
                 </div>
               </div>
 
-              <div className='card has-table'>
+              <div
+                className={`${
+                  dark ? 'has-background-black' : ''
+                } card has-table`}>
                 <header className='card-header'>
-                  <p className='card-header-title'>
+                  <p
+                    className={`${
+                      dark ? 'text-for-black' : ''
+                    } card-header-title`}>
                     <span className='icon'>
-                      <i className='mdi mdi-account-multiple'></i>
+                      <BsFillPeopleFill className='mdi mdi-account-multiple' />
                     </span>
                     Clients
                   </p>
@@ -1174,7 +703,12 @@ export const AdminTables = () => {
                 <div className='card-content'>
                   <div className='b-table has-pagination'>
                     <div className='table-wrapper has-mobile-cards'>
-                      <table className='table is-fullwidth is-striped is-hoverable is-fullwidth'>
+                      <table
+                        className={`${
+                          dark
+                            ? 'text-for-black has-background-black is-striped-black'
+                            : 'is-striped'
+                        } table is-fullwidth is-hoverable is-fullwidth`}>
                         {/* <thead>
                           <tr>
                             <th className='is-checkbox-cell'>
@@ -1192,7 +726,10 @@ export const AdminTables = () => {
                             <th></th>
                           </tr>
                         </thead> */}
-                        <thead>
+                        <thead
+                          className={`${
+                            dark ? 'has-background-black' : ''
+                          } is-relative`}>
                           <tr>
                             <th className='checkbox-cell'>
                               <label className='b-checkbox checkbox'>
@@ -1227,7 +764,9 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable is-current-sort'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowName}>
                                   Name
                                   {arrowNombre === null && (
@@ -1253,7 +792,9 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowMail}>
                                   Mail
                                   {arrowMaile === null && (
@@ -1279,7 +820,9 @@ export const AdminTables = () => {
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
                                 <span
-                                  className='is-relative'
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}
                                   onClick={arrowCity}>
                                   City
                                   {arrowCities === null && (
@@ -1304,7 +847,10 @@ export const AdminTables = () => {
                               draggable='false'
                               className='is-sortable is-unselectable'>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   Admin
                                   <span className='icon sort-icon is-small is-invisible'>
                                     <i className='mdi mdi-arrow-up'></i>
@@ -1314,7 +860,10 @@ export const AdminTables = () => {
                             </th>
                             <th draggable='false' className=''>
                               <div className='th-wrap'>
-                                <span className='is-relative'>
+                                <span
+                                  className={`${
+                                    dark ? 'text-for-black' : ''
+                                  } is-relative`}>
                                   {' '}
                                   Created{' '}
                                   <span className='icon sort-icon is-small is-invisible'>
@@ -1336,9 +885,14 @@ export const AdminTables = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {console.log(user)}
-                          {user.map((user, index) => (
-                            <tr key={index}>
+                          {currentUser.map((user, index) => (
+                            <tr
+                              key={index}
+                              className={`${
+                                dark
+                                  ? 'text-for-black has-background-black'
+                                  : ''
+                              } is-relative`}>
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
                                   <input type='checkbox' value='false' />
@@ -1348,7 +902,8 @@ export const AdminTables = () => {
                               <td className='is-image-cell'>
                                 <div className='image'>
                                   <img
-                                    src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
+                                    // src='https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg'
+                                    src={user.image}
                                     className='is-rounded'
                                   />
                                 </div>
@@ -1406,32 +961,15 @@ export const AdminTables = () => {
                         </tbody>
                       </table>
                     </div>
-                    <div className='notification'>
-                      <div className='level'>
-                        <div className='level-left'>
-                          <div className='level-item'>
-                            <div className='buttons has-addons'>
-                              <button
-                                type='button'
-                                className='button is-active'>
-                                1
-                              </button>
-                              <button type='button' className='button'>
-                                2
-                              </button>
-                              <button type='button' className='button'>
-                                3
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className='level-right'>
-                          <div className='level-item'>
-                            <small>Page 1 of 3</small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
+                    <TablesPagination
+                      productsPage={usersPage}
+                      clothing={user.length}
+                      paginado={paginadoU}
+                      currentPage={currentPageUser}
+                      setCurrentPage={setCurrentPageUser}
+                      dark={dark}
+                    />
                   </div>
                 </div>
               </div>
