@@ -320,6 +320,7 @@ router.put('/reviewupdate', verifyToken, async (req, res) => {
               ? newReview[element].trim()
               : newReview[element])
       );
+      console.log(newReview);
       commentsArray.push(newReview);
       await ClothingModel.findOneAndUpdate(
         { name },
