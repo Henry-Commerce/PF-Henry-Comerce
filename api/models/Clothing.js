@@ -47,6 +47,7 @@ const ClothingSchema = new Schema(
       type: Array(
         new Schema(
           {
+            email: String,
             user: String,
             title: String,
             description: String,
