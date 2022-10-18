@@ -18,13 +18,15 @@ export const Map = () => {
     dispatch(getAllBranches());
   }, []);
 
-  const center = { lat: -17.3, lng: -60 };
+  const center = { lat: -13.782944845843048, lng: -57.73871475346553 };
 
   if (!isLoaded) return <Loading />;
 
+  -16.782944845843048, -57.73871475346553;
+
   return (
-    <>
-    <GoogleMap zoom={5} center={center} mapContainerClassName="map-container">
+    
+    <GoogleMap zoom={4} center={center} mapContainerClassName="map-container">
       {branches.map((element, index) => (
         <MarkerF
           key={index}
@@ -34,6 +36,6 @@ export const Map = () => {
         />
       ))}
     </GoogleMap>
-    </>
+    
   );
 };
