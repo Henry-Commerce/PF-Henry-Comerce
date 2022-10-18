@@ -490,14 +490,13 @@ export function editUser(payload) {
             'x-access-token': token,
           },
         }
-      );
+      )
       return dispatch({
         type: 'EDIT_USER',
         putUser,
       });
     } catch (error) {
-      const errorMessage = { error: error.message };
-      console.log(errorMessage);
+      return error.response.data
     }
   };
 }
