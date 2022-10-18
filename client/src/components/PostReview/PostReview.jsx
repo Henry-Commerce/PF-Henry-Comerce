@@ -35,11 +35,11 @@ export const PostReview = () => {
     grey: "#a9a9a9",
   };
 
-  const [star, setStar] = useState(null);
   const stars = Array(5).fill(0);
+  const [star, setStar] = useState(null);
   const [currentValue, setCurrentValue] = useState(0);
-
   const [hoverValue, setHoverValue] = useState(undefined);
+
   const authentication = localStorage.getItem("authenticated");
   const detail = useSelector((state) => state.detail);
 
@@ -55,6 +55,14 @@ export const PostReview = () => {
     description: "",
     rating: 0,
   });
+
+
+const username = data.username
+const limitUsers = detail.comments && detail.comments.find((e) => e.user === username) 
+
+
+
+
 
   useEffect(() => {
     if (localStorage.getItem("authenticated")) {
@@ -92,7 +100,7 @@ export const PostReview = () => {
 
   useEffect(() => {
     setSession(JSON.parse(localStorage.getItem("authenticated")));
-    console.log("session", session);
+    
   }, [localStorage.getItem("authenticated")]);
 
   const status = useSelector((state) => state.status);
@@ -108,7 +116,7 @@ export const PostReview = () => {
     });
   }
 
-  console.log(data.reviews);
+  
 
   /* const handleSubmit = (e) => {
     if (
@@ -127,15 +135,18 @@ export const PostReview = () => {
       data.reviews.push(form);
     }
   }; */
+  
+
+  
 
   return (
     <Popup
       className=""
       trigger={
         <section>
-          {/* {session?.authenticated === true  && (               
-          )} */}
+           { limitUsers && limitUsers.user === data.username ? null : (               
           <button className="button is-warning">Dar reseña</button>
+          )} 
         </section>
       }
       modal
@@ -143,7 +154,7 @@ export const PostReview = () => {
     >
       {(close) => (
         <div className="box widtht is-align-content-stretch">
-          {session?.authenticated === true ? (
+          {session?.authenticated === true  ?  (
             <form
               onSubmit={(e) => {
                 if (

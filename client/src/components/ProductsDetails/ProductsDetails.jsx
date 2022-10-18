@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./ProductsDetails.scss";
 import { MdRemove, MdAdd } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link /* Navigate */ } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getClothingDetail } from "../../redux/actions/actions";
@@ -14,11 +14,42 @@ import "react-multi-carousel/lib/styles.css";
 import { toast } from "react-toastify";
 import { Notify } from "../Notify/Notify";
 import { PostReview } from "../PostReview/PostReview";
-import Popup from "reactjs-popup";
-/* const ls = JSON.parse(ls.getItem("cart") || "[]"); */
+import { checkAuth, postReview } from "../../redux/actions/actions";
+import axios from "axios";
+import { FaStar } from "react-icons/fa";
+import { deleteReview } from "../../redux/actions/actions";
 
 export const ProductsDetails = () => {
+  let auth;
+  useEffect(() => {
+    if (localStorage.getItem("authenticated")) {
+      const { authenticated, isAdmin } = JSON.parse(
+        localStorage.getItem("authenticated")
+      );
+      auth = JSON.parse(localStorage.getItem("authenticated"));
+      dispatch(checkAuth(auth));
+    }
+
+    const profile = async () => {
+      const { email, token } = auth;
+      const user = await axios.get(
+        `http://localhost:3001/api/user/info/${email}`,
+        {
+          headers: { "x-access-token": `${token}` },
+        }
+      );
+
+      setData(user.data);
+    };
+    profile();
+  }, []);
+
+  const [data, setData] = useState("");
+
   const detail = useSelector((state) => state.detail);
+  const limitUsers =
+    detail.comments && detail.comments.find((e) => e.user === data.username);
+  console.log(limitUsers);
   const allProducts = useSelector((state) => state.allClothing);
   const dispatch = useDispatch();
   const { id, name } = useParams();
@@ -167,17 +198,24 @@ export const ProductsDetails = () => {
     }
   };
 
-  console.log(detail.comments);
-
   const [session, setSession] = useState(false);
 
   useEffect(() => {
     setSession(JSON.parse(localStorage.getItem("authenticated")));
-    console.log("session", session);
   }, [localStorage.getItem("authenticated")]);
 
   const status = useSelector((state) => state.status);
   useEffect(() => {}, [status]);
+
+  const deleteClick = (e) => {
+    e.preventDefault();
+    const obj = {
+      email: data.email,
+      isDeleting: true,
+    }
+    dispatch(deleteReview(id,obj));
+    navigate(0);
+  };
 
   return (
     <div>
@@ -348,30 +386,30 @@ export const ProductsDetails = () => {
                           {/* <h1 className= "has-text-weight-bold is-size-5 pr-3">Usuario:</h1> */}
                           <h1 className="title is-size-5">{e.user}</h1>
                         </div>
-                        <div className="column ">
+                        <div className="pl-6 column ">
                           <h1 className="pt-0 title is-size-4 ">{e.title}</h1>
                         </div>
                         <div className="column is-1">
                           {session?.authenticated === true &&
-                            session.isAdmin === true && (
-                              <button className="button">X</button>
-                            )}
-
-                          {session?.authenticated === true && (
-                            <button className="button" width="2">
-                              ✏️
-                            </button>
-                          )}
+                          session.isAdmin ===
+                            true /* || limitUsers && limitUsers.user === data.username */ ? (
+                            <button className="button is-danger">X</button>
+                          ) : null}
                         </div>
                       </div>
                       <div className="columns is-vcentered pt- pb-0">
                         <div className="column zzz is-one-quarter ">
-                          <h1 className="has-text-weight-bold is-size-5 pr-3">
-                            Rating:
+                          <h1 className="has-text-weight-bold is-size-5 pr-3"></h1>
+                          <h1 className="title is-size-5">
+                            {e.rating}
+                            <FaStar
+                              className="pt-3"
+                              size={24}
+                              color={"#FFBA5A"}
+                            />
                           </h1>
-                          <h1 className="title is-size-5">{e.rating}/5</h1>
                         </div>
-                        <div className="column ">
+                        <div className="pl-6 column ">
                           <p className="is-size-6 has-text-centered">
                             {e.description}
                           </p>
@@ -388,60 +426,18 @@ export const ProductsDetails = () => {
                   </div>
                 )}
                 <div className="has-text-centered pt-6 pb-6">
-                  {/* {session?.authenticated === true  ? (               
                   <PostReview />
-                           ) : <h1>Debe mantener una sesion activa para poder dejar una review</h1>} */}
-                  <PostReview />
+                  {limitUsers && limitUsers.user === data.username ? (
+                    <div>
+                      <button onClick={(e) => deleteClick(e)} className="button is-danger">
+                        Borrar tu review
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               </div>
               <section className="pt-6"></section>
               <section className="pt-6"></section>
-              {/* <div className="background-e">
-                <div className="fileee is-centered border-bottom pb-4">
-                  <h3 className="pt-6 filee pl-6 title is-size-3  mb-2 has-text-centered ">
-                    QUESTIONS
-                  </h3>
-                </div>
-                <div className="columns pt-3 is-centered has-text-left">
-                  <div className="column">
-                    {Object.values(arr[0].comments) &&
-                      Object.values(arr[0].comments)
-                        .slice(0, 2)
-                        .map((e, index) => (
-                          <div key={index}>
-                            <div className="columns my-0 pl-6 pt-2">
-                              <div className="column">
-                                <h1 className="is-size-4 ">{e.user}</h1>
-                                <p className="pt-2 is-size-5 ">{e.comment}</p>
-                                {
-                                  <h1 className="pt-5 pl-5 is-size-6 ">
-                                    {e.respuesta}
-                                  </h1>
-                                }
-                              </div>
-                            </div>
-                            <div className="columns is-centered">
-                              <div className="column is-11 border-bottom"></div>
-                            </div>
-                          </div>
-                        ))}
-                  </div>
-                </div>
-                <div className="has-text-centered pt-6 pb-6">
-                  <div className="columns is-centered">
-                    <div className="column is-6 filee">
-                      <input
-                        className="input"
-                        type="text"
-                        placeholder="Text input"
-                      ></input>
-                      <button className="button is-warning">
-                        Write question
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
@@ -449,12 +445,3 @@ export const ProductsDetails = () => {
     </div>
   );
 };
-
-/* {Object.values(arr[0].comments) && Object.values(arr[0].comments).slice(0,2).map((e) => (
-              <div className="columns my-0 ">
-                <div key={e.respuesta} class="column my-0 has-text-centered is-align-items-center">
-                <h1 className="pt-0  is-size-5 ">{e.respuesta}</h1>
-                  
-              </div>
-                </div>
-                 ))}*/

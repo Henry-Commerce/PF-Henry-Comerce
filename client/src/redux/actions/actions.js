@@ -82,7 +82,6 @@ export function postReview(name, payload) {
           headers: { 'x-access-token': `${token}` },
         }
       );
-      console.log(token);
       return dispatch({
         type: 'POST_REVIEW',
         payload: review,
@@ -501,3 +500,26 @@ export function editUser(payload) {
     }
   };
 }
+
+export function deleteReview(name,payload) {
+  return async function (dispatch) {
+    const token = JSON.parse(localStorage.getItem('authenticated')).token;
+    try {
+      const review = await axios.put(
+        `${LOCAL_HOST}/api/clothing/reviewupdate/?name=${name}`,
+        payload,
+        {
+          headers: { 'x-access-token': `${token}` },
+        }
+      );
+      return dispatch({
+        type: 'DELETE_REVIEW',
+        payload: review,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+
