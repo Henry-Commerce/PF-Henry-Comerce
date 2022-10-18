@@ -11,3 +11,4 @@ export * from './Notify/Notify';
 export * from './Filter/Filter';
 export * from './Order/Order';
 export * from './AdminNav/AdminNav';
+export * from './ConfigButton/ConfigButton';

@@ -25,8 +25,8 @@ export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const errorUsuarioNoExiste = () =>
-    toast.error('Usuario no existe', {
+  const error = () =>
+    toast.error('Datos incorrectos', {
       position: 'top-center',
       autoClose: 3500,
       hideProgressBar: false,
@@ -41,9 +41,11 @@ export const Login = () => {
     console.log('page login', login);
     if (login.type === 'LOGIN') {
       navigate('/');
+    } else if (login.type === 'IncorrectPassword') {
+      error();
+      // handleReset();
     } else {
       errorUsuarioNoExiste();
-      handleReset();
     }
   };
   const loginGoogle = async () => {
