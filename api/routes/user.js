@@ -28,6 +28,7 @@ router.get('/info', [verifyToken, isAdmin], async (req, res) => {
       .map((el) => ({
         username: el.username,
         email: el.email,
+        image: el.image,
         country: el.country,
         boughtitems: el.boughtitems,
         reviews: el.reviews,
