@@ -340,7 +340,7 @@ export const ProductsDetails = () => {
                       key={index}
                       className="fileee pt-6 has-text-centered has-text-weight-bold is-flex-direction-column"
                     >
-                      <a href={"http://127.0.0.1:5173/products/" + e.name}>
+                      <a href={"https://henry-commerce.netlify.app/products/" + e.name}>
                         <img
                           className=" image "
                           width="200"
