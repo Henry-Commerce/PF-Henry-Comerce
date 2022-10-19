@@ -8,7 +8,7 @@ const { verifyToken, isAdmin } = require("../middlewares/utils");
 
 router.get("/", async (req, res) => {
   const { email } = req.query;
-  const query = await OrderModel.find({ identifirer: email });
+  const query = await OrderModel.find({ identifier: email });
   res.status(200).send(query);
 });
 
