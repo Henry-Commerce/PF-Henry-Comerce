@@ -7,23 +7,19 @@ import { useState, useEffect } from 'react';
 import './admintables.scss';
 import {
   AiFillDelete,
-  AiFillEdit,
   AiOutlineArrowDown,
   AiOutlineArrowUp,
 } from 'react-icons/ai';
 
 import { GiClothes } from 'react-icons/gi';
 
-import {
-  BsChevronLeft,
-  BsChevronRight,
-  BsThreeDots,
-  BsFillPeopleFill,
-} from 'react-icons/bs';
+import { BsFillPeopleFill } from 'react-icons/bs';
 import axios from 'axios';
 import { checkAuth, getClothing } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { TablesPagination } from './TablesPagination';
+import { FaInfo } from 'react-icons/fa';
+import { ModalsitoR } from './ModalsitoR';
 
 export const AdminTables = ({ dark }) => {
   const navigate = useNavigate();
@@ -57,9 +53,12 @@ export const AdminTables = ({ dark }) => {
     }
     const users = async () => {
       const { token } = JSON.parse(localStorage.getItem('authenticated'));
-      const usuarios = await axios.get(`https://pfapi.vercel.app/api/user/info`, {
-        headers: { 'x-access-token': `${token}` },
-      });
+      const usuarios = await axios.get(
+        `https://pfapi.vercel.app/api/user/info`,
+        {
+          headers: { 'x-access-token': `${token}` },
+        }
+      );
       const admis = await axios.get(
         `https://pfapi.vercel.app/api/user/adminsinfo`,
         {
@@ -244,11 +243,25 @@ export const AdminTables = ({ dark }) => {
     setCurrentPageClothing(pageNumber);
   };
 
+  const [modal, setModal] = useState(false);
+  const [usernameActivo, setUsernameActivo] = useState('');
+  // let usernameActivo = '';
+
+  const modalActive = () => {
+    setModal(!modal);
+  };
+
+  const activar = (user) => {
+    setUsernameActivo(user);
+    setModal(!modal);
+  };
+
   return (
     <>
       {user.length <= 0 && all.length <= 0 && clothings.length <= 0 && (
         <Loading />
       )}
+
       <div className='wrapper'>
         <div className='columns'>
           <AdminNav dark={dark} />
@@ -316,7 +329,7 @@ export const AdminTables = ({ dark }) => {
                           <div className='control'>
                             <input
                               type='text'
-                              placeholder='Find any user...'
+                              placeholder='Find any clothing...'
                               className='input'
                               onChange={clothSearch}
                               autoComplete='off'
@@ -610,7 +623,7 @@ export const AdminTables = ({ dark }) => {
                                     className='button is-small is-primary'
                                     type='button'>
                                     <span className='icon'>
-                                      <AiFillEdit className='mdi mdi-eye' />
+                                      <FaInfo className='mdi mdi-eye' />
                                     </span>
                                   </button>
                                   <button
@@ -893,6 +906,11 @@ export const AdminTables = ({ dark }) => {
                                   ? 'text-for-black has-background-black'
                                   : ''
                               } is-relative`}>
+                              {/* <ModalsitoR
+                                modalActive={modalActive}
+                                modal={modal}
+                                user={user}
+                              /> */}
                               <td className='is-checkbox-cell'>
                                 <label className='b-checkbox checkbox'>
                                   <input type='checkbox' value='false' />
@@ -941,9 +959,10 @@ export const AdminTables = ({ dark }) => {
                                 <div className='buttons is-right'>
                                   <button
                                     className='button is-small is-primary'
-                                    type='button'>
+                                    type='button'
+                                    onClick={() => activar(user.username)}>
                                     <span className='icon'>
-                                      <AiFillEdit className='mdi mdi-eye' />
+                                      <FaInfo className='mdi mdi-eye' />
                                     </span>
                                   </button>
                                   <button
@@ -956,6 +975,14 @@ export const AdminTables = ({ dark }) => {
                                   </button>
                                 </div>
                               </td>
+                              {usernameActivo === user.username && (
+                                <ModalsitoR
+                                  modal={modal}
+                                  modalActive={modalActive}
+                                  user={user}
+                                  dark={dark}
+                                />
+                              )}
                             </tr>
                           ))}
                         </tbody>
