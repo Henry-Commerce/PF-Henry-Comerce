@@ -2,13 +2,10 @@
 
 import { ShopItem } from "../components";
 import { useEffect, useState } from "react";
-import { MdRemove, MdAdd } from "react-icons/md";
-import { useSelector } from "react-redux";
 import { Checkout } from "../components/CheckOut/CheckOut";
 
-export const Shop = (product) => {
+export const Shop = () => {
   const [lsCartProducts, setLsCartProducts] = useState([]);
-  const cartProducts = useSelector((state) => state.cartProducts);
   const [totalAmount, setTotalAmount] = useState(totalPrice());
 
   useEffect(() => {
@@ -47,18 +44,13 @@ export const Shop = (product) => {
     setTotalAmount(total);
   };
 
-  /* function deleteAllCart(e) {
-    localStorage.clear();
-  } */
   const userLocalStorage = localStorage.getItem("authenticated");
+
   return (
     <section className="section is-clipped ">
       <div className="container">
         <div className="has-background-light p-8 p-20-desktop ">
           <h2 className="title mb-8 mb-20-tablet">Your cart</h2>
-          {/* <button onClick={deleteAllCart}>
-            Borra todo
-          </button> */}
           <div className="columns is-multiline ">
             <div className="column is-12 is-8-widescreen mb-8 mb-0-widescreen">
               <div
@@ -123,23 +115,6 @@ export const Shop = (product) => {
                     ))
                   : null}
               </div>
-              {/* <div className='columns is-vcentered'>
-                <div className='column is-4'>
-                  
-                </div>
-                <div className='column is-5'>
-                  <input
-                    className='ms-12 input has-text-weight-bold'
-                    type='text'
-                    placeholder='SUMMER30X'
-                  />
-                </div>
-                <div className='column is-3'>
-                  <a className='ms-6 button is-dark is-flex-shrink-0' href='#'>
-                    Apply
-                  </a>
-                </div>
-              </div> */}
             </div>
 
             <div className="column pl-6 pt-6">
@@ -156,7 +131,6 @@ export const Shop = (product) => {
                     ${totalPrice()}
                   </span>
                 </div>
-
 
                 {userLocalStorage ? (
                   <Checkout product={lsCartProducts} />

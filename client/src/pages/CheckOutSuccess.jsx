@@ -1,6 +1,30 @@
+import React from "react";
+
 export const CheckOutSuccess = () => {
   const params = new URLSearchParams(window.location.search);
   const paymentId = params.get("payment_id");
+  const preferenceId = params.get("preference_id");
+  const collectionStatus = params.get("collection_status");
+
+  const body = {
+    id: preferenceId,
+    status: collectionStatus,
+    paymentid: paymentId,
+  };
+  fetch("https://pfapi.vercel.app/api/checkout/collectionstatus", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      alert("Unexpected error");
+      console.log("CheckOut", error);
+    });
 
   localStorage.clear("lsCartProducts");
 
