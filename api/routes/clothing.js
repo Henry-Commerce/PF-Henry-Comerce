@@ -217,15 +217,14 @@ router.get('/oferts', async (req, res) => {
   }
 });
 
-router.get('/allreviews', async (req, res) => {
+router.get('/allreviews', [verifyToken], async (req, res) => {
   try {
+    var envio=[]
     var response = await ClothingModel.find({});
     response=response.filter((el)=>el.comments.length>0)
-    var name=response.map(a=>a.name)
-    var comments=response.map(a=>a.comments)
-    res.send(comments);
+    res.json(response);
   } catch (error) {
-    console.log( error);
+    console.log(error);
   }
 });
 
