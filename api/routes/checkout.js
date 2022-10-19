@@ -6,6 +6,12 @@ const jwt = require("jsonwebtoken");
 const { SECRET } = process.env;
 const { verifyToken, isAdmin } = require("../middlewares/utils");
 
+router.get("/", async (req, res) => {
+  const { email } = req.query;
+  const query = await OrderModel.find({ identifirer: email });
+  res.status(200).send(query);
+});
+
 router.post("/create_preference", (req, res) => {
   const { email, lsCartProducts } = req.body;
   const preference = {
