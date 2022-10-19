@@ -11,7 +11,7 @@ export const CheckOutPending = () => {
     status: collectionStatus,
     paymentid: paymentId,
   };
-  fetch("https://pfapi.vercel.app/api/checkout/collectionstatus", {
+  fetch("http://localhost:3001/api/checkout/collectionstatus", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

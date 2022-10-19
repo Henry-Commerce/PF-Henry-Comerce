@@ -504,10 +504,10 @@ export function deleteReview(name,payload) {
   };
 }
 
-export function getOrders() {
+export function getOrders(email) {
   return async function (dispatch) {
     try {
-      const orders = await axios.get(`${LOCAL_HOST}/api/`);
+      const orders = await axios.get(`${LOCAL_HOST}/api/checkout?email=${email}`);
       return dispatch({
         type: 'GET_ORDERS',
         payload: orders.data,
