@@ -96,17 +96,19 @@ export const Products = () => {
               </div>
               
             </div>
+            </section>
             
-            <div className="columns is-vcentered pt-5">
-            
-              <div className="column is-4 pt-6">
-                <h1 className=" has-text-weight-bold is-size-3 has-text-centered pb-5 bt">
+            <section className="section is-medium bt">
+            <div className="columns is-vcentered pt-6">
+              <div className="column is-4 ">
+                <h1 className=" has-text-weight-bold is-size-3 bt">
                   Contamos con las siguientes categorias
                 </h1>
                 <a href="http://127.0.0.1:5173/">
-            <p className="has-text-centered has-text-link is-size-4 pt-5">Conoce todos nuestros productos!</p>
+            <p className=" has-text-link is-size-4 pt-5">Conoce todos nuestros productos!</p>
           </a>
               </div>
+              
               
               <div className="column is-8">
                 <Carousel className="has-text-centered" responsive={responsive}>
@@ -148,8 +150,8 @@ export const Products = () => {
               
              
             </div>
+            </section>
           
-          </section>
           <section className="section is-small bt pb-6 ">
             <div className="columns is-vcentered pt-6">
               <div className="column is-8">

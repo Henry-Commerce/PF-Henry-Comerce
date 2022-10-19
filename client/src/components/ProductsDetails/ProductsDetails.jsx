@@ -46,6 +46,8 @@ export const ProductsDetails = () => {
     profile();
   }, []);
 
+
+  
   const [data, setData] = useState("");
 
   const detail = useSelector((state) => state.detail);
@@ -75,10 +77,13 @@ export const ProductsDetails = () => {
     },
   };
 
+
+  console.log(detail);
   useEffect(() => {
     dispatch(getClothingDetail(id));
     dispatch(getClothing(name));
     dispatch(clearState());
+    
   }, [dispatch]);
 
   const [count, setCount] = useState(0);
@@ -87,13 +92,15 @@ export const ProductsDetails = () => {
 
   const [size, setSize] = useState();
 
-  const [pricee, setPrice] = useState(detail.price);
+  const [pricee, setPrice] = useState(null);
 
   const [product, setProduct] = useState([]);
 
   const recomended = Object.values(allProducts).filter(
     (e) => e.category === detail.category
   );
+
+ 
 
   const [cart, setCart] = useState(false);
 
@@ -200,6 +207,7 @@ export const ProductsDetails = () => {
     }
   };
 
+  const dis = (pricee - [(pricee * detail.discount) / 100]).toFixed();
   const [session, setSession] = useState(false);
 
   useEffect(() => {
@@ -215,7 +223,10 @@ export const ProductsDetails = () => {
       isDeleting: true,
     }
     dispatch(deleteReview(id,obj));
-    navigate(0);
+    e.preventDefault(e)
+    setTimeout(() => {
+      navigate(0)
+    }, 500);
   };
 
   return (
@@ -307,7 +318,7 @@ export const ProductsDetails = () => {
             <section className="pt-6"></section>
             <div className="pl-6 pr-6 card-header-title ">
               <p className="pr-6 title has-text-weight-bold mb-0 is-inline-block">
-                ${pricee}
+                {dis> 0 ? "$" + dis  : null}
               </p>
               <p className="control">
                 <Link className="button is-primary" to="">

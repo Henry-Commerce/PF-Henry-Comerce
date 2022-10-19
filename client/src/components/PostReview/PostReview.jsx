@@ -57,6 +57,7 @@ export const PostReview = () => {
     rating: 0,
   });
 
+  
 
 const username = data.username
 const limitUsers = detail.comments && detail.comments.find((e) => e.user === username) 
@@ -171,10 +172,12 @@ const limitUsers = detail.comments && detail.comments.find((e) => e.user === use
                     validateInput({ ...form, [e.target.name]: e.target.value })
                   );
                   e.preventDefault();
-                } else {
+                } else { 
                   dispatch(postReview(id, form));
-                  e.preventDefault();
-                  navigate(0);
+                  e.preventDefault(e)
+                  setTimeout(() => {
+                    navigate(0)
+                  }, 500);
                 }
               }}
               autoComplete="off"
