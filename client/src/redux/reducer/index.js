@@ -10,6 +10,7 @@ const initialState = {
   cart: [],
   allBranches: [],
   user: [],
+  orders: [],
 
   /* AUTH */
   status: 'not-authenticated', // 'checking', 'not-authenticated', 'authenticated'
@@ -139,6 +140,12 @@ function rootReducer(state = initialState, action) {
       return {
         ...state
       }
+
+      case 'GET_ORDERS':
+      return {
+        ...state,
+        orders: action.payload,
+      };
 
     default:
       return state;
