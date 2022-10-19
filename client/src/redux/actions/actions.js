@@ -504,4 +504,17 @@ export function deleteReview(name,payload) {
   };
 }
 
+export function getOrders() {
+  return async function (dispatch) {
+    try {
+      const orders = await axios.get(`${LOCAL_HOST}/api/`);
+      return dispatch({
+        type: 'GET_ORDERS',
+        payload: orders.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 
