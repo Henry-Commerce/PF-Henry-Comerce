@@ -173,7 +173,6 @@ export const startGithubSignIn = () => {
         payload: result.errorMessage,
       });
     }
-    console.log(result);
     const { email, displayName, photoURL } = result;
     let admin = false;
 
@@ -186,9 +185,7 @@ export const startGithubSignIn = () => {
       country: 'argentina',
       isAdmin: admin,
     });
-
-    console.log('usuario creado', creado);
-
+    
     let token = creado.data.token;
 
     const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
@@ -196,11 +193,8 @@ export const startGithubSignIn = () => {
       password,
     });
 
-    console.log('existe', existe);
     token = existe.data.token;
 
-    console.log('data', existe.data);
-    console.log('token', token);
     const add = await axios.get(
       `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
       {
@@ -242,7 +236,6 @@ export const startGoogleSignIn = () => {
 
     const { email, displayName, photoURL } = result;
 
-    console.log(result);
     let admin = false;
 
     const password = email.toLowerCase();
@@ -255,8 +248,6 @@ export const startGoogleSignIn = () => {
       isAdmin: admin,
     });
 
-    console.log('usuario creado', creado);
-
     let token = creado.data.token;
 
     const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
@@ -264,33 +255,7 @@ export const startGoogleSignIn = () => {
       password,
     });
 
-    console.log('existe', existe);
     token = existe.data.token;
-
-    console.log('data', existe.data);
-    console.log('token', token);
-    // try {
-    //   const existe = await axios.get(`${LOCAL_HOST}/api/user/info/${email}`);
-    //   const { data } = existe;
-    //   admin = data.isAdmin;
-    //   console.log('existe', existe);
-
-    //   if (email === data.email) {
-    //     console.log('el usuario ya existe');
-    //   } else {
-    //     const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
-    //       username: result.displayName,
-    //       email: result.email,
-    //       password: result.uid,
-    //       country: 'argentina',
-    //       isAdmin: false,
-    //     });
-
-    //     console.log('usuario creado', creado);
-    //   }
-    // } catch (error) {
-    //   console.log('error', error);
-    // }
 
     const add = await axios.get(
       `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,
@@ -326,21 +291,6 @@ export const startCreatingUserWithEmailPassword = ({
       type: 'CHECKING_CREDENTIALS',
     });
 
-    // const result = await registerUserWithEmailPassword({
-    //   email,
-    //   password,
-    //   displayName,
-    // });
-
-    // console.log('usuario a crear', result);
-    // if (result.ok === false) {
-    //   localStorage.setItem('authenticated', false);
-    //   return dispatch({
-    //     type: 'LOGOUT',
-    //     payload: result.errorMessage,
-    //   });
-    // }
-
     const creado = await axios.post(`${LOCAL_HOST}/api/user/register`, {
       username: email.toLowerCase(),
       email: email.toLowerCase(),
@@ -349,9 +299,7 @@ export const startCreatingUserWithEmailPassword = ({
       country: 'argentina',
       isAdmin: false,
     });
-    console.log('usuario creado', creado);
 
-    // }
     const token = creado.data.token;
 
     localStorage.setItem(
@@ -377,16 +325,6 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
       type: 'CHECKING_CREDENTIALS',
     });
 
-    // const result = await loginWithEmailPassword({ email, password });
-    // console.log('action login', result);
-    // if (result.ok === false) {
-    //   localStorage.setItem('authenticated', false);
-    //   return dispatch({
-    //     type: 'LOGOUT',
-    //     payload: result.errorMessage,
-    //   });
-    // }
-
     let existe = {};
     try {
       existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
@@ -399,7 +337,6 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
       });
     }
 
-    console.log('existe', existe);
     if (existe.status === 200) {
       const add = await axios.get(
         `${LOCAL_HOST}/api/user/info/${email.toLowerCase()}`,

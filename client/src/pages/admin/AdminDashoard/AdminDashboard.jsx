@@ -60,13 +60,10 @@ export const AdminDashboard = ({ dark }) => {
         }
       );
       setNumberAdmins(admis.data.length);
-      // console.log(numberAdmins);
 
       setNumberUsers(users.data.length);
-      // console.log(numberUsers);
 
       setNumberAccounts(admis.data.length + users.data.length);
-      // console.log(numberAccounts);
 
       setDay(fecha);
     };
@@ -104,7 +101,6 @@ export const AdminDashboard = ({ dark }) => {
     if (branch.status === 200) {
       window.location.reload();
     }
-    console.log('Branch', branch);
   };
 
   return (

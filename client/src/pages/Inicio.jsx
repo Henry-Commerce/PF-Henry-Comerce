@@ -66,7 +66,6 @@ export const Inicio = ({ dark }) => {
             </div>
             <div className='column is-10'>
               <div className='mb-20 columns is-multiline'>
-                {console.log(currentProducts)}
                 {currentProducts.map((product, index) => {
                   const { show } = product;
                   if (show === true) {

@@ -307,7 +307,6 @@ router.put('/edituser', verifyToken, async (req, res) => {
 router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {// añadir correo
   const { email ,image } = req.body;
   if (!email || !image){return res.json({ message: "Expected info isn't provided" })};//
-  console.log(email,image)
   const foundUser = await UserModel.findOne({ email: email });
   if (!foundUser) return res.json({ message: 'User not found' });
   if (!image.includes('http')) {
@@ -324,11 +323,9 @@ router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {// añadi
 router.put('/edit/pass/:email', [verifyToken, isAdmin], async (req, res) => {
   // añadir correo
 
-  // añadir correo
   const { password } = req.body;
   const { email } = req.params;
 
-  console.log(email, password);
   if (!email || !password)
     return res.json({ message: "Expected info isn't provided" }); //
   const foundUser = await UserModel.findOne({ email: email });

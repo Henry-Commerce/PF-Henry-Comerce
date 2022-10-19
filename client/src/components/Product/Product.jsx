@@ -3,9 +3,6 @@ import { GrAdd } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 
 export const Product = ({ name, image, price, discount, dark }) => {
-  function add() {
-    console.log('meow');
-  }
 
   const dis = (price - [(price * discount) / 100]).toFixed(2);
 

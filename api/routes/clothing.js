@@ -192,7 +192,6 @@ router.get('/oferts', async (req, res) => {
     }
     if (size) {
       var talla = size.split(',');
-      console.log(talla);
       if (talla.find((el) => el === 'XS')) {
         filtOffer = filtOffer.filter((el) => el.stock.XS > 0);
       }
