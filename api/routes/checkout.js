@@ -17,9 +17,9 @@ router.post("/create_preference", verifyToken, (req, res) => {
       };
     }),
     back_urls: {
-      success: "https://henry-commerce.github.io/success",
-      failure: "https://henry-commerce.github.io/failure",
-      pending: "https://henry-commerce.github.io/pending",
+      success: "https://henry-commerce.netlify.app/success",
+      failure: "https://henry-commerce.netlify.app/failure",
+      pending: "https://henry-commerce.netlify.app/pending",
     },
     auto_return: "approved",
   };
