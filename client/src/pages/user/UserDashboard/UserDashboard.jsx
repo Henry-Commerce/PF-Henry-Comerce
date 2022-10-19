@@ -43,7 +43,7 @@ export const UserDashboard = ({ dark }) => {
     const profile = async () => {
       const { email, token } = session;
       const user = await axios.get(
-        `http://localhost:3001/api/user/info/${email}`,
+        `https://pfapi.vercel.app/api/user/info/${email}`,
         {
           headers: { 'x-access-token': `${token}` },
         }

@@ -45,6 +45,7 @@ export const Shop = () => {
   };
 
   const userLocalStorage = localStorage.getItem("authenticated");
+
   return (
     <section className="section is-clipped ">
       <div className="container">

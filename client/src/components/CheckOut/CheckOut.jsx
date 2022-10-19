@@ -12,13 +12,19 @@ export const Checkout = ({ product }) => {
 
   const handleClick = () => {
     const token = JSON.parse(localStorage.getItem("authenticated")).token;
+    const lsCartProducts = JSON.parse(localStorage.getItem("lsCartProducts"));
+    const email = JSON.parse(localStorage.getItem("authenticated")).email;
+    const body = {
+      email,
+      lsCartProducts,
+    };
     fetch("https://pfapi.vercel.app/api/checkout/create_preference", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-access-token": token,
       },
-      body: localStorage.getItem("lsCartProducts"),
+      body: JSON.stringify(body),
     })
       .then((response) => {
         return response.json();
@@ -89,6 +95,7 @@ export const Checkout = ({ product }) => {
               </h1>
             </div>
           </div>
+
           {product?.map((item, index) => (
             <div className="columns fileee is-centered bt" key={index}>
               <div className="column is-3 fileeee bb">
