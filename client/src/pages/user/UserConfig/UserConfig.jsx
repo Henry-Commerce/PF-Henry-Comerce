@@ -1,45 +1,47 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Notify } from "../../../components/Notify/Notify";
-import { toast } from "react-toastify";
-import "../UserDashboard/User.scss";
-import { checkAuth } from "../../../redux/actions/actions";
-import { Loading } from "../../../components/Loading/Loading";
-import { CountryDropdown } from "react-country-region-selector";
-import { Map } from "../../../components/Map/Map";
-import { dataCountrys } from "../../admin/AdminProfile/Countrys";
+/** @format */
 
-export const UserConfig = () => {
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { Notify } from '../../../components/Notify/Notify';
+import { toast } from 'react-toastify';
+import '../UserDashboard/User.scss';
+import { checkAuth } from '../../../redux/actions/actions';
+import { Loading } from '../../../components/Loading/Loading';
+import { CountryDropdown } from 'react-country-region-selector';
+import { Map } from '../../../components/Map/Map';
+import { dataCountrys } from '../../admin/AdminProfile/Countrys';
+
+export const UserConfig = ({ dark }) => {
   const [isActive, setisActive] = useState(false);
   const [isActive1, setisActive1] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let session = null;
-  const [data, setData] = useState("");
+  const [data, setData] = useState('');
 
   useEffect(() => {
-    if (localStorage.getItem("authenticated")) {
+    if (localStorage.getItem('authenticated')) {
       const { authenticated, isAdmin } = JSON.parse(
-        localStorage.getItem("authenticated")
+        localStorage.getItem('authenticated')
       );
       if (authenticated) {
         if (isAdmin === false) {
-          navigate("/user/config");
+          navigate('/user/config');
         }
       } else {
-        navigate("/user/config");
+        navigate('/user/config');
       }
     } else {
-      navigate("/user/config");
+      navigate('/user/config');
     }
 
-    if (localStorage.getItem("authenticated")) {
-      session = JSON.parse(localStorage.getItem("authenticated"));
+    if (localStorage.getItem('authenticated')) {
+      session = JSON.parse(localStorage.getItem('authenticated'));
       dispatch(checkAuth(session));
     }
 
@@ -48,7 +50,7 @@ export const UserConfig = () => {
       const user = await axios.get(
         `http://localhost:3001/api/user/info/${email}`,
         {
-          headers: { "x-access-token": token },
+          headers: { 'x-access-token': token },
         }
       );
       setData(user.data);
@@ -57,8 +59,8 @@ export const UserConfig = () => {
   }, []);
 
   const success = () =>
-    toast.success("Los cambios se han realizado con exito", {
-      position: "top-center",
+    toast.success('Los cambios se han realizado con exito', {
+      position: 'top-center',
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -68,8 +70,8 @@ export const UserConfig = () => {
     });
 
   const passwordError = () =>
-    toast.error("La contraseña no es valida", {
-      position: "top-center",
+    toast.error('La contraseña no es valida', {
+      position: 'top-center',
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -80,29 +82,29 @@ export const UserConfig = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      country: "",
-      email: "",
-      oldPassword: "",
-      newPassword: "",
-      repitePassword: "",
+      username: '',
+      country: '',
+      email: '',
+      oldPassword: '',
+      newPassword: '',
+      repitePassword: '',
       confirm: false,
     },
     validationSchema: Yup.object().shape({
       username: Yup.string()
-        .min(5, "El nombre debe tener al menos 5 caracteres")
-        .max(15, "El nombre no puede contener mas de 15 caracteres"),
+        .min(5, 'El nombre debe tener al menos 5 caracteres')
+        .max(15, 'El nombre no puede contener mas de 15 caracteres'),
       oldPassword: Yup.string(),
       newPassword: Yup.string().min(
         6,
-        "La contraseña debe tener un minimo de 6 caracteres"
+        'La contraseña debe tener un minimo de 6 caracteres'
       ),
       repitePassword: Yup.string()
-        .min(6, "La contraseña debe tener un minimo de 6 caracteres")
-        .oneOf([Yup.ref("newPassword")], "Las contraseñas deben coincidir"),
+        .min(6, 'La contraseña debe tener un minimo de 6 caracteres')
+        .oneOf([Yup.ref('newPassword')], 'Las contraseñas deben coincidir'),
       confirm: Yup.boolean().oneOf(
         [true],
-        "Marcar la casilla en caso de estar seguro de querer realizar los cambios"
+        'Marcar la casilla en caso de estar seguro de querer realizar los cambios'
       ),
     }),
     onSubmit: async (formData) => {
@@ -114,11 +116,11 @@ export const UserConfig = () => {
         delete values.newPassword;
       }
       try {
-        const token = JSON.parse(localStorage.getItem("authenticated")).token;
+        const token = JSON.parse(localStorage.getItem('authenticated')).token;
         return await axios
           .put(`http://localhost:3001/api/user/edituser`, formData, {
             headers: {
-              "x-access-token": token,
+              'x-access-token': token,
             },
           })
           .then(() => {
@@ -133,7 +135,6 @@ export const UserConfig = () => {
     },
   });
 
-
   const {
     values,
     handleBlur,
@@ -145,20 +146,36 @@ export const UserConfig = () => {
   } = formik;
 
   return (
-    <div className="columns is-centered">
-      <div className="column is-7">
-        <article className="panel form-user">
+    <div
+      className={`${
+        dark
+          ? 'has-background-black columns is-centered'
+          : 'columns is-centered'
+      }`}>
+      <div className='column is-7'>
+        <article
+          className={`${
+            dark
+              ? ' text-for-black panel form-user border-yellow'
+              : 'panel form-user'
+          }`}>
           <Notify />
-          <p className="panel-heading title is-3">Mi cuenta</p>
-          <p className="panel-tabs">
+          <p
+            className={`${
+              dark
+                ? 'has-background-black text-for-black panel-heading title is-3'
+                : 'panel-heading title is-3'
+            }`}>
+            Mi cuenta
+          </p>
+          <p className='panel-tabs'>
             <Link
               to={`/user`}
               onClick={() => {
                 setisActive(!isActive);
                 setisActive1(false);
               }}
-              className={`${isActive ? "is-active" : ""}`}
-            >
+              className={`${isActive ? 'is-active' : ''}`}>
               MIS DATOS
             </Link>
             <Link
@@ -167,46 +184,48 @@ export const UserConfig = () => {
                 setisActive(false);
                 setisActive1(!isActive1);
               }}
-              className={`${isActive1 ? "is-active" : ""}`}
-            >
+              className={`${isActive1 ? 'is-active' : ''}`}>
               EDITAR DATOS
             </Link>
           </p>
-          <p className="notification is-info caution m-4 p-4">
+          <p className='notification is-info caution m-4 p-4'>
             Los campos que no sean completados no sufriran cambios
           </p>
 
-          <form action="" onSubmit={handleSubmit}>
-            <div className="field m-3">
-              <label className="label">Nombre de usuario</label>
-              <div className="control inputs">
+          <form action='' onSubmit={handleSubmit}>
+            <div className='field m-3'>
+              <label className={`${dark ? 'text-for-black label' : 'label'}`}>
+                Nombre de usuario
+              </label>
+              <div className='control inputs'>
                 <input
-                  className="input"
-                  type="text"
-                  placeholder="Nuevo nombre de usuario"
-                  name="username"
-                  autoComplete="off"
+                  className='input'
+                  type='text'
+                  placeholder='Nuevo nombre de usuario'
+                  name='username'
+                  autoComplete='off'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
                 />
                 {errors.username && touched.username && (
-                  <div className="has-text-danger pt-2">{errors.username}</div>
+                  <div className='has-text-danger pt-2'>{errors.username}</div>
                 )}
               </div>
             </div>
 
-            <div className="field m-3">
-              <label className="label">Pais</label>
-              <div className="select">
+            <div className='field m-3'>
+              <label className={`${dark ? 'text-for-black label' : 'label'}`}>
+                Pais
+              </label>
+              <div className='select'>
                 <select
-                  name="country"
-                  className="input"
+                  name='country'
+                  className='input'
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.country}
-                >
-                  <option value="DEFAULT">Cambiar pais</option>
+                  value={values.country}>
+                  <option value='DEFAULT'>Cambiar pais</option>
                   {dataCountrys.result.map((countrys, index) => (
                     <option key={index} value={countrys.name}>
                       {countrys.name}
@@ -216,36 +235,40 @@ export const UserConfig = () => {
               </div>
             </div>
 
-            <div className="field m-3">
-              <label className="label">Contraseña actual</label>
-              <div className="control inputs">
+            <div className='field m-3'>
+              <label className={`${dark ? 'text-for-black label' : 'label'}`}>
+                Contraseña actual
+              </label>
+              <div className='control inputs'>
                 <input
-                  className="input"
-                  type="password"
-                  placeholder="Contraseña actual"
-                  name="oldPassword"
-                  autoComplete="off"
+                  className='input'
+                  type='password'
+                  placeholder='Contraseña actual'
+                  name='oldPassword'
+                  autoComplete='off'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.oldPassword}
                 />
                 {errors.oldPassword && touched.oldPassword && (
-                  <div className="has-text-danger pt-2">
+                  <div className='has-text-danger pt-2'>
                     {errors.oldPassword}
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="field m-3">
-              <label className="label">Nueva contraseña</label>
-              <div className="control inputs">
+            <div className='field m-3'>
+              <label className={`${dark ? 'text-for-black label' : 'label'}`}>
+                Nueva contraseña
+              </label>
+              <div className='control inputs'>
                 <input
-                  className="input"
-                  type="password"
-                  placeholder="Nueva contraseña"
-                  name="newPassword"
-                  autoComplete="off"
+                  className='input'
+                  type='password'
+                  placeholder='Nueva contraseña'
+                  name='newPassword'
+                  autoComplete='off'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.newPassword}
@@ -254,22 +277,24 @@ export const UserConfig = () => {
                   }
                 />
                 {errors.newPassword && touched.newPassword && (
-                  <div className="has-text-danger pt-2">
+                  <div className='has-text-danger pt-2'>
                     {errors.newPassword}
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="field m-3">
-              <label className="label">Repetir la nueva contraseña</label>
-              <div className="control inputs">
+            <div className='field m-3'>
+              <label className={`${dark ? 'text-for-black label' : 'label'}`}>
+                Repetir la nueva contraseña
+              </label>
+              <div className='control inputs'>
                 <input
-                  className="input"
-                  type="password"
-                  placeholder="Repetir contraseña"
-                  name="repitePassword"
-                  autoComplete="off"
+                  className='input'
+                  type='password'
+                  placeholder='Repetir contraseña'
+                  name='repitePassword'
+                  autoComplete='off'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.repitePassword}
@@ -278,20 +303,20 @@ export const UserConfig = () => {
                   }
                 />
                 {errors.repitePassword && touched.repitePassword && (
-                  <div className="has-text-danger pt-2">
+                  <div className='has-text-danger pt-2'>
                     {errors.repitePassword}
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="field m-3">
-              <div className="control">
-                <label className="checkbox">
+            <div className='field m-3'>
+              <div className='control'>
+                <label className='checkbox'>
                   <input
-                    className="m-1"
-                    type="checkbox"
-                    name="confirm"
+                    className='m-1'
+                    type='checkbox'
+                    name='confirm'
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.confirm}
@@ -299,16 +324,16 @@ export const UserConfig = () => {
                   ¿Estas seguro que quieres realizar los cambios?
                 </label>
                 {errors.confirm && touched.confirm && (
-                  <div className="has-text-danger pt-2">{errors.confirm}</div>
+                  <div className='has-text-danger pt-2'>{errors.confirm}</div>
                 )}
               </div>
             </div>
 
-            <div className="field is-grouped m-3">
-              <div className="control">
+            <div className='field is-grouped m-3'>
+              <div className='control'>
                 <button
-                  className="button is-primary m-3"
-                  type="submit"
+                  className='button is-primary m-3'
+                  type='submit'
                   disabled={
                     errors.username ||
                     errors.oldPassword ||
@@ -321,15 +346,14 @@ export const UserConfig = () => {
                     (values.oldPassword &&
                       values.newPassword &&
                       !values.repitePassword)
-                  }
-                >
+                  }>
                   Aceptar
                 </button>
               </div>
 
-              <div className="control">
+              <div className='control'>
                 <Link to={`/user`}>
-                  <button className="button is-link is-light m-3">
+                  <button className='button is-link is-light m-3'>
                     Cancelar
                   </button>
                 </Link>
