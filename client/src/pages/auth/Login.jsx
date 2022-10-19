@@ -203,8 +203,8 @@ export const Login = ({ dark }) => {
                       <span>Login With Google</span>
                     </Link>
                   </p>
-                  <br />
-                  <p className='control'>
+                  {/* <br /> */}
+                  {/* <p className='control'>
                     <Link
                       className='button is-primary is-large is-fullwidth'
                       to=''
@@ -214,7 +214,7 @@ export const Login = ({ dark }) => {
                       </span>
                       <span>Login With Github</span>
                     </Link>
-                  </p>
+                  </p> */}
                 </form>
               </div>
               <p className='has-text-grey s'>
