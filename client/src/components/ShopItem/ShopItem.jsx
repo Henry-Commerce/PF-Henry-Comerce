@@ -2,15 +2,20 @@
 import { MdAdd, MdRemove } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ShopItem = ({
   product,
   lsCartProducts,
   setLsCartProducts,
   handleAmount,
+  totalPrice
 }) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [count, setCount] = useState(product.count);
+  const [price, setPrice] = useState(totalPrice)
   const size = product.size;
   const stock = product.stockk;
   /* const price = product.pricee */
@@ -34,6 +39,10 @@ export const ShopItem = ({
     localStorage.removeItem(idRemove);
     localStorage.setItem("lsCartProducts", JSON.stringify(newCart));
     setLsCartProducts(newCart);
+    handleAmount()
+    if(lsCartProducts.length === 1) {
+      navigate(0)
+    }
   };
 
   const handlePlus = () => {
@@ -117,7 +126,7 @@ export const ShopItem = ({
           </div>
         </div>
         <div className="column ">
-          <p className="subtitle has-text-info has-text-weight-bold pl-4 pb-2">
+          <p className="subtitle has-text-info has-text-weight-bold pb-2">
             ${product.price * count}
           </p>
         </div>
