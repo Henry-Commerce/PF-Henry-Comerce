@@ -33,7 +33,6 @@ export const Nav = ({ dark }) => {
 
   useEffect(() => {
     setSession(JSON.parse(localStorage.getItem('authenticated')));
-    console.log('session', session);
   }, [localStorage.getItem('authenticated')]);
 
   const status = useSelector((state) => state.status);

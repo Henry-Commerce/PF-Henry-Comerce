@@ -55,7 +55,6 @@ export const AdminProfile = ({ dark }) => {
       );
 
       setData(user.data);
-      console.log('data', data);
     };
     profile();
   }, []);
@@ -81,7 +80,6 @@ export const AdminProfile = ({ dark }) => {
     if (res) {
       navigate('/admin');
     }
-    console.log('change', res);
   };
 
   const country = async (e) => {
@@ -93,19 +91,11 @@ export const AdminProfile = ({ dark }) => {
       setPais(e.target.value);
       // pais = e.target.value;
     }
-    console.log('change', pais);
   };
 
   const nombresito = async (e) => {
     e.preventDefault();
     setNameChange(e.target.value);
-    // console.log('eeeee', e.target.value);
-    // if (e.target.value === 'DEFAULT') {
-    //   pais = '';
-    // } else {
-    //   pais = e.target.value;
-    // }
-    // console.log('change', pais);
   };
 
   const [image, setImage] = useState('');
@@ -147,7 +137,6 @@ export const AdminProfile = ({ dark }) => {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
         imagensita = data.url;
       })
       .catch((err) => console.log(err));
@@ -170,8 +159,6 @@ export const AdminProfile = ({ dark }) => {
       setImage(imagensita);
       navigate('/admin');
     }
-
-    console.log('change', change);
   };
 
   const formik = useFormik({
@@ -197,7 +184,6 @@ export const AdminProfile = ({ dark }) => {
         .oneOf([Yup.ref('newPassword')], 'Passwords must be the same'),
     }),
     onSubmit: (formData) => {
-      console.log('formdata', formData);
       const { email, token } = JSON.parse(
         localStorage.getItem('authenticated')
       );

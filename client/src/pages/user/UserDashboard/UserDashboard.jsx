@@ -56,8 +56,6 @@ export const UserDashboard = ({ dark }) => {
   const orders = useSelector((state) => state.orders);
 const dataEmail = data.email
 
-console.log("order", orders)
-
   useEffect(() => {
     dispatch(getOrders(dataEmail));
   }, [dispatch, dataEmail]);

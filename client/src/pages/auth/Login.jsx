@@ -38,7 +38,6 @@ export const Login = ({ dark }) => {
 
   const dis = async (formData) => {
     const login = await dispatch(startLoginWithEmailPassword(formData));
-    console.log('page login', login);
     if (login.type === 'LOGIN') {
       navigate('/');
     } else if (login.type === 'IncorrectPassword') {
@@ -70,23 +69,7 @@ export const Login = ({ dark }) => {
       password: Yup.string().min(6).required('Password is a required field'),
     }),
     onSubmit: (formData) => {
-      // console.log(formData);
       dis(formData);
-
-      //   dispatch(startLoginWithEmailPassword(formData));
-      //   navigate('/');
-      // if (checked === true) {
-      //     localStorage.setItem(
-      //         'auth',
-      //         JSON.stringify({
-      //             email: formData.email,
-      //             password: formData.password,
-      //             checked: checked,
-      //         })
-      //     )
-      // }
-      // handleReset()
-      // notify()
     },
   });
 

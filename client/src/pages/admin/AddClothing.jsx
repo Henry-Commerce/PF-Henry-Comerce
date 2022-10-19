@@ -32,7 +32,6 @@ export const AddClothing = ({ dark }) => {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
         setImage(data.url);
       })
       .catch((err) => console.log(err));
@@ -99,7 +98,6 @@ export const AddClothing = ({ dark }) => {
       description: Yup.string().required('You must add a description'),
     }),
     onSubmit: (formData) => {
-      console.log('formdata', formData);
       dispatch(addClothing(formData));
       handleReset();
       notify();
