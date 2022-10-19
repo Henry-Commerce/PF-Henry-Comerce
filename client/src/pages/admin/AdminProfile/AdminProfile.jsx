@@ -48,7 +48,7 @@ export const AdminProfile = ({ dark }) => {
     const profile = async () => {
       const { email, token } = session;
       const user = await axios.get(
-        `http://localhost:3001/api/user/info/${email}`,
+        `https://pfapi.vercel.app/api/user/info/${email}`,
         {
           headers: { 'x-access-token': `${token}` },
         }
@@ -68,7 +68,7 @@ export const AdminProfile = ({ dark }) => {
 
     const res = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/user/edit/info`,
+      url: `https://pfapi.vercel.app/api/user/edit/info`,
       headers: {
         'x-access-token': `${token}`,
       },
@@ -156,7 +156,7 @@ export const AdminProfile = ({ dark }) => {
 
     const change = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/user/edit/image`,
+      url: `https://pfapi.vercel.app/api/user/edit/image`,
       headers: {
         'x-access-token': `${token}`,
       },
@@ -209,7 +209,7 @@ export const AdminProfile = ({ dark }) => {
 
       const submitPass = async (formData) => {
         let putUser = await axios.put(
-          `http://localhost:3001/api/user/edituser`,
+          `https://pfapi.vercel.app/api/user/edituser`,
           formData,
           {
             headers: {

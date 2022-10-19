@@ -57,11 +57,11 @@ export const AdminTables = ({ dark }) => {
     }
     const users = async () => {
       const { token } = JSON.parse(localStorage.getItem('authenticated'));
-      const usuarios = await axios.get(`http://localhost:3001/api/user/info`, {
+      const usuarios = await axios.get(`https://pfapi.vercel.app/api/user/info`, {
         headers: { 'x-access-token': `${token}` },
       });
       const admis = await axios.get(
-        `http://localhost:3001/api/user/adminsinfo`,
+        `https://pfapi.vercel.app/api/user/adminsinfo`,
         {
           headers: { 'x-access-token': `${token}` },
         }
@@ -73,7 +73,7 @@ export const AdminTables = ({ dark }) => {
 
     const clo = async () => {
       const { token } = JSON.parse(localStorage.getItem('authenticated'));
-      const clothing = await axios.get(`http://localhost:3001/api/clothing`);
+      const clothing = await axios.get(`https://pfapi.vercel.app/api/clothing`);
       setClothing(clothing.data);
       setAllClothing(clothing.data);
     };
@@ -148,7 +148,7 @@ export const AdminTables = ({ dark }) => {
     const { token } = JSON.parse(localStorage.getItem('authenticated'));
     const res = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/user/newadmin`,
+      url: `https://pfapi.vercel.app/api/user/newadmin`,
       headers: {
         'x-access-token': `${token}`,
       },
@@ -167,7 +167,7 @@ export const AdminTables = ({ dark }) => {
     const { token } = JSON.parse(localStorage.getItem('authenticated'));
     const res = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/clothing/showable`,
+      url: `https://pfapi.vercel.app/api/clothing/showable`,
       headers: {
         'x-access-token': `${token}`,
       },
@@ -190,7 +190,7 @@ export const AdminTables = ({ dark }) => {
 
     const res = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/clothing/updateoffer`,
+      url: `https://pfapi.vercel.app/api/clothing/updateoffer`,
       headers: {
         'x-access-token': `${token}`,
       },
@@ -210,7 +210,7 @@ export const AdminTables = ({ dark }) => {
 
     const res = await axios({
       method: 'put',
-      url: `http://localhost:3001/api/clothing/updateprice`,
+      url: `https://pfapi.vercel.app/api/clothing/updateprice`,
       headers: {
         'x-access-token': `${token}`,
       },

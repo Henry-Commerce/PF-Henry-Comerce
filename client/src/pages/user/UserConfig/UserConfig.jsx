@@ -48,7 +48,7 @@ export const UserConfig = ({ dark }) => {
     const profile = async () => {
       const { email, token } = session;
       const user = await axios.get(
-        `http://localhost:3001/api/user/info/${email}`,
+        `https://pfapi.vercel.app/api/user/info/${email}`,
         {
           headers: { 'x-access-token': token },
         }
@@ -118,7 +118,7 @@ export const UserConfig = ({ dark }) => {
       try {
         const token = JSON.parse(localStorage.getItem('authenticated')).token;
         return await axios
-          .put(`http://localhost:3001/api/user/edituser`, formData, {
+          .put(`https://pfapi.vercel.app/api/user/edituser`, formData, {
             headers: {
               'x-access-token': token,
             },
