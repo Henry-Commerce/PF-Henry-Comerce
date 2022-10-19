@@ -77,7 +77,7 @@ const limitUsers = detail.comments && detail.comments.find((e) => e.user === use
     const profile = async () => {
       const { email, token } = auth;
       const user = await axios.get(
-        `http://localhost:3001/api/user/info/${email}`,
+        `https://pfapi.vercel.app/api/user/info/${email}`,
         {
           headers: { "x-access-token": `${token}` },
         }

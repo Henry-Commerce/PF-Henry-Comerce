@@ -50,11 +50,11 @@ export const AdminDashboard = ({ dark }) => {
 
     const users = async () => {
       const { token } = JSON.parse(localStorage.getItem('authenticated'));
-      const users = await axios.get(`http://localhost:3001/api/user/info`, {
+      const users = await axios.get(`https://pfapi.vercel.app/api/user/info`, {
         headers: { 'x-access-token': `${token}` },
       });
       const admis = await axios.get(
-        `http://localhost:3001/api/user/adminsinfo`,
+        `https://pfapi.vercel.app/api/user/adminsinfo`,
         {
           headers: { 'x-access-token': `${token}` },
         }
@@ -89,7 +89,7 @@ export const AdminDashboard = ({ dark }) => {
     const { token } = JSON.parse(localStorage.getItem('authenticated'));
     const branch = await axios({
       method: 'post',
-      url: `http://localhost:3001/api/branch/add`,
+      url: `https://pfapi.vercel.app/api/branch/add`,
       headers: {
         'x-access-token': `${token}`,
       },

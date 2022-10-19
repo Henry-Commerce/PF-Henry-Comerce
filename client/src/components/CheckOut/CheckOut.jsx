@@ -1,6 +1,5 @@
 import React from "react";
 import Popup from "reactjs-popup";
-3;
 import "./CheckOut.scss";
 
 export const Checkout = ({ product }) => {
@@ -13,7 +12,7 @@ export const Checkout = ({ product }) => {
 
   const handleClick = () => {
     const token = JSON.parse(localStorage.getItem("authenticated")).token;
-    fetch("http://localhost:3001/api/checkout/create_preference", {
+    fetch("https://pfapi.vercel.app/api/checkout/create_preference", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,12 +60,8 @@ export const Checkout = ({ product }) => {
       modal
       nested
     >
-      {(close) => (
+      {() => (
         <div className="box width">
-          {/* <button onClick={close} className="button">
-            X
-          </button> */}
-
           <div className="columns fileee is-centered bt">
             <div className="column is-3 fileeee bb">
               <h1 className="has-text-weight-bold mt-4 mb-4 ml-6 mr-6 has-text-centered ">
@@ -75,7 +70,7 @@ export const Checkout = ({ product }) => {
             </div>
             <div className="column is-3 fileeee">
               <h1 className="has-text-weight-bold mt-4 mb-4 ml-6 mr-6 has-text-centered">
-                Nombre{" "}
+                Nombre
               </h1>
             </div>
             <div className="column is-2 fileeee">
@@ -101,7 +96,7 @@ export const Checkout = ({ product }) => {
                   className=""
                   src={item.image}
                   alt=""
-                  style={{ width: "88px " }}
+                  style={{ width: "88px" }}
                 />
               </div>
               <div className="column is-3 fileeee">
@@ -127,9 +122,7 @@ export const Checkout = ({ product }) => {
             </div>
           ))}
 
-          <div className="">
-            <div id="button-checkout" className="fileee pt-5 pb-3" />
-          </div>
+          <div id="button-checkout" className="fileee pt-5 pb-3" />
         </div>
       )}
     </Popup>
