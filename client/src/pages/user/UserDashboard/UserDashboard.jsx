@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { HiIdentification, HiMail, HiHome, HiPhone } from "react-icons/hi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { checkAuth } from "../../../redux/actions/actions";
 import { useNavigate } from "react-router-dom";
@@ -53,11 +53,14 @@ export const UserDashboard = ({ dark }) => {
     profile();
   }, []);
 
-  const orders = useSelector((state) => state.allOrders);
+  const orders = useSelector((state) => state.orders);
+const dataEmail = data.email
+
+console.log("order", orders)
 
   useEffect(() => {
-    dispatch(getOrders());
-  }, [dispatch]);
+    dispatch(getOrders(dataEmail));
+  }, [dispatch, dataEmail]);
 
   return (
     <>
@@ -134,13 +137,14 @@ export const UserDashboard = ({ dark }) => {
                 <HiMail className="title is-2 m-1" />
                 <p className="is-size-4">Mail: {data.email}</p>
               </span>
-              {orders.map((orders, index) => {
+              <p className="is-size-4 has-text-centered m-4 has-text-weight-bold">Ordenes</p>
+              {orders?.map((orders, index) => {
                 return (
                   <Orders
                     key={index}
-                    id={orders.id}
-                    status={orders.status}
-                    paymentid={orders.paymentid}
+                    items={orders.items}
+                    status={orders.payment.status}
+                    paymentid={orders.payment.paymentid}
                   />
                 );
               })}
