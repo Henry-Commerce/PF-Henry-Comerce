@@ -3,7 +3,6 @@ import { GrAdd } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 
 export const Product = ({ name, image, price, discount, dark }) => {
-
   const dis = (price - [(price * discount) / 100]).toFixed(2);
 
   return (
@@ -56,13 +55,12 @@ export const Product = ({ name, image, price, discount, dark }) => {
             </p>
           </div>
           <div
-            className='button ml-auto is-flex'
-            onClick={add}
+            // className='button ml-auto is-flex'
             style={{
               width: '48px',
-              height: '48px',
+              height: '25px',
             }}>
-            <GrAdd />
+            {/* <GrAdd /> */}
           </div>
         </div>
       </Link>
