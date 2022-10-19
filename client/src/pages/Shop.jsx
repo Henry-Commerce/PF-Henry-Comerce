@@ -157,6 +157,7 @@ export const Shop = (product) => {
                   </span>
                 </div>
 
+
                 {userLocalStorage ? (
                   <Checkout product={lsCartProducts} />
                 ) : (
