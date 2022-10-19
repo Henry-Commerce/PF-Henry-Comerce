@@ -144,7 +144,7 @@ export const Filter = ({ setCurrentPage, dark }) => {
               onClick={() => setChecked3((check) => !check)}>
               <input
                 type='checkbox'
-                value='Jacket'
+                value='Sudaderas'
                 checked={checked3}
                 onChange={(event) => handleCategories(event)}
               />
