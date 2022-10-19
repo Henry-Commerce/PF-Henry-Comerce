@@ -98,7 +98,8 @@ export const AddClothing = ({ dark }) => {
       description: Yup.string().required('You must add a description'),
     }),
     onSubmit: (formData) => {
-      dispatch(addClothing(formData));
+      const { token } = JSON.parse(localStorage.getItem('authenticated'));
+      dispatch(addClothing(formData, token));
       handleReset();
       notify();
     },

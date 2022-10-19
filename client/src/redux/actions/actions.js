@@ -35,7 +35,11 @@ export function getClothing(allFilters) {
 export function addClothing(payload) {
   return async function (dispatch) {
     try {
-      var info = await axios.post(`${LOCAL_HOST}/api/clothing/add`, payload);
+      const { token } = JSON.parse(localStorage.getItem('authenticated'));
+      const info = await axios.post(`${LOCAL_HOST}/api/clothing/add`, payload, {
+        headers: { 'x-access-token': `${token}` },
+      });
+
       return dispatch({
         type: 'ADD_CLOTHING',
         info,
@@ -185,7 +189,7 @@ export const startGithubSignIn = () => {
       country: 'argentina',
       isAdmin: admin,
     });
-    
+
     let token = creado.data.token;
 
     const existe = await axios.post(`${LOCAL_HOST}/api/user/login`, {
@@ -420,7 +424,7 @@ export function editUser(payload) {
   };
 }
 
-export function deleteReview(name,payload) {
+export function deleteReview(name, payload) {
   return async function (dispatch) {
     const token = JSON.parse(localStorage.getItem('authenticated')).token;
     try {
@@ -444,7 +448,9 @@ export function deleteReview(name,payload) {
 export function getOrders(email) {
   return async function (dispatch) {
     try {
-      const orders = await axios.get(`${LOCAL_HOST}/api/checkout?email=${email}`);
+      const orders = await axios.get(
+        `${LOCAL_HOST}/api/checkout?email=${email}`
+      );
       return dispatch({
         type: 'GET_ORDERS',
         payload: orders.data,
@@ -454,4 +460,3 @@ export function getOrders(email) {
     }
   };
 }
-
