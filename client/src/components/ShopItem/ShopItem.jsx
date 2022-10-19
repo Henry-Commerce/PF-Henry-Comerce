@@ -2,7 +2,6 @@
 import { MdAdd, MdRemove } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export const ShopItem = ({
