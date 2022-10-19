@@ -217,6 +217,18 @@ router.get('/oferts', async (req, res) => {
   }
 });
 
+router.get('/allreviews', async (req, res) => {
+  try {
+    var response = await ClothingModel.find({});
+    response=response.filter((el)=>el.comments.length>0)
+    var name=response.map(a=>a.name)
+    var comments=response.map(a=>a.comments)
+    res.send(comments);
+  } catch (error) {
+    console.log( error);
+  }
+});
+
 router.get('/items/:name', async (req, res) => {
   const { name } = req.params;
   try {
