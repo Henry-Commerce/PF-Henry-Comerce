@@ -15,6 +15,7 @@ const OrderSchema = new Schema(
       name: String,
       surname: String,
     }),
+    identifier: String,
   },
   {
     timestamps: true,
