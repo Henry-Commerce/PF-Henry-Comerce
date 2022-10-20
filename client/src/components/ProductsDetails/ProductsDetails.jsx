@@ -46,11 +46,11 @@ export const ProductsDetails = () => {
     profile();
   }, []);
 
-
   
   const [data, setData] = useState("");
-
+  
   const detail = useSelector((state) => state.detail);
+  console.log(detail);
   const limitUsers =
     detail.comments && detail.comments.find((e) => e.user === data.username);
   
@@ -79,30 +79,29 @@ export const ProductsDetails = () => {
 
 
   console.log(detail);
-  useEffect(() => {
-    dispatch(getClothingDetail(id));
-    dispatch(getClothing(name));
-    dispatch(clearState());
-    
-  }, [dispatch]);
-
+  
   const [count, setCount] = useState(0);
-
+  
   const [stockk, setStock] = useState(1);
-
+  
   const [size, setSize] = useState();
-
-  const [pricee, setPrice] = useState(null);
-
+  
+  const [pricee, setPrice] = useState(0);
+  
   const [product, setProduct] = useState([]);
-
+  
   const recomended = Object.values(allProducts).filter(
     (e) => e.category === detail.category
   );
 
- 
-
-  const [cart, setCart] = useState(false);
+  useEffect(() => {
+    dispatch(getClothingDetail(id));
+    dispatch(getClothing(name));
+    dispatch(clearState());
+  }, []);
+  
+   
+  ;
 
   let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
 
@@ -132,6 +131,7 @@ export const ProductsDetails = () => {
         progress: undefined,
       }
     );
+    const dis = (pricee - [(pricee * detail.discount) / 100]).toFixed();
 
   let handleAddToCart = (e) => {
     if (
@@ -140,11 +140,13 @@ export const ProductsDetails = () => {
       lsCart.filter((element) => element.cartId === mezcla).length === 0
     ) {
       let prodToCart = {
+        discount: detail.discount,
         cartId: `${detail.name}-${size}`,
         id: detail._id,
         name: detail.name,
         image: detail.image,
         price: detail.price,
+        dis: dis,
         pricee,
         count,
         size,
@@ -207,7 +209,7 @@ export const ProductsDetails = () => {
     }
   };
 
-  const dis = (pricee - [(pricee * detail.discount) / 100]).toFixed();
+  
   const [session, setSession] = useState(false);
 
   useEffect(() => {
@@ -316,10 +318,19 @@ export const ProductsDetails = () => {
             </div>
             <div className="pt-2 pl-6 pb-6 border-bottom"></div>
             <section className="pt-6"></section>
-            <div className="pl-6 pr-6 card-header-title ">
-              <p className="pr-6 title has-text-weight-bold mb-0 is-inline-block">
+            
+            <div className="pr-4 card-header-title ">
+            
+              <p className="title has-text-weight-bold mb-0 is-inline-block">
                 {dis> 0 ? "$" + dis  : null}
               </p>
+              <div className="pb-4 pr-6 ">
+                {dis > 0 && detail.discount ? 
+              <span className='is-absolute is-top-0 is-left-0 ml-4 mt-4 tag is-warning has-text-weight-bold '>
+              -{detail.discount}% 
+            </span>  : null}
+              </div>
+              
               <p className="control">
                 <Link className="button is-primary" to="">
                   <span className="icon">
@@ -328,6 +339,7 @@ export const ProductsDetails = () => {
                   <span onClick={(e) => handleAddToCart(e)}>Add to cart</span>
                 </Link>
               </p>
+              
             </div>
           </div>
         </div>
@@ -346,24 +358,27 @@ export const ProductsDetails = () => {
               </div>
               <div className="">
                 <Carousel responsive={responsive}>
-                  {recomended.map((e, index) => (
+                  {recomended.map((e, index) => {
+                     
+                    return(
                     <div
                       key={index}
                       className="fileee pt-6 has-text-centered has-text-weight-bold is-flex-direction-column"
                     >
                       <a href={"https://henry-commerce.netlify.app/products/" + e.name}>
-                        <img
-                          className=" image "
-                          width="200"
+                        <img 
+                          className=" cc "
+                          width="230"
                           height="120"
                           src={e.image}
                           alt=""
-                        />
-                        <p>{e.name}</p>
+                          />
+                          <p>{e.name}</p>
                         <p className="pt-3">{e.price}</p>
                       </a>
                     </div>
-                  ))}
+                  )
+                  })}
                 </Carousel>
               </div>
             </div>

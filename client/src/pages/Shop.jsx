@@ -8,12 +8,15 @@ export const Shop = () => {
   const [lsCartProducts, setLsCartProducts] = useState([]);
   const [totalAmount, setTotalAmount] = useState(totalPrice());
 
+console.log(lsCartProducts);
+
   useEffect(() => {
     setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
   }, []);
 
   function totalPrice() {
     let suma = 0;
+    let dis = 0
     const documentQuery = [
       ...document.querySelectorAll(
         "p.subtitle.has-text-info.has-text-weight-bold.pl-4.pb-2"
@@ -28,7 +31,9 @@ export const Shop = () => {
     if (suma === 0) {
       let suma = 0;
       JSON.parse(localStorage.getItem("lsCartProducts"))?.forEach((e) => {
-        suma += e.count * e.price;
+        dis = (e.price - [(e.price * e.discount) / 100]).toFixed();
+        console.log(dis);
+        suma += e.count * dis;
       });
       return suma;
     }

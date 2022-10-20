@@ -13,6 +13,8 @@ export const ShopItem = ({
   const [count, setCount] = useState(product.count);
   const stock = product.stockk;
 
+  const dis = (product.price - [(product.price * product.discount) / 100]).toFixed()
+
   useEffect(() => {
     const prodFind = lsCartProducts.find((e) => e.cartId === product.cartId);
     const cartFilter = lsCartProducts.filter(
@@ -89,10 +91,17 @@ export const ShopItem = ({
             </div>
           </div>
         </div>
-        <div className="column is-2 is-hidden-touch">
+        <div className="column is-2 is-hidden-touch fili has-text-left">
           <p className="subtitle has-text-info mb-2 has-text-weight-bold">
-            ${product.price}
+            ${dis}
           </p>
+          {product.discount > 0  ? 
+          <div className="pb-3 pl-1">
+              <span className='is-absolute is-top-0 is-left-0  mt-4 tag is-warning has-text-weight-bold'>
+              -{product.discount}% 
+            </span>  
+            </div>
+            : null}
         </div>
         <div className="column is-2-desktop is-3-tablet pl-0">
           <div
@@ -120,7 +129,7 @@ export const ShopItem = ({
         </div>
         <div className="column ">
           <p className="subtitle has-text-info has-text-weight-bold pb-2">
-            ${product.price * count}
+            ${dis * count}
           </p>
         </div>
         <div className="columns pb-6">
