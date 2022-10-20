@@ -157,14 +157,14 @@ export const Login = ({ dark }) => {
                     </div>
                   </div>
                   <div className='pb-5 pt-2'>
-                    <label className='checkbox'>
+                    {/* <label className='checkbox'>
                       <input
                         type='checkbox'
                         defaultChecked={checked}
                         onChange={() => setChecked(!checked)}
                       />
                       Remember me
-                    </label>
+                    </label> */}
                   </div>
                   <button
                     type='submit'

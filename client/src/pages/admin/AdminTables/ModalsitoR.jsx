@@ -2,8 +2,12 @@
 
 import { useEffect } from 'react';
 import { FiRefreshCcw } from 'react-icons/fi';
+import { MdPayments } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrders } from '../../../redux/actions';
+import { Orders } from '../../../components/Orders/Orders';
+
+
 
 export const ModalsitoR = ({ modal, modalActive, user, dark }) => {
   const dispatch = useDispatch();
@@ -33,7 +37,8 @@ export const ModalsitoR = ({ modal, modalActive, user, dark }) => {
             <header className='card-header'>
               <p className='card-header-title'>
                 <span className='icon'>
-                  <i className='mdi mdi-animation-outline default'></i>
+                <MdPayments className='mdi mdi-animation-outline default' />
+                  {/* <i ></i> */}
                 </span>
                 <span className={`${dark ? 'text-for-black' : ''}`}>
                   Orders
@@ -48,13 +53,14 @@ export const ModalsitoR = ({ modal, modalActive, user, dark }) => {
                 </span>
               </button>
             </header>
-            <div
+            {/* <div
               className={`${
                 dark ? 'notification-black' : 'notification'
               } is-card-toolbar is-upper is-upper`}>
               <div className='level'>
                 <div className='level-left'>
                   <div className='level-item'>
+                    {console.log(ordenes)}
                     {ordenes > 0 ? (
                       <div className={`${dark ? 'text-for-black' : ''}`}>
                         {' '}
@@ -76,8 +82,18 @@ export const ModalsitoR = ({ modal, modalActive, user, dark }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className='card-content'>
+              {ordenes?.map((orders, index) => {
+                return (
+                  <Orders
+                    key={index}
+                    items={orders.items}
+                    status={orders.payment.status}
+                    paymentid={orders.payment.paymentid}
+                  />
+                );
+              })}
               {/* <div className='media-list'>
                           <div
                             className='loading-overlay is-active'

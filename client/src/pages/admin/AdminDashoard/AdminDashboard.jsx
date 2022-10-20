@@ -204,7 +204,7 @@ export const AdminDashboard = ({ dark }) => {
                       </div>
                     </div>
                   </div>
-                  <div className='tile is-parent'>
+                  {/* <div className='tile is-parent'>
                     <div
                       className={`${
                         dark ? 'has-background-black border-yellow' : ''
@@ -237,7 +237,7 @@ export const AdminDashboard = ({ dark }) => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className='tile is-parent'>
                     <div
                       className={`${
@@ -251,13 +251,13 @@ export const AdminDashboard = ({ dark }) => {
                                 className={`${
                                   dark ? 'text-for-black' : ''
                                 } subtitle is-spaced`}>
-                                Performance
+                                Admins
                               </h3>
                               <h1
                                 className={`${
                                   dark ? 'text-for-black' : ''
                                 } title`}>
-                                256%
+                                {numberAdmins}
                               </h1>
                             </div>
                           </div>

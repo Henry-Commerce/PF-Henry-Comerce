@@ -314,8 +314,8 @@ export const startCreatingUserWithEmailPassword = ({
     const token = creado.data.token;
     const mail = await axios.post(`${LOCAL_HOST}/api/user/welcome`, {
       data: {
-        email: `${email.toLowerCase()}`,
-        name: `${email.toLowerCase()}`,
+        email: email,
+        name: email,
       },
     });
 

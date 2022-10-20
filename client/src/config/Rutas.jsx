@@ -34,9 +34,9 @@ export const Rutas = ({ dark }) => {
       <Route path='/shop' element={<Shop dark={dark} />} />
 
       <Route path='/' element={<Inicio dark={dark} />} />
-      <Route path='/news' element={<News />} dark={dark} />
+      <Route path='/news' element={<News dark={dark} />} />
       <Route path='/offers' element={<Offers dark={dark} />} />
-      <Route path='/team' element={<Team />} dark={dark} />
+      <Route path='/team' element={<Team dark={dark} />} />
 
       <Route path='/products' element={<Products dark={dark} />} />
       <Route path='/products/:id' element={<ProductsDetails dark={dark} />} />
