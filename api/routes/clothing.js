@@ -74,8 +74,8 @@ router.get('/', async (req, res) => {
       responseArrayPrice.push(
         responseArrayCat[0].filter(
           (elementFilter) =>
-            elementFilter.price > parseInt(price[0]) &&
-            elementFilter.price < parseInt(price[1])
+            elementFilter.price >= parseInt(price[0]) &&
+            elementFilter.price <= parseInt(price[1])
         )
       );
       return res.status(200).send(responseArrayPrice[0]);
@@ -102,8 +102,8 @@ router.get('/', async (req, res) => {
       responseArrayPrice.push(
         responseArraySize[0].filter(
           (elementFilter) =>
-            elementFilter.price > parseInt(price[0]) &&
-            elementFilter.price < parseInt(price[1])
+            elementFilter.price >= parseInt(price[0]) &&
+            elementFilter.price <= parseInt(price[1])
         )
       );
       return res.status(200).send(responseArrayPrice[0]);
@@ -126,8 +126,8 @@ router.get('/', async (req, res) => {
       const price = req.query.price.split('-');
       const responseArrayPrice = response.filter(
         (elementFilter) =>
-          elementFilter.price > parseInt(price[0]) &&
-          elementFilter.price < parseInt(price[1])
+          elementFilter.price >= parseInt(price[0]) &&
+          elementFilter.price <= parseInt(price[1])
       );
       return res.status(200).send(responseArrayPrice.flat());
     }
@@ -145,8 +145,8 @@ router.get('/', async (req, res) => {
       responseArrayPrice.push(
         response.filter(
           (elementFilter) =>
-            elementFilter.price > parseInt(price[0]) &&
-            elementFilter.price < parseInt(price[1])
+            elementFilter.price >= parseInt(price[0]) &&
+            elementFilter.price <= parseInt(price[1])
         )
       );
       return res.status(200).send(responseArrayPrice[0]);
