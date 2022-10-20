@@ -1,30 +1,45 @@
 import Popup from "reactjs-popup";
-import { AiOutlineClockCircle } from "react-icons/ai";
-import { TiTickOutline } from "react-icons/ti";
-import { VscError } from "react-icons/vsc";
+import {
+  AiOutlineClockCircle,
+  AiOutlineCloseCircle,
+  AiOutlineCheckCircle,
+} from "react-icons/ai";
 import "./Orders.scss";
 
 export const Orders = ({ items, status, paymentid }) => {
-  const icons = () => {
-    switch (status) {
-      case "pending":
-        return <AiOutlineClockCircle />;
-
-      case "success":
-        return <TiTickOutline />;
-
-      case "rejected":
-        return <VscError />;
-    }
-  };
-
+  
   return (
     <Popup
       trigger={
         <div className="container">
-          <button className="orders button">
-            {icons()} {paymentid === 0 ? <p>Fallo el pago</p> : paymentid}
-          </button>
+          {status && status === "in_process" ? (
+            <button
+              className="orders button"
+              style={{ backgroundColor: "lightblue" }}
+            >
+              <AiOutlineClockCircle />
+              &ensp;
+              {paymentid === 0 ? <p>Fallo el pago</p> : paymentid}
+            </button>
+          ) : status === "approved" ? (
+            <button
+              className="orders button"
+              style={{ backgroundColor: "lightgreen" }}
+            >
+              <AiOutlineCheckCircle />
+              &ensp;
+              {paymentid === 0 ? <p>Fallo el pago</p> : paymentid}
+            </button>
+          ) : (
+            <button
+              className="orders button"
+              style={{ backgroundColor: "tomato" }}
+            >
+              <AiOutlineCloseCircle />
+              &ensp;
+              {paymentid === 0 ? <p>Fallo el pago</p> : paymentid}
+            </button>
+          )}
         </div>
       }
       modal
