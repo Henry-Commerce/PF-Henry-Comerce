@@ -437,11 +437,11 @@ export const ProductsDetails = ({ dark }) => {
                           </h1>
                         </div>
                         <div className='column is-1'>
-                          {session?.authenticated === true &&
+                          {/* {session?.authenticated === true &&
                           session.isAdmin ===
-                            true /* || limitUsers && limitUsers.user === data.username */ ? (
+                            true  ? (
                             <button className='button is-danger'>X</button>
-                          ) : null}
+                          ) : null} */}
                         </div>
                       </div>
                       <div className='columns is-vcentered pt- pb-0'>
