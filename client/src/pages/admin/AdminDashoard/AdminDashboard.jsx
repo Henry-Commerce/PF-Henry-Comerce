@@ -19,6 +19,9 @@ export const AdminDashboard = ({ dark }) => {
   const [numberUsers, setNumberUsers] = useState(false);
   const [numberAdmins, setNumberAdmins] = useState(false);
   const [numberAccounts, setNumberAccounts] = useState(false);
+  const [comments, setComments] = useState([]);
+
+  const [meow, setMeow] = useState([]);
   const [day, setDay] = useState(false);
 
   var hoy = new Date();
@@ -53,9 +56,13 @@ export const AdminDashboard = ({ dark }) => {
     const commentarios = async () => {
       const { token } = JSON.parse(localStorage.getItem('authenticated'));
       const comment = await axios.get(
-        `https://pfapi.vercel.app/api/clothing/allreviews`
+        `https://pfapi.vercel.app/api/clothing/allreviews`,
+        {
+          headers: { 'x-access-token': `${token}` },
+        }
       );
-      console.log('commentarios', comment.data);
+      setComments(comment.data[0].comments);
+      console.log('commentarios', comment.data[0]);
     };
 
     commentarios();
@@ -77,6 +84,9 @@ export const AdminDashboard = ({ dark }) => {
 
       setNumberAccounts(admis.data.length + users.data.length);
 
+      console.log('users', admis.data.concat(users.data));
+      setMeow(admis.data.concat(users.data));
+      // console.log('admins', users.data);
       setDay(fecha);
     };
     users();
@@ -489,56 +499,61 @@ export const AdminDashboard = ({ dark }) => {
                             <div className='loading-background'></div>
                             <div className='loading-icon'></div>
                           </div>
-                          <article className='media has-media-left'>
-                            <figure className='media-left'>
-                              <p className='image '>
-                                <img
-                                  src='https://avatars.dicebear.com/v2/gridy/Ms.-Lora-Kiehn.svg'
-                                  style={{
-                                    width: '40px',
-                                    height: '40px',
-                                  }}
-                                  className='is-rounded'
-                                />
-                              </p>
-                            </figure>
-                            <div className='media-content'>
-                              <div className='content'>
-                                <p className='media-meta'>
-                                  <strong>Ms. Lora Kiehn</strong>{' '}
-                                  <small>@ena.wiegand</small>
-                                  {/* <small className='has-text-grey'>
+                          {comments ? (
+                            comments.map((comment, index) => (
+                              <article className='media has-media-left'>
+                                <figure className='media-left'>
+                                  <p className='image '>
+                                    <img
+                                      src={
+                                        meow.email === comment.email
+                                          ? meow.image
+                                          : ''
+                                      }
+                                      style={{
+                                        width: '40px',
+                                        height: '40px',
+                                      }}
+                                      className='is-rounded'
+                                    />
+                                  </p>
+                                </figure>
+                                <div className='media-content'>
+                                  <div className='content'>
+                                    <p className='media-meta'>
+                                      <strong>{comment.user}</strong>{' '}
+                                      <small>{comment.email}</small>
+                                      {/* <small className='has-text-grey'>
                                     1 month ago
                                   </small> */}
-                                </p>
-                                <p>
-                                  {' '}
-                                  Ut nemo sunt vero tenetur eos ducimus
-                                  laboriosam. Vel dignissimos repellendus dolor
-                                  temporibus deleniti.{' '}
-                                </p>
-                              </div>
-                              <nav className='level is-mobile'>
-                                <div className='level-left'>
-                                  <a className='level-item'>
-                                    <span className='icon'>
-                                      <i className='mdi mdi-reply default'></i>
-                                    </span>
-                                  </a>
-                                  <a className='level-item'>
-                                    <span className='icon'>
-                                      <i className='mdi mdi-twitter-retweet default'></i>
-                                    </span>
-                                  </a>
-                                  <a className='level-item'>
-                                    <span className='icon'>
-                                      <i className='mdi mdi-heart-outline default'></i>
-                                    </span>
-                                  </a>
+                                    </p>
+                                    <p> {comment.description} </p>
+                                  </div>
+                                  <nav className='level is-mobile'>
+                                    <div className='level-left'>
+                                      <a className='level-item'>
+                                        <span className='icon'>
+                                          <i className='mdi mdi-reply default'></i>
+                                        </span>
+                                      </a>
+                                      <a className='level-item'>
+                                        <span className='icon'>
+                                          <i className='mdi mdi-twitter-retweet default'></i>
+                                        </span>
+                                      </a>
+                                      <a className='level-item'>
+                                        <span className='icon'>
+                                          <i className='mdi mdi-heart-outline default'></i>
+                                        </span>
+                                      </a>
+                                    </div>
+                                  </nav>
                                 </div>
-                              </nav>
-                            </div>
-                          </article>
+                              </article>
+                            ))
+                          ) : (
+                            <div>hola</div>
+                          )}
                         </div>
                       </div>
                       <footer className='card-footer'>

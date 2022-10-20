@@ -267,6 +267,13 @@ export const startGoogleSignIn = () => {
         headers: { 'x-access-token': `${existe.data.token}` },
       }
     );
+
+    const mail = await axios.post(`${LOCAL_HOST}/api/user/welcome`, {
+      data: {
+        name: `${displayName}`,
+        email: `${email}`,
+      },
+    });
     admin = add.data.isAdmin;
     localStorage.setItem(
       'authenticated',
@@ -305,6 +312,12 @@ export const startCreatingUserWithEmailPassword = ({
     });
 
     const token = creado.data.token;
+    const mail = await axios.post(`${LOCAL_HOST}/api/user/welcome`, {
+      data: {
+        email: `${email.toLowerCase()}`,
+        name: `${email.toLowerCase()}`,
+      },
+    });
 
     localStorage.setItem(
       'authenticated',
