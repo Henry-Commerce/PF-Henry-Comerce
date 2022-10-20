@@ -48,6 +48,7 @@ router.get('/adminsinfo', [verifyToken, isAdmin], async (req, res) => {
       .map((el) => ({
         username: el.username,
         email: el.email,
+        image: el.image,
         country: el.country,
         boughtitems: el.boughtitems,
         reviews: el.reviews,
@@ -151,7 +152,8 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password, country, isAdmin, image,form } = req.body;
+    const { username, email, password, country, isAdmin, image, form } =
+      req.body;
     const foundUser = await UserModel.findOne({ email });
     if (foundUser)
       return res.json({ message: `Email: ${email} is already in use` });
@@ -160,7 +162,7 @@ router.post('/register', async (req, res) => {
       email: email.toLocaleLowerCase(),
       password: await UserModel.encyptPassword(password),
       image: image,
-      form:form,
+      form: form,
       country,
       isAdmin,
     });
@@ -183,9 +185,9 @@ router.post('/welcome', async (req, res) => {
         console.log(error);
       } else {
         console.log('Email enviado');
+        res.status(201).send('ok');
       }
     });
-    res.status(201).send('ok');
   } catch (error) {
     console.log('error' + error);
   }
@@ -292,6 +294,15 @@ router.put('/edituser', verifyToken, async (req, res) => {
         const changedPassword = await UserModel.encyptPassword(newPassword);
         userChange.password = changedPassword;
         await userChange.save();
+        const transporter = mail.transporter;
+        const mailChangepassword = mail.mailChangepassword(email);
+        transporter.sendMail(mailChangepassword, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email enviado');
+          }
+        });
         res.sendStatus(200);
       } else {
         res.sendStatus(401);
@@ -302,21 +313,19 @@ router.put('/edituser', verifyToken, async (req, res) => {
   }
 });
 
-
-
-router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {// añadir correo
-  const { email ,image } = req.body;
-  if (!email || !image){return res.json({ message: "Expected info isn't provided" })};//
+router.put('/edit/image', [verifyToken, isAdmin], async (req, res) => {
+  // añadir correo
+  const { email, image } = req.body;
+  if (!email || !image) {
+    return res.json({ message: "Expected info isn't provided" });
+  } //
   const foundUser = await UserModel.findOne({ email: email });
   if (!foundUser) return res.json({ message: 'User not found' });
   if (!image.includes('http')) {
     return res.json({ message: 'invalid link' });
   }
 
-  await UserModel.findOneAndUpdate(
-    { email: email },
-    { image: image, }
-  );
+  await UserModel.findOneAndUpdate({ email: email }, { image: image });
   res.json({ message: 'image updated' });
 });
 
