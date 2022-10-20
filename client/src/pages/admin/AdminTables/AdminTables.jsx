@@ -619,21 +619,21 @@ export const AdminTables = ({ dark }) => {
                               </td>
                               <td className='is-actions-cell'>
                                 <div className='buttons is-right'>
-                                  <button
+                                  {/* <button
                                     className='button is-small is-primary'
                                     type='button'>
                                     <span className='icon'>
                                       <FaInfo className='mdi mdi-eye' />
                                     </span>
-                                  </button>
-                                  <button
+                                  </button> */}
+                                  {/* <button
                                     className='button is-small is-danger jb-modal'
                                     data-target='sample-modal'
                                     type='button'>
                                     <span className='icon'>
                                       <AiFillDelete className='mdi mdi-trash-can' />
                                     </span>
-                                  </button>
+                                  </button> */}
                                 </div>
                               </td>
                             </tr>
@@ -965,14 +965,14 @@ export const AdminTables = ({ dark }) => {
                                       <FaInfo className='mdi mdi-eye' />
                                     </span>
                                   </button>
-                                  <button
+                                  {/* <button
                                     className='button is-small is-danger jb-modal'
                                     data-target='sample-modal'
                                     type='button'>
                                     <span className='icon'>
                                       <AiFillDelete className='mdi mdi-trash-can' />
                                     </span>
-                                  </button>
+                                  </button> */}
                                 </div>
                               </td>
                               {usernameActivo === user.username && (

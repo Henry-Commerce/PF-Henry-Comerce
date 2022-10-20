@@ -453,13 +453,18 @@ export const AdminDashboard = ({ dark }) => {
                     </div>
                   </div>
                   <div className='column'>
-                    <div className='card is-scrollable-height-medium'>
+                    <div
+                      className={`${
+                        dark ? 'has-background-black' : ''
+                      }card is-scrollable-height-medium`}>
                       <header className='card-header'>
                         <p className='card-header-title'>
                           <span className='icon'>
                             <VscCommentDiscussion className='mdi mdi-comment-multiple-outline default' />
                           </span>
-                          <span>Recent Comments</span>
+                          <span className={`${dark ? 'text-for-black' : ''}`}>
+                            Recent Comments
+                          </span>
                         </p>
                         <button
                           type='button'
@@ -472,11 +477,18 @@ export const AdminDashboard = ({ dark }) => {
                           </span>
                         </button>
                       </header>
-                      <div className='notification is-card-toolbar is-upper is-upper'>
+                      <div
+                        className={`${
+                          dark ? 'notification-black' : 'notification'
+                        } is-card-toolbar is-upper is-upper`}>
                         <div className='level'>
                           <div className='level-left'>
                             <div className='level-item'>
-                              <div> Something important to note </div>
+                              <div
+                                className={`${dark ? 'text-for-black' : ''}`}>
+                                {' '}
+                                Something important to note{' '}
+                              </div>
                             </div>
                           </div>
                           <div className='level-right'>
@@ -505,11 +517,7 @@ export const AdminDashboard = ({ dark }) => {
                                 <figure className='media-left'>
                                   <p className='image '>
                                     <img
-                                      src={
-                                        meow.email === comment.email
-                                          ? meow.image
-                                          : ''
-                                      }
+                                      src='https://res.cloudinary.com/dmk0kmt7d/image/upload/v1665969945/blsyqex8mixxmqwhdmmh.png'
                                       style={{
                                         width: '40px',
                                         height: '40px',
@@ -521,13 +529,29 @@ export const AdminDashboard = ({ dark }) => {
                                 <div className='media-content'>
                                   <div className='content'>
                                     <p className='media-meta'>
-                                      <strong>{comment.user}</strong>{' '}
-                                      <small>{comment.email}</small>
+                                      <strong
+                                        className={`${
+                                          dark ? 'text-for-black' : ''
+                                        }`}>
+                                        {comment.user}
+                                      </strong>{' '}
+                                      <small
+                                        className={`${
+                                          dark ? 'text-for-black' : ''
+                                        }`}>
+                                        {comment.email}
+                                      </small>
                                       {/* <small className='has-text-grey'>
                                     1 month ago
                                   </small> */}
                                     </p>
-                                    <p> {comment.description} </p>
+                                    <p
+                                      className={`${
+                                        dark ? 'text-for-black' : ''
+                                      }`}>
+                                      {' '}
+                                      {comment.description}{' '}
+                                    </p>
                                   </div>
                                   <nav className='level is-mobile'>
                                     <div className='level-left'>

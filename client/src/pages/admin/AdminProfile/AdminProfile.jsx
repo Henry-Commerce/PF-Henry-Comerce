@@ -78,7 +78,7 @@ export const AdminProfile = ({ dark }) => {
       },
     });
     if (res) {
-      navigate('/admin');
+      window.location.reload();
     }
   };
 
