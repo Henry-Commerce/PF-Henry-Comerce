@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Loading } from "../../../components/Loading/Loading";
 import { Orders } from "../../../components/Orders/Orders";
 import { getOrders } from "../../../redux/actions/actions";
+import { Map } from "../../../components/Map/Map";
 
 export const UserDashboard = ({ dark }) => {
   const [isActive, setisActive] = useState(false);
@@ -146,10 +147,25 @@ const dataEmail = data.email
                   />
                 );
               })}
+             
             </article>
+            
+            <h1 className="is-size-4 has-text-centered m-4 has-text-weight-bold">
+                  Nuestras sucursales
+                </h1>
+              <div className="columns is-vcentered">
+                
+              <div className="column is-12">
+                <Map />
+              </div>
+             
+            </div>
           </div>
+          
         </div>
+        
       )}
+      
     </>
   );
 };
