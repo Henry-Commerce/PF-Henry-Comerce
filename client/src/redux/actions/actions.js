@@ -268,12 +268,12 @@ export const startGoogleSignIn = () => {
       }
     );
 
-    const mail = await axios.post(`${LOCAL_HOST}/api/user/welcome`, {
-      data: {
-        name: `${displayName}`,
-        email: `${email}`,
-      },
-    });
+    // await axios.post(`${LOCAL_HOST}/api/user/welcome`, {
+    //   data: {
+    //     name: displayName,
+    //     email: email,
+    //   },
+    // });
     admin = add.data.isAdmin;
     localStorage.setItem(
       'authenticated',
@@ -312,12 +312,12 @@ export const startCreatingUserWithEmailPassword = ({
     });
 
     const token = creado.data.token;
-    const mail = await axios.post(`${LOCAL_HOST}/api/user/welcome`, {
-      data: {
-        email: email,
-        name: email,
-      },
-    });
+    // const mail = await axios.post(`${LOCAL_HOST}/api/user/welcome`, {
+    //   data: {
+    //     email: email,
+    //     name: email,
+    //   },
+    // });
 
     localStorage.setItem(
       'authenticated',
